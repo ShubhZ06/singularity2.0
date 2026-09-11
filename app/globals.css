@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f3f3f1;
+  color: #111111;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.singularity-word {
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.09em;
+  text-transform: uppercase;
+  font-size: clamp(4.5rem, 13vw, 21rem);
+  color: #111111;
+}
+
+.blob-art {
+  position: relative;
+  width: min(32vw, 420px);
+  height: min(28vw, 320px);
+  min-width: 220px;
+  min-height: 220px;
+  filter: saturate(1.2);
+}
+
+.blob {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(18px);
+  opacity: 0.8;
+  mix-blend-mode: multiply;
+}
+
+.blob-one {
+  left: 22%;
+  top: 12%;
+  width: 48%;
+  height: 34%;
+  background: radial-gradient(circle at 30% 30%, rgba(169, 232, 255, 0.95), rgba(86, 168, 255, 0.75) 50%, rgba(86, 168, 255, 0.15) 100%);
+  transform: rotate(-18deg);
+}
+
+.blob-two {
+  right: 18%;
+  top: 22%;
+  width: 52%;
+  height: 38%;
+  background: radial-gradient(circle at 35% 32%, rgba(255, 176, 224, 0.95), rgba(212, 121, 255, 0.7) 45%, rgba(212, 121, 255, 0.18) 100%);
+  transform: rotate(16deg);
+}
+
+.blob-three {
+  left: 32%;
+  bottom: 12%;
+  width: 44%;
+  height: 30%;
+  background: radial-gradient(circle at 40% 35%, rgba(149, 255, 238, 0.9), rgba(91, 210, 232, 0.72) 45%, rgba(91, 210, 232, 0.16) 100%);
+  transform: rotate(-10deg);
+}
+
