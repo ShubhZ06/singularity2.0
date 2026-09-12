@@ -31,7 +31,6 @@ export default function StorySection({
   const auroraRef = useRef<HTMLDivElement>(null);
   const bgBlackRef = useRef<HTMLDivElement>(null);
   const bgWhiteRef = useRef<HTMLDivElement>(null);
-  const statusRef = useRef<HTMLDivElement>(null);
 
   const [lightningActive, setLightningActive] = useState(false);
 
@@ -91,10 +90,6 @@ export default function StorySection({
         }
       }
 
-
-      if (statusRef.current) {
-        statusRef.current.style.color = p < 0.44 ? '#0A0A0A' : '#FFFFFF';
-      }
 
       // Step 1A: Quote Text
       if (quoteRef.current) {
@@ -370,29 +365,10 @@ export default function StorySection({
                 alt={wordmark}
                 className="w-full max-h-[28vh] sm:max-h-[35vh] md:max-h-[42vh] object-contain select-none drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]"
               />
-              {/* Elegant 4-point star sparkle ornament */}
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="absolute -top-3 sm:-top-6 right-[6%] sm:right-[10%] w-6 h-6 sm:w-10 sm:h-10 text-white pointer-events-none z-[42] drop-shadow-[0_0_16px_rgba(255,255,255,0.9)] animate-star-twinkle"
-                aria-hidden="true"
-              >
-                <path d="M12 0 C12 7.5 16.5 12 24 12 C16.5 12 12 16.5 12 24 C12 16.5 7.5 12 0 12 C7.5 12 12 7.5 12 0 Z" />
-              </svg>
             </div>
           </div>
         </div>
 
-        {/* Bottom-Right Audio / Visualizer Equalizer */}
-        <div ref={statusRef} className="absolute bottom-6 right-8 z-50 flex items-end gap-[3px] h-4 pointer-events-none transition-colors duration-300 [transform:translateZ(0)]" aria-hidden="true">
-          <span className="w-[2px] h-[60%] bg-current rounded-sm animate-equalize [animation-delay:0.1s]" />
-          <span className="w-[2px] h-[90%] bg-current rounded-sm animate-equalize [animation-delay:0.4s]" />
-          <span className="w-[2px] h-[40%] bg-current rounded-sm animate-equalize [animation-delay:0.2s]" />
-          <span className="w-[2px] h-[100%] bg-current rounded-sm animate-equalize [animation-delay:0.6s]" />
-          <span className="w-[2px] h-[75%] bg-current rounded-sm animate-equalize [animation-delay:0.3s]" />
-          <span className="w-[2px] h-[50%] bg-current rounded-sm animate-equalize [animation-delay:0.5s]" />
-          <span className="w-[2px] h-[85%] bg-current rounded-sm animate-equalize [animation-delay:0.15s]" />
-        </div>
       </div>
     </section>
   );

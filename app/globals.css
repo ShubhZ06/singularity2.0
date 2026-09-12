@@ -112,11 +112,6 @@ body::-webkit-scrollbar {
   50% { transform: scale(1.15) rotate(15deg); opacity: 1; }
 }
 
-@keyframes equalize {
-  0% { transform: scaleY(0.3); }
-  100% { transform: scaleY(1); }
-}
-
 .animate-float-one {
   animation: floatOne 18s ease-in-out infinite alternate;
 }
@@ -139,10 +134,6 @@ body::-webkit-scrollbar {
 
 .animate-star-twinkle {
   animation: starTwinkle 3s ease-in-out infinite;
-}
-
-.animate-equalize {
-  animation: equalize 1.4s ease-in-out infinite alternate;
 }
 
 /* Blob Art in Footer */
@@ -333,3 +324,23 @@ body::-webkit-scrollbar {
   }
 }
 
+@layer base {
+  .maplibregl-popup-content {
+    @apply bg-transparent! shadow-none! p-0! rounded-none!;
+  }
+  .maplibregl-popup-tip {
+    @apply hidden!;
+  }
+  .maplibregl-ctrl-attrib {
+    @apply bg-background! text-muted-foreground! border-border! rounded-md! border! shadow-sm!;
+  }
+  .maplibregl-ctrl-attrib a {
+    @apply text-muted-foreground!;
+  }
+  .maplibregl-ctrl-attrib a:hover {
+    @apply text-foreground!;
+  }
+  .maplibregl-ctrl-attrib-button {
+    @apply bg-transparent! dark:invert;
+  }
+}
