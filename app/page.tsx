@@ -43,7 +43,7 @@ export default function Home() {
       </div>
 
       {/* 9. Footer */}
-      <Footer />
+      <Footer showWordmark={false} />
     </main>
   );
 }
