@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { WordsStagger } from '@/components/ui/words-stagger';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Footer from './Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,7 +25,6 @@ export default function StorySection({
   const whiteCanvasRef = useRef<HTMLCanvasElement>(null);
   const deepWhiteWaveRef = useRef<HTMLDivElement>(null);
   const whiteCoverRef = useRef<HTMLDivElement>(null);
-  const footerSingularityRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLDivElement>(null);
   const thisIsRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -32,11 +32,6 @@ export default function StorySection({
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgBlackRef = useRef<HTMLDivElement>(null);
   const bgWhiteRef = useRef<HTMLDivElement>(null);
-  const statusRef = useRef<HTMLDivElement>(null);
-
-  const quoteWords = useMemo(() => {
-    return quote.split(' ');
-  }, [quote]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -59,8 +54,7 @@ export default function StorySection({
     };
     window.addEventListener('resize', handleResize);
 
-    let targetProgress = 0;
-    let smoothProgress = 0;
+
 
     // Organic blob anchors for black fluid ink bloom (Phase 1C: "This is..." -> "SINGULARITY")
     const blobAnchors = [
@@ -93,11 +87,11 @@ export default function StorySection({
     ];
 
     let time = 0;
+    let targetProgress = 0;
 
-    const render = () => {
-      smoothProgress += (targetProgress - smoothProgress) * 0.12;
-      const p = smoothProgress;
-      time += 0.008;
+    const render = (pOverride?: number) => {
+      const p = pOverride !== undefined ? pOverride : targetProgress;
+      time += 0.012;
 
       // 1. Background crossfade (White -> Black)
       if (bgBlackRef.current && bgWhiteRef.current) {
@@ -115,16 +109,7 @@ export default function StorySection({
         }
       }
 
-      // Audio / Visualizer status indicator color & opacity
-      if (statusRef.current) {
-        statusRef.current.style.color = p < 0.38 || p > 0.88 ? '#0A0A0A' : '#FFFFFF';
-        if (p > 0.92) {
-          const fade = Math.max(0, 1 - (p - 0.92) / 0.06);
-          statusRef.current.style.opacity = String(fade);
-        } else {
-          statusRef.current.style.opacity = '1';
-        }
-      }
+
 
       // Step 1A: Proclamation Quote Text
       if (quoteRef.current) {
@@ -234,14 +219,14 @@ export default function StorySection({
           titleRef.current.style.opacity = String(op);
           titleRef.current.style.filter = `blur(${blur.toFixed(1)}px)`;
           titleRef.current.style.transform = `translate3d(-50%, calc(-50% + ${yOffset.toFixed(1)}px), 0) scale(${scale.toFixed(3)})`;
-        } else if (p < 0.74) {
+        } else if (p < 0.65) {
           // STAYS perfectly anchored on top of the video till the white smudge comes!
           titleRef.current.style.opacity = '1';
           titleRef.current.style.filter = 'blur(0px)';
           titleRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
-        } else if (p < 0.84) {
-          // Dissolves into the billowing white smudge clouds as black logo comes up
-          const t = (p - 0.74) / 0.10;
+        } else if (p < 0.78) {
+          // Dissolves into the billowing white smudge clouds
+          const t = (p - 0.65) / 0.13;
           const op = Math.max(0, 1 - t);
           const blur = t * 14;
           titleRef.current.style.opacity = String(op);
@@ -271,37 +256,36 @@ export default function StorySection({
           if (videoRef.current && videoRef.current.paused) {
             videoRef.current.play().catch(() => {});
           }
-          if (p >= 0.96 && videoRef.current && !videoRef.current.paused) {
+          if (p >= 0.94 && videoRef.current && !videoRef.current.paused) {
             videoRef.current.pause();
           }
         }
       }
 
-      // Step 4: White Smudge Bloom & Rising Black Singularity 2.0 (as per scroll)
-      // Exactly matching HackSpire reference (media_1789234007689.png)
-      if (p >= 0.68) {
+      // Step 4: White Smudge Bloom & Rising Deep White Wave
+      if (p >= 0.65) {
         // A. Rising Deep White Wave Layer (starts below screen, ascends with feathered shadow)
         if (deepWhiteWaveRef.current) {
-          const tWave = Math.min(1, (p - 0.68) / 0.24);
+          const tWave = Math.min(1, (p - 0.65) / 0.28);
           const easeWave = tWave * tWave * (3 - 2 * tWave);
           const yPercent = (1 - easeWave) * 105;
           deepWhiteWaveRef.current.style.transform = `translate3d(0, ${yPercent.toFixed(2)}%, 0)`;
-          deepWhiteWaveRef.current.style.opacity = String(Math.min(1, easeWave * 1.4));
+          deepWhiteWaveRef.current.style.opacity = String(Math.min(1, easeWave * 1.5));
         }
 
         // B. Billowing White Cloudy Canvas Smudge Blobs
         let whiteCanvasAlpha = 1;
-        if (p < 0.72) {
-          whiteCanvasAlpha = (p - 0.68) / 0.04;
+        if (p < 0.70) {
+          whiteCanvasAlpha = (p - 0.65) / 0.05;
         } else if (p > 0.94) {
-          whiteCanvasAlpha = Math.max(0, 1 - (p - 0.94) / 0.04);
+          whiteCanvasAlpha = Math.max(0, 1 - (p - 0.94) / 0.05);
         }
         whiteCanvas.style.opacity = String(Math.min(1, Math.max(0, whiteCanvasAlpha)));
         whiteCtx.clearRect(0, 0, width, height);
 
-        const progressGrowth = (p - 0.68) / 0.22;
-        const expansion = 0.45 + progressGrowth * 2.8;
-        const whiteMultiplier = Math.min(1, 0.60 + progressGrowth * 0.90);
+        const progressGrowth = (p - 0.65) / 0.26;
+        const expansion = 0.50 + progressGrowth * 3.0;
+        const whiteMultiplier = Math.min(1, 0.65 + progressGrowth * 0.85);
         const minDim = Math.min(width, height);
 
         whiteBlobAnchors.forEach((blob) => {
@@ -327,36 +311,15 @@ export default function StorySection({
           whiteCtx.fill();
         });
 
-        // C. Solid Deep White Cover (guarantees 100% pure solid white as p approaches footer)
+        // C. Direct Footer Fade-in on Solid Deep White Layer
         if (whiteCoverRef.current) {
-          if (p < 0.88) {
+          if (p < 0.68) {
             whiteCoverRef.current.style.opacity = '0';
+            whiteCoverRef.current.style.pointerEvents = 'none';
           } else {
-            const tCover = (p - 0.88) / 0.08;
-            whiteCoverRef.current.style.opacity = String(Math.min(1, tCover));
-          }
-        }
-
-        // D. Down (Black) Singularity 2.0 Logo Rises Up as Per Scroll over Deep White
-        if (footerSingularityRef.current) {
-          if (p < 0.70) {
-            footerSingularityRef.current.style.opacity = '0';
-            footerSingularityRef.current.style.filter = 'blur(20px)';
-            footerSingularityRef.current.style.transform = `translate3d(0, ${(height * 0.65).toFixed(1)}px, 0) scale(0.88)`;
-          } else if (p < 0.93) {
-            const tLogo = (p - 0.70) / 0.23;
-            const easeLogo = tLogo * tLogo * (3 - 2 * tLogo);
-            const yOffset = (1 - easeLogo) * (height * 0.65);
-            const opLogo = Math.min(1, easeLogo * 1.4);
-            const blurLogo = (1 - easeLogo) * 20;
-            const scaleLogo = 0.88 + easeLogo * 0.12;
-            footerSingularityRef.current.style.opacity = String(opLogo);
-            footerSingularityRef.current.style.filter = `blur(${blurLogo.toFixed(1)}px)`;
-            footerSingularityRef.current.style.transform = `translate3d(0, ${yOffset.toFixed(1)}px, 0) scale(${scaleLogo.toFixed(3)})`;
-          } else {
-            footerSingularityRef.current.style.opacity = '1';
-            footerSingularityRef.current.style.filter = 'blur(0px)';
-            footerSingularityRef.current.style.transform = 'translate3d(0, 0px, 0) scale(1)';
+            const tCover = Math.min(1, (p - 0.68) / 0.24);
+            whiteCoverRef.current.style.opacity = String(tCover);
+            whiteCoverRef.current.style.pointerEvents = tCover > 0.6 ? 'auto' : 'none';
           }
         }
       } else {
@@ -368,23 +331,19 @@ export default function StorySection({
         }
         if (whiteCoverRef.current) {
           whiteCoverRef.current.style.opacity = '0';
-        }
-        if (footerSingularityRef.current) {
-          footerSingularityRef.current.style.opacity = '0';
-          footerSingularityRef.current.style.filter = 'blur(20px)';
-          footerSingularityRef.current.style.transform = `translate3d(0, ${(height * 0.65).toFixed(1)}px, 0) scale(0.88)`;
+          whiteCoverRef.current.style.pointerEvents = 'none';
         }
       }
 
       if (isRunning) {
-        animId = requestAnimationFrame(render);
+        animId = requestAnimationFrame(() => render());
       }
     };
 
     const startLoop = () => {
       if (!isRunning) {
         isRunning = true;
-        animId = requestAnimationFrame(render);
+        animId = requestAnimationFrame(() => render());
       }
     };
 
@@ -403,21 +362,38 @@ export default function StorySection({
           startLoop();
         } else {
           stopLoop();
+          if (self.progress >= 1) {
+            targetProgress = 1;
+            render(1);
+            if (whiteCoverRef.current) {
+              whiteCoverRef.current.style.opacity = '1';
+              whiteCoverRef.current.style.pointerEvents = 'auto';
+            }
+          } else if (self.progress <= 0) {
+            targetProgress = 0;
+            render(0);
+            if (whiteCoverRef.current) {
+              whiteCoverRef.current.style.opacity = '0';
+              whiteCoverRef.current.style.pointerEvents = 'none';
+            }
+          }
         }
       },
       onUpdate: (self) => {
         targetProgress = self.progress;
-        if (!isRunning) {
-          startLoop();
-        }
+        render(self.progress);
       },
     });
 
     targetProgress = progressTrigger.progress;
-    smoothProgress = targetProgress;
-    render();
+    render(targetProgress);
+
+    const refreshTimer1 = setTimeout(() => ScrollTrigger.refresh(), 300);
+    const refreshTimer2 = setTimeout(() => ScrollTrigger.refresh(), 1000);
 
     return () => {
+      clearTimeout(refreshTimer1);
+      clearTimeout(refreshTimer2);
       stopLoop();
       progressTrigger.kill();
       window.removeEventListener('resize', handleResize);
@@ -425,7 +401,7 @@ export default function StorySection({
   }, []);
 
   return (
-    <section id="story" ref={containerRef} className="relative w-full h-[580vh] bg-white">
+    <section id="story" ref={containerRef} className="relative w-full h-[280vh] bg-white">
       <div className="sticky top-0 h-screen h-svh w-full overflow-hidden bg-black [transform:translateZ(0)]">
         {/* Layer 1: Hardware-Accelerated Crossfading Backgrounds */}
         <div
@@ -504,15 +480,6 @@ export default function StorySection({
                 alt={wordmark}
                 className="w-full max-h-[28vh] sm:max-h-[35vh] md:max-h-[42vh] object-contain select-none drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]"
               />
-              {/* Elegant 4-point star sparkle ornament */}
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="absolute -top-3 sm:-top-6 right-[6%] sm:right-[10%] w-6 h-6 sm:w-10 sm:h-10 text-white pointer-events-none z-[42] drop-shadow-[0_0_16px_rgba(255,255,255,0.9)] animate-star-twinkle"
-                aria-hidden="true"
-              >
-                <path d="M12 0 C12 7.5 16.5 12 24 12 C16.5 12 12 16.5 12 24 C12 16.5 7.5 12 0 12 C7.5 12 12 7.5 12 0 Z" />
-              </svg>
             </div>
           </div>
         </div>
@@ -534,53 +501,15 @@ export default function StorySection({
           className="absolute inset-0 w-full h-full pointer-events-none z-[65] blur-[45px] sm:blur-[52px] opacity-0 transition-opacity duration-300 [transform:translateZ(0)]"
         />
 
-        {/* Step 4C: Solid Pure White Cover Overlay (z-[70] guarantees 100% pure white coverage) */}
+        {/* Step 4C: Direct Footer Fade-in on Pure White Canvas (z-[70]) */}
         <div
           ref={whiteCoverRef}
-          className="absolute inset-0 bg-white pointer-events-none z-[70] opacity-0 [transform:translateZ(0)]"
-          aria-hidden="true"
-        />
-
-        {/* Step 4D: Down (Black) Singularity 2.0 Logo Rises Up as Per Scroll over Deep White (z-[75]) */}
-        <div
-          ref={footerSingularityRef}
-          className="absolute inset-0 w-full h-full flex flex-col items-center justify-center pointer-events-none z-[75] px-4 sm:px-8 will-change-transform"
+          className="absolute inset-0 bg-white pointer-events-none z-[70] opacity-0 [transform:translateZ(0)] overflow-y-auto"
           style={{ opacity: 0 }}
         >
-          <div className="relative w-full max-w-5xl flex flex-col items-center justify-center">
-            <div className="relative w-full flex justify-center items-center">
-              <img
-                src="/logo/logo-black.svg"
-                alt="SINGULARITY 2.0"
-                className="w-full max-h-[160px] sm:max-h-[190px] md:max-h-[220px] object-contain select-none drop-shadow-[0_10px_35px_rgba(0,0,0,0.08)]"
-              />
-              {/* Sparkle star ornament matching footer */}
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="absolute -top-2 sm:-top-3 right-[18%] sm:right-[21%] md:right-[23%] w-7 h-7 sm:w-10 sm:h-10 text-[#111111] pointer-events-none animate-star-twinkle opacity-90"
-                aria-hidden="true"
-              >
-                <path d="M12 0 C12 7.5 16.5 12 24 12 C16.5 12 12 16.5 12 24 C12 16.5 7.5 12 0 12 C7.5 12 12 7.5 12 0 Z" />
-              </svg>
-            </div>
-          </div>
+          <Footer />
         </div>
 
-        {/* Bottom-Right Audio / Visualizer Equalizer */}
-        <div
-          ref={statusRef}
-          className="absolute bottom-6 right-8 z-50 flex items-end gap-[3px] h-4 pointer-events-none transition-all duration-300 [transform:translateZ(0)]"
-          aria-hidden="true"
-        >
-          <span className="w-[2px] h-[60%] bg-current rounded-sm animate-equalize [animation-delay:0.1s]" />
-          <span className="w-[2px] h-[90%] bg-current rounded-sm animate-equalize [animation-delay:0.4s]" />
-          <span className="w-[2px] h-[40%] bg-current rounded-sm animate-equalize [animation-delay:0.2s]" />
-          <span className="w-[2px] h-[100%] bg-current rounded-sm animate-equalize [animation-delay:0.6s]" />
-          <span className="w-[2px] h-[75%] bg-current rounded-sm animate-equalize [animation-delay:0.3s]" />
-          <span className="w-[2px] h-[50%] bg-current rounded-sm animate-equalize [animation-delay:0.5s]" />
-          <span className="w-[2px] h-[85%] bg-current rounded-sm animate-equalize [animation-delay:0.15s]" />
-        </div>
       </div>
     </section>
   );

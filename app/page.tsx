@@ -26,10 +26,6 @@ const StorySection = dynamic(() => import('./sections/StorySection'), {
   loading: () => <div className="min-h-[700px] w-full bg-white animate-pulse" />,
 });
 
-const Footer = dynamic(() => import('./sections/Footer'), {
-  loading: () => <div className="min-h-[400px] w-full bg-white animate-pulse" />,
-});
-
 export default function Home() {
   return (
     <main className="min-h-screen bg-white text-[#111111]">
@@ -66,13 +62,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 8. Lazy-loaded Cinematic Story Section */}
+      {/* 8. Lazy-loaded Cinematic Story Section with Integrated Footer Finale */}
       <div id="story-section" className="w-full bg-white">
         <StorySection />
       </div>
-
-      {/* 9. Footer */}
-      <Footer showWordmark={false} />
     </main>
   );
 }

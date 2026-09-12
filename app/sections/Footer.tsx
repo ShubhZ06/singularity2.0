@@ -24,38 +24,23 @@ const exploreLinks = [
 
 const connectLinks = ['Discord', 'Instagram', 'Twitter', 'LinkedIn', 'WhatsApp'];
 
-interface FooterProps {
-  showWordmark?: boolean;
-}
-
-export default function Footer({ showWordmark = true }: FooterProps) {
+export default function Footer() {
   return (
     <footer
       id="footer"
-      className={`w-full bg-white ${showWordmark ? 'border-t border-[#111111]/10 pt-8 sm:pt-10 md:pt-12' : 'pt-4 sm:pt-6'} min-h-screen flex flex-col justify-between pb-[72px] px-6 sm:px-12 xl:px-[122px]`}
+      className="w-full bg-white min-h-screen flex flex-col justify-between pt-6 sm:pt-8 md:pt-10 pb-[72px] px-6 sm:px-12 xl:px-[122px]"
     >
       <div className="mx-auto w-full max-w-[1292px] flex flex-col justify-between flex-1 h-full min-h-[643px]">
         {/* Top Centered Giant Black Wordmark */}
-        {showWordmark && (
-          <div className="relative w-full flex items-center justify-center pt-6 sm:pt-8 md:pt-10 pb-4 sm:pb-6">
-            <div className="relative w-full flex justify-center items-center">
-              <img
-                src="/logo/logo-black.svg"
-                alt="SINGULARITY"
-                className="w-full max-h-[160px] sm:max-h-[190px] md:max-h-[220px] object-contain select-none"
-              />
-              {/* Sparkle star ornament matching reference position */}
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="absolute -top-2 sm:-top-3 right-[18%] sm:right-[21%] md:right-[23%] w-7 h-7 sm:w-10 sm:h-10 text-[#111111] pointer-events-none animate-star-twinkle opacity-90"
-                aria-hidden="true"
-              >
-                <path d="M12 0 C12 7.5 16.5 12 24 12 C16.5 12 12 16.5 12 24 C12 16.5 7.5 12 0 12 C7.5 12 12 7.5 12 0 Z" />
-              </svg>
-            </div>
+        <div className="relative w-full flex items-center justify-center pt-2 sm:pt-3 pb-4 sm:pb-6">
+          <div className="relative w-full flex justify-center items-center">
+            <img
+              src="/logo/logo-black.svg"
+              alt="SINGULARITY"
+              className="w-full max-h-[160px] sm:max-h-[190px] md:max-h-[220px] object-contain select-none"
+            />
           </div>
-        )}
+        </div>
 
         {/* Crisp Horizontal Divider matching 1292px width in reference */}
         <div className="w-full border-t border-[#111111]/10" />
