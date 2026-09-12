@@ -1,6 +1,6 @@
 import AccordionGallery from './components/AccordionGallery';
 import HeroSection from './components/HeroSection';
-import Story from './components/Story';
+import ScrollStorySection from './components/ScrollStorySection';
 import TimelineSection from './components/TimelineSection';
 
 const galleryItems = [
@@ -67,17 +67,18 @@ export default function Home() {
             showLabels
           />
         </div>
+      </div>
 
-        <div id="timeline-section">
-          <TimelineSection />
-        </div>
+      <div id="timeline-section" className="w-full">
+        <TimelineSection />
+      </div>
 
-        <Story />
+      {/* Full-width Cinematic Scroll Story & Singularity Reveal Section */}
+      <div id="story-section" className="w-full">
+        <ScrollStorySection />
+      </div>
 
-        <div className="mt-8 border-t border-[#111111]/15 pt-3">
-          <h1 className="singularity-word">SINGULARITY</h1>
-        </div>
-
+      <div className="mx-auto max-w-[1600px] px-5 pb-8 pt-5 sm:px-8 lg:px-10">
         <footer className="border-t border-[#111111]/15 pt-8">
           <div className="grid items-start gap-8 md:grid-cols-[1fr_1.2fr_0.9fr]">
             <section>

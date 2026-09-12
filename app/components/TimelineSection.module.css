@@ -50,13 +50,34 @@
 .timeline-rail {
   position: relative;
   width: 100%;
-  max-width: 78rem;
-  margin-top: 4rem;
+  max-width: 82rem;
+  margin-top: 3rem;
+  height: 2400px;
 }
 
-/* Desktop winding path */
+@media (min-width: 768px) {
+  .timeline-rail {
+    height: 2800px;
+    margin-top: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .timeline-rail {
+    height: 3200px;
+    margin-top: 4rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .timeline-rail {
+    height: 3400px;
+  }
+}
+
+/* Curved animated path */
 .timeline-svg-desktop {
-  display: none;
+  display: block;
   pointer-events: none;
   position: absolute;
   top: 0;
@@ -65,16 +86,12 @@
   right: 0;
   width: 100%;
   height: 100%;
+  z-index: 5;
 }
 
 /* Mobile straight rail */
 .timeline-svg-mobile {
-  pointer-events: none;
-  position: absolute;
-  top: 0.5rem;
-  bottom: 0.5rem;
-  left: 1.15rem;
-  width: 1.5rem;
+  display: none;
 }
 
 /* Dot marker travelling the path */
@@ -84,18 +101,29 @@
   opacity: 0;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  transition: opacity 0.2s ease;
 }
 
 .timeline-path-dot--desktop {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 999px;
   background: #ffffff;
-  border: 3.5px solid #7b35f8;
-  box-shadow: 0 0 16px rgba(123, 53, 248, 0.6);
+  border: 4px solid #7b35f8;
+  box-shadow: 0 0 18px rgba(123, 53, 248, 0.75), 0 0 35px rgba(123, 53, 248, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: pulseAura 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseAura {
+  from {
+    box-shadow: 0 0 16px rgba(123, 53, 248, 0.7), 0 0 30px rgba(123, 53, 248, 0.3);
+  }
+  to {
+    box-shadow: 0 0 24px rgba(123, 53, 248, 0.9), 0 0 45px rgba(123, 53, 248, 0.5);
+  }
 }
 
 .timeline-path-dot-core {
@@ -106,7 +134,7 @@
 }
 
 .timeline-path-dot--mobile {
-  width: 14px;
+  width: 16px;
   height: 14px;
   border-radius: 999px;
   background: #ffffff;
@@ -165,10 +193,11 @@
 .timeline-number {
   flex-shrink: 0;
   align-self: flex-start;
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   font-size: 4.4rem;
   line-height: 1.05;
   letter-spacing: 0.04em;
-  color: #adadad;
+  color: #1a1a1a;
   font-weight: 400;
 }
 
@@ -229,7 +258,7 @@
 
   .timeline-rail {
     margin-top: 2rem;
-    height: 1600px;
+    height: 3200px;
   }
 
   .timeline-list {
@@ -246,22 +275,23 @@
   .timeline-card {
     position: absolute;
     top: var(--card-top);
-    transform: translateY(-50%);
     width: 38%;
     max-width: 30rem;
-    padding-left: 0;
+    gap: 1rem;
   }
 
   .timeline-card--left {
     left: 0;
     right: auto;
     flex-direction: row;
+    transform: translateY(-65%);
   }
 
   .timeline-card--right {
     left: auto;
     right: 0;
     flex-direction: row;
+    transform: translateY(-35%);
   }
 
   .timeline-number {
@@ -281,7 +311,7 @@
 
 @media (min-width: 1280px) {
   .timeline-rail {
-    height: 1800px;
+    height: 3600px;
   }
 
   .timeline-number {
@@ -308,7 +338,7 @@
 
 @media (min-width: 1536px) {
   .timeline-rail {
-    height: 2000px;
+    height: 4000px;
   }
 
   .timeline-number {
