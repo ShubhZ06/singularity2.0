@@ -25,6 +25,12 @@
 html {
   background-color: #ffffff;
   scroll-behavior: auto !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 html.lenis, html.lenis body {
@@ -53,10 +59,22 @@ body {
   background-color: #ffffff;
   color: #111111;
   font-family: Arial, Helvetica, sans-serif;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 * {
   box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 /* Reusable Keyframe Animations */
@@ -94,11 +112,6 @@ body {
   50% { transform: scale(1.15) rotate(15deg); opacity: 1; }
 }
 
-@keyframes equalize {
-  0% { transform: scaleY(0.3); }
-  100% { transform: scaleY(1); }
-}
-
 .animate-float-one {
   animation: floatOne 18s ease-in-out infinite alternate;
 }
@@ -121,10 +134,6 @@ body {
 
 .animate-star-twinkle {
   animation: starTwinkle 3s ease-in-out infinite;
-}
-
-.animate-equalize {
-  animation: equalize 1.4s ease-in-out infinite alternate;
 }
 
 /* Blob Art in Footer */
@@ -315,3 +324,29 @@ body {
   }
 }
 
+/* MapLibre GL Overrides */
+.maplibregl-popup-content {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.maplibregl-popup-tip {
+  display: none !important;
+}
+
+.maplibregl-ctrl-attrib {
+  background: rgba(17, 17, 17, 0.75) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 6px !important;
+}
+
+.maplibregl-ctrl-attrib a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.maplibregl-ctrl-attrib-button {
+  background-color: transparent !important;
+}
