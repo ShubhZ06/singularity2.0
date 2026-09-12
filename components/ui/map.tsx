@@ -617,7 +617,7 @@ function PopupCloseButton({ onClick }: { onClick: () => void }) {
       type="button"
       onClick={onClick}
       aria-label="Close popup"
-      className="focus-visible:ring-oklch(0.708 0 0) hover:bg-oklch(0.97 0 0) text-oklch(0.145 0 0) absolute top-1 right-1 z-10 inline-flex size-5 cursor-pointer items-center justify-center rounded-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset dark:focus-visible:ring-oklch(0.556 0 0) dark:hover:bg-oklch(0.269 0 0) dark:text-oklch(0.985 0 0)"
+      className="absolute top-1.5 right-1.5 z-10 inline-flex size-5 cursor-pointer items-center justify-center rounded-sm transition-colors text-white/70 hover:text-white hover:bg-white/10 focus:outline-none"
     >
       <X className="size-3.5" />
     </button>
