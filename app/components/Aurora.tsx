@@ -1,8 +1,8 @@
 'use client';
 
+// @ts-expect-error ogl does not provide bundled types
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
 import React, { useEffect, useRef } from 'react';
-import './Aurora.css';
 
 interface AuroraProps {
   colorStops?: string[];
@@ -166,19 +166,6 @@ export default function Aurora({
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
     gl.canvas.style.backgroundColor = 'transparent';
 
-    let program: Program;
-
-    function resize() {
-      if (!ctn) return;
-      const width = ctn.offsetWidth || window.innerWidth;
-      const height = ctn.offsetHeight || window.innerHeight;
-      renderer.setSize(width, height);
-      if (program) {
-        program.uniforms.uResolution.value = [width, height];
-      }
-    }
-    window.addEventListener('resize', resize);
-
     const geometry = new Triangle(gl);
     if (geometry.attributes.uv) {
       delete geometry.attributes.uv;
@@ -196,7 +183,7 @@ export default function Aurora({
     const initW = ctn.offsetWidth || window.innerWidth;
     const initH = ctn.offsetHeight || window.innerHeight;
 
-    program = new Program(gl, {
+    const program = new Program(gl, {
       vertex: VERT,
       fragment: FRAG,
       uniforms: {
@@ -208,6 +195,17 @@ export default function Aurora({
         uLightMode: { value: lightMode ? 1 : 0 },
       },
     });
+
+    function resize() {
+      if (!ctn) return;
+      const width = ctn.offsetWidth || window.innerWidth;
+      const height = ctn.offsetHeight || window.innerHeight;
+      renderer.setSize(width, height);
+      if (program) {
+        program.uniforms.uResolution.value = [width, height];
+      }
+    }
+    window.addEventListener('resize', resize);
 
     const mesh = new Mesh(gl, { geometry, program });
     ctn.appendChild(gl.canvas);
@@ -248,5 +246,11 @@ export default function Aurora({
     };
   }, [amplitude, blend, lightMode, colorStops]);
 
-  return <div ref={ctnDom} className={`aurora-container ${className}`} style={style} />;
+  return (
+    <div
+      ref={ctnDom}
+      className={`pointer-events-none absolute inset-0 h-full w-full overflow-hidden [&>canvas]:!block [&>canvas]:!h-full [&>canvas]:!w-full ${className}`}
+      style={style}
+    />
+  );
 }

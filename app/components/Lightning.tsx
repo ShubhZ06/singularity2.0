@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useRef, useEffect } from 'react';
-import './Lightning.css';
 
 interface LightningProps {
   hue?: number;
@@ -10,6 +9,7 @@ interface LightningProps {
   intensity?: number;
   size?: number;
   horizontal?: boolean;
+  active?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -21,6 +21,7 @@ const Lightning: React.FC<LightningProps> = ({
   intensity = 1,
   size = 1,
   horizontal = false,
+  active = true,
   className = '',
   style = {},
 }) => {
@@ -193,8 +194,7 @@ const Lightning: React.FC<LightningProps> = ({
     let animationFrameId: number;
     const startTime = performance.now();
     const render = () => {
-      if (!canvas) return;
-      resizeCanvas();
+      if (!canvas || !active) return;
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
       const currentTime = performance.now();
@@ -208,7 +208,10 @@ const Lightning: React.FC<LightningProps> = ({
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       animationFrameId = requestAnimationFrame(render);
     };
-    animationFrameId = requestAnimationFrame(render);
+
+    if (active) {
+      animationFrameId = requestAnimationFrame(render);
+    }
 
     return () => {
       cancelAnimationFrame(animationFrameId);
@@ -218,12 +221,12 @@ const Lightning: React.FC<LightningProps> = ({
       gl.deleteShader(fragmentShader);
       gl.deleteBuffer(vertexBuffer);
     };
-  }, [hue, xOffset, speed, intensity, size, horizontal]);
+  }, [hue, xOffset, speed, intensity, size, horizontal, active]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={`lightning-container ${className}`}
+      className={`relative block h-full w-full ${className}`}
       style={style}
     />
   );

@@ -10,7 +10,6 @@ import {
   type MouseEvent,
 } from 'react';
 import { gsap } from 'gsap';
-import styles from './AccordionGallery.module.css';
 
 export interface AccordionGalleryItem {
   image: string;
@@ -212,7 +211,7 @@ const AccordionGallery = ({
   return (
     <div
       ref={rootRef}
-      className={`${styles['accordion-gallery']}${vertical ? ` ${styles['accordion-gallery--vertical']}` : ''}${className ? ` ${className}` : ''}`}
+      className={`accordion-gallery${vertical ? ' accordion-gallery--vertical' : ''}${className ? ` ${className}` : ''}`}
       style={rootStyle}
       role="list"
       aria-label="Image accordion gallery"
@@ -223,28 +222,28 @@ const AccordionGallery = ({
 
         const content = (
           <>
-            <span className={styles['ag-panel__frame']}>
+            <span className="ag-panel__frame">
               <span
-                className={styles['ag-panel__media']}
+                className="ag-panel__media"
                 ref={(el: HTMLElement | null) => {
                   mediaRefs.current[i] = el;
                 }}
               >
                 <img src={item.image} alt={item.alt || item.label || ''} draggable={false} />
               </span>
-              <span className={styles['ag-panel__overlay']} aria-hidden="true" />
+              <span className="ag-panel__overlay" aria-hidden="true" />
             </span>
 
             {showLabels && (
-              <span className={styles['ag-panel__label']} aria-hidden="true">
+              <span className="ag-panel__label" aria-hidden="true">
                 <span
-                  className={styles['ag-panel__bar']}
+                  className="ag-panel__bar"
                   ref={(el: HTMLElement | null) => {
                     barRefs.current[i] = el;
                   }}
                 />
                 <span
-                  className={styles['ag-panel__text']}
+                  className="ag-panel__text"
                   ref={(el: HTMLElement | null) => {
                     textRefs.current[i] = el;
                   }}
@@ -263,7 +262,7 @@ const AccordionGallery = ({
               ref={(el: HTMLAnchorElement | null) => {
                 panelRefs.current[i] = el;
               }}
-              className={`${styles['ag-panel']}${isActive ? ' ag-panel--active' : ''}`}
+              className={`ag-panel${isActive ? ' ag-panel--active' : ''}`}
               style={{ borderRadius: `${radius}px` }}
               href={item.link || '#'}
               onClick={(e) => handleClick(i, e)}
@@ -286,7 +285,7 @@ const AccordionGallery = ({
             ref={(el: HTMLDivElement | null) => {
               panelRefs.current[i] = el;
             }}
-            className={`${styles['ag-panel']}${isActive ? ' ag-panel--active' : ''}`}
+            className={`ag-panel${isActive ? ' ag-panel--active' : ''}`}
             style={{ borderRadius: `${radius}px` }}
             onClick={(e) => handleClick(i, e as unknown as MouseEvent<HTMLAnchorElement | HTMLDivElement>)}
             onMouseEnter={() => handleEnter(i)}

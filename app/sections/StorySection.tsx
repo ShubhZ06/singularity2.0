@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import styles from './ScrollStorySection.module.css';
-import Lightning from './Lightning';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import Lightning from '@/app/components/Lightning';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-interface ScrollStorySectionProps {
+gsap.registerPlugin(ScrollTrigger);
+
+interface StorySectionProps {
   quote?: string;
   wordmark?: string;
   onMenuClick?: () => void;
@@ -13,11 +16,11 @@ interface ScrollStorySectionProps {
 const DEFAULT_QUOTE =
   'This is not just a hackathon. It is an invocation of Shakti, where the devotion of Durga Puja merges with the rhythm of code, discovering peace within technology.';
 
-export default function ScrollStorySection({
+export default function StorySection({
   quote = DEFAULT_QUOTE,
   wordmark = 'SINGULARITY',
   onMenuClick,
-}: ScrollStorySectionProps) {
+}: StorySectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const quoteRef = useRef<HTMLDivElement>(null);
@@ -32,8 +35,9 @@ export default function ScrollStorySection({
   const headerRef = useRef<HTMLElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
 
-  // Split quote into words for typography
-  const quoteWords = React.useMemo(() => {
+  const [lightningActive, setLightningActive] = useState(false);
+
+  const quoteWords = useMemo(() => {
     return quote.split(' ');
   }, [quote]);
 
@@ -46,6 +50,7 @@ export default function ScrollStorySection({
     if (!ctx) return;
 
     let animId: number;
+    let isRunning = false;
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
@@ -58,7 +63,6 @@ export default function ScrollStorySection({
     let targetProgress = 0;
     let smoothProgress = 0;
 
-    // Organic blob anchors for ink bloom
     const blobAnchors = [
       { rx: 0.50, ry: 0.48, baseR: 0.28, phase: 0.0, speed: 0.25, maxAlpha: 0.95 },
       { rx: 0.32, ry: 0.42, baseR: 0.24, phase: 1.2, speed: 0.20, maxAlpha: 0.85 },
@@ -69,39 +73,15 @@ export default function ScrollStorySection({
 
     let time = 0;
 
-    // Real-time calculation of scroll progress relative to this pinned container
-    const calcProgress = () => {
-      const rect = container.getBoundingClientRect();
-      const totalScrollable = container.offsetHeight - window.innerHeight;
-      if (totalScrollable <= 0) return 0;
-      const scrolled = -rect.top;
-      return Math.max(0, Math.min(1, scrolled / totalScrollable));
-    };
-
-    const updateScroll = () => {
-      targetProgress = calcProgress();
-    };
-
-    window.addEventListener('scroll', updateScroll, { passive: true });
-    targetProgress = calcProgress();
-    smoothProgress = targetProgress;
-
-    // Main animation loop
     const render = () => {
-      // Re-read progress on every frame for immediate response to Lenis & native scrolling
-      targetProgress = calcProgress();
-
-      // Silky smooth lerp interpolation
-      smoothProgress += (targetProgress - smoothProgress) * 0.12;
+      smoothProgress += (targetProgress - smoothProgress) * 0.14;
       const p = smoothProgress;
       time += 0.008;
 
-      // =========================================================================
-      // 1. BACKGROUND CROSSFADE (Pure White -> Pitch Black)
-      // Screen stays 100% white through Quote & "This is..."
-      // Transitions to black between 0.36 and 0.48
-      // Solid pitch black from 0.48 onwards!
-      // =========================================================================
+      const shouldLightningBeActive = p >= 0.60 && p <= 0.88;
+      setLightningActive((prev) => (prev !== shouldLightningBeActive ? shouldLightningBeActive : prev));
+
+      // 1. Background crossfade
       if (bgBlackRef.current && bgWhiteRef.current) {
         if (p < 0.36) {
           bgBlackRef.current.style.opacity = '0';
@@ -117,10 +97,7 @@ export default function ScrollStorySection({
         }
       }
 
-      // =========================================================================
-      // HEADER & STATUS COLOR INTERPOLATION
-      // Dark text on white canvas, crisp white text on black canvas
-      // =========================================================================
+      // Header & status color
       if (headerRef.current) {
         if (p < 0.40) {
           headerRef.current.style.color = '#0A0A0A';
@@ -136,9 +113,7 @@ export default function ScrollStorySection({
         statusRef.current.style.color = p < 0.44 ? '#0A0A0A' : '#FFFFFF';
       }
 
-      // =========================================================================
-      // STEP 1A: QUOTE TEXT (0.00 - 0.16) - Pure White Canvas
-      // =========================================================================
+      // Step 1A: Quote Text
       if (quoteRef.current) {
         if (p < 0.08) {
           quoteRef.current.style.opacity = '1';
@@ -157,15 +132,12 @@ export default function ScrollStorySection({
         }
       }
 
-      // =========================================================================
-      // STEP 1B: "This is..." (0.16 - 0.34) - Pure White Canvas
-      // =========================================================================
+      // Step 1B: "This is..."
       if (thisIsRef.current) {
         if (p < 0.16 || p > 0.34) {
           thisIsRef.current.style.opacity = '0';
           thisIsRef.current.style.filter = 'blur(20px)';
         } else if (p >= 0.16 && p < 0.23) {
-          // Enters from soft blur, scaling down to 1.0
           const t = (p - 0.16) / 0.07;
           const op = Math.min(1, t);
           const blur = (1 - t) * 16;
@@ -174,12 +146,10 @@ export default function ScrollStorySection({
           thisIsRef.current.style.filter = `blur(${blur.toFixed(1)}px)`;
           thisIsRef.current.style.transform = `translate3d(-50%, -50%, 0) scale(${scale.toFixed(2)})`;
         } else if (p >= 0.23 && p < 0.29) {
-          // Locked in center, crystal sharp on pure white
           thisIsRef.current.style.opacity = '1';
           thisIsRef.current.style.filter = 'blur(0px)';
           thisIsRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
         } else if (p >= 0.29 && p <= 0.34) {
-          // Dissolves forward
           const t = (p - 0.29) / 0.05;
           const op = Math.max(0, 1 - t);
           const blur = t * 16;
@@ -190,9 +160,7 @@ export default function ScrollStorySection({
         }
       }
 
-      // =========================================================================
-      // STEP 1C: FLUID INK BLOOM TO BLACK (0.32 - 0.48)
-      // =========================================================================
+      // Step 1C: Fluid Ink Bloom
       if (p >= 0.32 && p <= 0.48) {
         let canvasAlpha = 1;
         if (p < 0.35) {
@@ -211,7 +179,6 @@ export default function ScrollStorySection({
         blobAnchors.forEach((blob) => {
           const driftX = Math.cos(time * blob.speed + blob.phase) * (minDim * 0.025);
           const driftY = Math.sin(time * blob.speed * 0.8 + blob.phase) * (minDim * 0.025);
-
           const cx = blob.rx * width + driftX;
           const cy = blob.ry * height + driftY;
           const r = blob.baseR * minDim * expansion;
@@ -236,17 +203,13 @@ export default function ScrollStorySection({
         ctx.clearRect(0, 0, width, height);
       }
 
-      // =========================================================================
-      // STEP 2: "SINGULARITY" TITLE REVEALS ON BLACK (0.48 - 1.00)
-      // Wordmark appears first on the black screen
-      // =========================================================================
+      // Step 2: "SINGULARITY" Title Reveals
       if (titleRef.current) {
         if (p < 0.48) {
           titleRef.current.style.opacity = '0';
           titleRef.current.style.filter = 'blur(22px)';
           titleRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1.06)';
         } else if (p < 0.58) {
-          // Reveals into crisp focus on the black background
           const t = (p - 0.48) / 0.10;
           const op = Math.min(1, t * 1.15);
           const blur = (1 - t) * 20;
@@ -255,17 +218,13 @@ export default function ScrollStorySection({
           titleRef.current.style.filter = `blur(${blur.toFixed(1)}px)`;
           titleRef.current.style.transform = `translate3d(-50%, -50%, 0) scale(${scale.toFixed(3)})`;
         } else {
-          // Stays fully sharp throughout lightning and devi maa reveals
           titleRef.current.style.opacity = '1';
           titleRef.current.style.filter = 'blur(0px)';
           titleRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
         }
       }
 
-      // =========================================================================
-      // STEP 3: LIGHTNING SURGES BEHIND "SINGULARITY" (0.65 - 1.00)
-      // Electric purple lightning strikes behind the wordmark
-      // =========================================================================
+      // Step 3: Lightning Surges
       if (lightningRef.current) {
         if (p < 0.65) {
           lightningRef.current.style.opacity = '0';
@@ -277,10 +236,7 @@ export default function ScrollStorySection({
         }
       }
 
-      // =========================================================================
-      // STEP 4: DEVI MAA EYE OPENING ANIMATION & AURORA AT LAST (0.80 - 1.00)
-      // Devi Maa reveals behind lightning and singularity as the grand finale
-      // =========================================================================
+      // Step 4: Devi Maa Eye Opening
       if (videoWrapperRef.current) {
         if (p < 0.80) {
           videoWrapperRef.current.style.opacity = '0';
@@ -312,27 +268,64 @@ export default function ScrollStorySection({
         }
       }
 
-      animId = requestAnimationFrame(render);
+      if (isRunning) {
+        animId = requestAnimationFrame(render);
+      }
     };
 
-    animId = requestAnimationFrame(render);
+    const startLoop = () => {
+      if (!isRunning) {
+        isRunning = true;
+        animId = requestAnimationFrame(render);
+      }
+    };
+
+    const stopLoop = () => {
+      isRunning = false;
+      cancelAnimationFrame(animId);
+    };
+
+    // Use ScrollTrigger to calculate progress with zero getBoundingClientRect overhead
+    const progressTrigger = ScrollTrigger.create({
+      trigger: container,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      onToggle: (self) => {
+        if (self.isActive) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      onUpdate: (self) => {
+        targetProgress = self.progress;
+        if (!isRunning) {
+          startLoop();
+        }
+      },
+    });
+
+    targetProgress = progressTrigger.progress;
+    smoothProgress = targetProgress;
+    render();
 
     return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('scroll', updateScroll);
+      stopLoop();
+      progressTrigger.kill();
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   return (
-    <section ref={containerRef} className={styles.container}>
-      <div className={styles.stickyViewport}>
+    <section id="story" ref={containerRef} className="relative w-full h-[580vh] bg-white">
+      <div className="sticky top-0 h-screen h-svh w-full overflow-hidden bg-black [transform:translateZ(0)]">
         {/* Layer 1: Hardware-Accelerated Crossfading Backgrounds */}
-        <div ref={bgWhiteRef} className={styles.bgLayerWhite} aria-hidden="true" />
-        <div ref={bgBlackRef} className={styles.bgLayerBlack} aria-hidden="true" />
+        <div ref={bgWhiteRef} className="absolute inset-0 bg-white z-[1] pointer-events-none transition-opacity duration-300 [transform:translateZ(0)]" aria-hidden="true" />
+        <div ref={bgBlackRef} className="absolute inset-0 bg-black z-[2] pointer-events-none opacity-0 transition-opacity duration-300 [transform:translateZ(0)]" aria-hidden="true" />
 
         {/* Layer 2: Devi Maa Eye Opening Video (Grand Finale - Step 4) */}
-        <div ref={videoWrapperRef} className={styles.videoWrapper} aria-hidden="true">
+        <div ref={videoWrapperRef} className="absolute inset-0 w-full h-full overflow-hidden z-[6] pointer-events-none opacity-0 transition-opacity duration-400 [transform:translateZ(0)]" aria-hidden="true">
           <video
             ref={videoRef}
             src="/cover-eye-opening.mp4"
@@ -340,40 +333,40 @@ export default function ScrollStorySection({
             playsInline
             loop
             preload="auto"
-            className={styles.durgaVideo}
+            className="absolute inset-0 w-full h-full object-cover object-[center_30%] [transform:translateZ(0)]"
           />
-          <div className={styles.videoScrim} />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_85%_at_50%_36%,transparent_35%,rgba(0,0,0,0.45)_75%,#000000_98%)] pointer-events-none" />
         </div>
 
         {/* Layer 3: Divine Purple Aurora Glow at bottom */}
-        <div ref={auroraRef} className={styles.auroraGlow} aria-hidden="true" />
+        <div ref={auroraRef} className="absolute inset-0 pointer-events-none z-[8] bg-[radial-gradient(ellipse_110%_75%_at_50%_100%,rgba(123,53,248,0.8)_0%,rgba(76,29,149,0.45)_45%,rgba(0,0,0,0)_75%)] opacity-0 mix-blend-screen transition-opacity duration-400 [transform:translateZ(0)]" aria-hidden="true" />
 
         {/* Global Floating Header with dynamic color interpolation */}
-        <header ref={headerRef} className={styles.header}>
-          <div className={styles.brand}>{wordmark}</div>
+        <header ref={headerRef} className="absolute top-0 left-0 right-0 z-50 flex h-20 items-center justify-between px-8 md:px-16 pointer-events-auto transition-colors duration-300 [transform:translateZ(0)]">
+          <div className="font-seasonmix text-2xl md:text-3xl font-normal tracking-wide uppercase select-none">{wordmark}</div>
           <button
             type="button"
-            className={styles.menuButton}
+            className="bg-transparent border-0 cursor-pointer p-2 flex items-center justify-center hover:opacity-80 transition-opacity"
             onClick={onMenuClick}
             aria-label="Toggle navigation menu"
           >
-            <span className={styles.hamburger}>
-              <span className={styles.hamburgerLine} />
-              <span className={styles.hamburgerLine} />
+            <span className="flex flex-col justify-between w-7 h-3.5">
+              <span className="block w-full h-[2px] bg-current rounded-sm transition-colors duration-300" />
+              <span className="block w-full h-[2px] bg-current rounded-sm transition-colors duration-300" />
             </span>
           </button>
         </header>
 
         {/* Main Content Stage */}
-        <div className={styles.contentStage}>
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center z-10 isolate pointer-events-none">
           {/* Fluid canvas for Phase 1C organic ink bloom */}
-          <canvas ref={canvasRef} className={styles.fluidCanvas} />
+          <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-[5] blur-[55px] opacity-0 transition-opacity duration-300 [transform:translateZ(0)]" />
 
           {/* Step 1A: Centered Proclamation Quote */}
-          <div ref={quoteRef} className={styles.quoteWrapper}>
-            <p className={styles.quoteText}>
+          <div ref={quoteRef} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-4xl text-justify z-[25] pointer-events-none opacity-1 [transform-origin:center] will-change-transform">
+            <p className="font-sans font-light text-xl sm:text-3xl md:text-4xl leading-snug tracking-tight text-[#0A0A0A]">
               {quoteWords.map((word, i) => (
-                <span key={i} className={styles.word}>
+                <span key={i} className="inline">
                   {word}{' '}
                 </span>
               ))}
@@ -381,12 +374,12 @@ export default function ScrollStorySection({
           </div>
 
           {/* Step 1B: "This is..." */}
-          <div ref={thisIsRef} className={styles.thisIsWrapper}>
-            <h2 className={styles.thisIsText}>This is...</h2>
+          <div ref={thisIsRef} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[25] pointer-events-none text-center whitespace-nowrap opacity-0 [transform-origin:center] will-change-transform">
+            <h2 className="font-sans font-light text-4xl sm:text-6xl md:text-8xl leading-none tracking-tight text-[#0A0A0A]">This is...</h2>
           </div>
 
-          {/* Step 3: Electric Purple Lightning Surge (strictly behind wordmark) */}
-          <div ref={lightningRef} className={styles.lightningWrapper} aria-hidden="true">
+          {/* Step 3: Electric Purple Lightning Surge */}
+          <div ref={lightningRef} className="absolute inset-0 w-full h-full pointer-events-none z-[15] opacity-0 transition-opacity duration-350 [transform:translateZ(0)]" aria-hidden="true">
             <Lightning
               hue={270}
               xOffset={0}
@@ -394,18 +387,19 @@ export default function ScrollStorySection({
               intensity={1.3}
               size={1}
               horizontal={true}
+              active={lightningActive}
             />
           </div>
 
-          {/* Step 2: Giant "SINGULARITY" Wordmark (strictly in front of lightning) */}
-          <div ref={titleRef} className={styles.titleWrapper}>
-            <div className={styles.titleInner}>
-              <h1 className={styles.giantTitle}>{wordmark}</h1>
+          {/* Step 2: Giant "SINGULARITY" Wordmark */}
+          <div ref={titleRef} className="absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 w-[96%] max-w-[92vw] z-40 pointer-events-none text-center opacity-0 [transform-origin:center] will-change-transform">
+            <div className="relative inline-block">
+              <h1 className="font-seasonmix font-normal uppercase text-5xl sm:text-8xl md:text-9xl lg:text-[14rem] leading-[0.9] tracking-tight text-white select-none whitespace-nowrap relative z-[41] drop-shadow-[0_0_20px_rgba(0,0,0,0.9)]">{wordmark}</h1>
               {/* Elegant 4-point star sparkle ornament */}
               <svg
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className={styles.starOrnament}
+                className="absolute -top-[8%] right-[28%] w-6 h-6 sm:w-10 sm:h-10 text-white pointer-events-none z-[42] drop-shadow-[0_0_12px_rgba(255,255,255,0.85)] animate-star-twinkle"
                 aria-hidden="true"
               >
                 <path d="M12 0 C12 7.5 16.5 12 24 12 C16.5 12 12 16.5 12 24 C12 16.5 7.5 12 0 12 C7.5 12 12 7.5 12 0 Z" />
@@ -415,14 +409,14 @@ export default function ScrollStorySection({
         </div>
 
         {/* Bottom-Right Audio / Visualizer Equalizer */}
-        <div ref={statusRef} className={styles.footerStatus} aria-hidden="true">
-          <span className={styles.visualizerBar} />
-          <span className={styles.visualizerBar} />
-          <span className={styles.visualizerBar} />
-          <span className={styles.visualizerBar} />
-          <span className={styles.visualizerBar} />
-          <span className={styles.visualizerBar} />
-          <span className={styles.visualizerBar} />
+        <div ref={statusRef} className="absolute bottom-6 right-8 z-50 flex items-end gap-[3px] h-4 pointer-events-none transition-colors duration-300 [transform:translateZ(0)]" aria-hidden="true">
+          <span className="w-[2px] h-[60%] bg-current rounded-sm animate-equalize [animation-delay:0.1s]" />
+          <span className="w-[2px] h-[90%] bg-current rounded-sm animate-equalize [animation-delay:0.4s]" />
+          <span className="w-[2px] h-[40%] bg-current rounded-sm animate-equalize [animation-delay:0.2s]" />
+          <span className="w-[2px] h-[100%] bg-current rounded-sm animate-equalize [animation-delay:0.6s]" />
+          <span className="w-[2px] h-[75%] bg-current rounded-sm animate-equalize [animation-delay:0.3s]" />
+          <span className="w-[2px] h-[50%] bg-current rounded-sm animate-equalize [animation-delay:0.5s]" />
+          <span className="w-[2px] h-[85%] bg-current rounded-sm animate-equalize [animation-delay:0.15s]" />
         </div>
       </div>
     </section>

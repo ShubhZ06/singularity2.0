@@ -26,6 +26,14 @@ export default function TimelineSection() {
 
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray<HTMLElement>('.stage-card');
+      const cachedCards = cards.map((card, idx) => ({
+        card,
+        threshold: STAGE_THRESHOLDS[idx] ?? 1,
+        numEl: card.querySelector<HTMLElement>('.stage-number'),
+        titleEl: card.querySelector<HTMLElement>('.stage-title'),
+        lineEl: card.querySelector<HTMLElement>('.stage-line'),
+        dotMarker: card.querySelector<HTMLElement>('.stage-marker-dot'),
+      }));
 
       [
         { path: desktopPathRef.current, dot: desktopDotRef.current },
@@ -39,34 +47,33 @@ export default function TimelineSection() {
           strokeDashoffset: totalLength,
         });
 
-        const getAspectCorrection = () => {
+        let cachedCorr = 1;
+        const updateAspectCorrection = () => {
           const svgEl = path.ownerSVGElement;
-          if (!svgEl) return 1;
+          if (!svgEl) return;
           const rect = svgEl.getBoundingClientRect();
           const vb = svgEl.viewBox?.baseVal;
           const vbW = vb?.width || 1320;
           const vbH = vb?.height || 2800;
           if (rect.width > 0 && rect.height > 0) {
-            return (rect.height / vbH) / (rect.width / vbW);
+            cachedCorr = (rect.height / vbH) / (rect.width / vbW);
           }
-          return 1;
         };
+        updateAspectCorrection();
 
         if (dot) {
           const startPt = path.getPointAtLength(0);
-          const corr = getAspectCorrection();
-          dot.setAttribute('transform', `translate(${startPt.x}, ${startPt.y}) scale(${corr}, 1)`);
+          dot.setAttribute('transform', `translate(${startPt.x}, ${startPt.y}) scale(${cachedCorr}, 1)`);
           dot.style.opacity = '0';
         }
 
-        // Properly synchronized ScrollTrigger:
-        // Starts exactly when Step 1 is in the center viewing area (top 20% of rail)
-        // Ends when Step 8 completes in view (bottom 75% of rail)
+        // Properly synchronized ScrollTrigger
         ScrollTrigger.create({
           trigger: railRef.current ?? container,
           start: 'top 20%',
           end: 'bottom 75%',
           scrub: 0.35,
+          onRefresh: updateAspectCorrection,
           onUpdate: (self) => {
             const p = self.progress;
             const drawnLength = p * totalLength;
@@ -74,19 +81,13 @@ export default function TimelineSection() {
 
             if (dot) {
               const point = path.getPointAtLength(drawnLength);
-              const corr = getAspectCorrection();
-              dot.setAttribute('transform', `translate(${point.x}, ${point.y}) scale(${corr}, 1)`);
+              dot.setAttribute('transform', `translate(${point.x}, ${point.y}) scale(${cachedCorr}, 1)`);
               dot.style.opacity = p > 0.002 ? '1' : '0';
             }
 
-            // Dynamic stage illumination as the flowing path reaches each step
-            cards.forEach((card, idx) => {
-              const threshold = STAGE_THRESHOLDS[idx] ?? 1;
+            // Dynamic stage illumination without DOM query overhead
+            cachedCards.forEach(({ card, threshold, numEl, titleEl, lineEl, dotMarker }) => {
               const isPassed = p >= threshold;
-              const numEl = card.querySelector<HTMLElement>('.stage-number');
-              const titleEl = card.querySelector<HTMLElement>('.stage-title');
-              const lineEl = card.querySelector<HTMLElement>('.stage-line');
-              const dotMarker = card.querySelector<HTMLElement>('.stage-marker-dot');
 
               if (isPassed && card.dataset.active !== 'true') {
                 card.dataset.active = 'true';
@@ -218,11 +219,11 @@ export default function TimelineSection() {
     <section
       id="timeline"
       ref={containerRef}
-      className="relative z-10 flex w-full flex-col items-center overflow-x-clip bg-transparent px-5 pt-[10vh] pb-16 sm:px-[6vw] sm:pt-[14vh] sm:pb-24"
+      className="relative z-10 flex w-full flex-col items-center overflow-x-clip bg-white px-5 pt-[10vh] pb-16 sm:px-[6vw] sm:pt-[14vh] sm:pb-24 border-t border-[#111111]/8"
     >
       {/* Header */}
       <div className="flex w-full max-w-[88rem] flex-col items-center gap-6 sm:gap-[3vh]">
-        <h2 className="text-center font-sans text-[clamp(2.4rem,10vw,4rem)] font-normal text-black" aria-label="Timeline">
+        <h2 className="text-center font-seasonmix text-[clamp(2.4rem,10vw,4rem)] font-normal text-black" aria-label="Timeline">
           Timeline
         </h2>
         <div className="relative flex w-full max-w-[62rem] justify-center px-2 sm:px-0">
@@ -250,7 +251,7 @@ export default function TimelineSection() {
             {/* Guide track */}
             <path
               d={DESKTOP_PATH_D}
-              stroke="#D4D4D4"
+              stroke="#EAEAEA"
               strokeWidth={6.5}
               strokeLinecap="round"
               strokeDasharray="14 16"
@@ -283,7 +284,7 @@ export default function TimelineSection() {
         {/* Mobile Straight Vertical Path */}
         <div className="pointer-events-none absolute top-2 bottom-2 left-[1.15rem] w-6 lg:hidden" aria-hidden="true">
           <svg viewBox="0 0 24 1000" preserveAspectRatio="none" className="h-full w-full overflow-visible" fill="none">
-            <path d="M12 0 L12 1000" stroke="#D4D4D4" strokeWidth={3} strokeLinecap="round" strokeDasharray="6 8" fill="none" />
+            <path d="M12 0 L12 1000" stroke="#EAEAEA" strokeWidth={3} strokeLinecap="round" strokeDasharray="6 8" fill="none" />
             <path ref={mobilePathRef} d="M12 0 L12 1000" stroke="#7B35F8" strokeWidth={3} strokeLinecap="round" fill="none" />
             <g ref={mobileDotRef} style={{ opacity: 0 }}>
               <circle

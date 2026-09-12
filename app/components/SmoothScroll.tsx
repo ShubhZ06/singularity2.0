@@ -9,42 +9,37 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    // Initialize Lenis with optimal smooth scroll parameters
     const lenis = new Lenis({
-      duration: 1.2,
+      autoRaf: true,
+      lerp: 0.09,
       smoothWheel: true,
-      gestureOrientation: 'vertical',
+      syncTouch: false,
+      touchMultiplier: 1,
+      wheelMultiplier: 1,
     });
 
-    // Keep ScrollTrigger in sync with Lenis's smoothed scroll position.
+    // Synchronize GSAP ScrollTrigger with Lenis
     lenis.on('scroll', ScrollTrigger.update);
 
-    // Drive both Lenis and GSAP off the same ticker instead of a separate rAF loop.
-    const update = (time: number) => {
-      lenis.raf(time * 1000);
+    // Refresh ScrollTrigger and Lenis dimensions when layout shifts
+    const handleRefresh = () => {
+      lenis.resize();
     };
-    gsap.ticker.add(update);
-    gsap.ticker.lagSmoothing(0);
+    ScrollTrigger.addEventListener('refresh', handleRefresh);
 
-    // ScrollTrigger reads native scroll by default, but Lenis intercepts and
-    // smooths scroll position — without a proxy the two desync, especially
-    // right after load, making scrubbed animations appear pre-advanced.
-    ScrollTrigger.scrollerProxy(document.body, {
-      scrollTop(value) {
-        if (value !== undefined) {
-          lenis.scrollTo(value, { immediate: true });
-        }
-        return lenis.scroll;
-      },
-      getBoundingClientRect() {
-        return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-      },
+    requestAnimationFrame(() => {
+      lenis.resize();
+      ScrollTrigger.refresh();
     });
-    ScrollTrigger.addEventListener('refresh', () => lenis.resize());
-    ScrollTrigger.refresh();
+
+    // Provide global access for smooth programmatic anchor scrolling
+    (window as unknown as { lenis?: Lenis }).lenis = lenis;
 
     return () => {
-      gsap.ticker.remove(update);
+      ScrollTrigger.removeEventListener('refresh', handleRefresh);
       lenis.destroy();
+      delete (window as unknown as { lenis?: Lenis }).lenis;
     };
   }, []);
 

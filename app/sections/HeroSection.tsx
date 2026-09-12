@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import styles from './HeroSection.module.css';
 
 interface StatItem {
   value: string;
@@ -19,45 +18,53 @@ const stats: StatItem[] = [
 export default function HeroSection() {
   const scrollToTimeline = (e: React.MouseEvent) => {
     e.preventDefault();
-    const element = document.getElementById('timeline-section');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    const lenis = (window as unknown as { lenis?: { scrollTo: (target: string, opts?: object) => void } }).lenis;
+    if (lenis) {
+      lenis.scrollTo('#timeline-section', { offset: -20, duration: 1.2 });
+    } else {
+      const element = document.getElementById('timeline-section');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   return (
-    <section className={`relative mb-12 py-12 px-6 md:px-12 lg:px-16 ${styles.heroContainer}`}>
+    <section className="relative mb-14 w-full rounded-3xl overflow-hidden bg-white border border-[#111111]/8 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.04)] py-12 px-6 md:px-12 lg:px-16">
       {/* Background Decorative Mesh & Dots */}
-      <div className={styles.gridPattern} />
-      <div className={styles.blobMesh}>
-        <div className={styles.blob1} />
-        <div className={styles.blob2} />
-        <div className={styles.blob3} />
+      <div 
+        aria-hidden="true" 
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(17,17,17,0.07)_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" 
+      />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden [transform:translateZ(0)]">
+        <div className="absolute -top-[10%] left-[15%] h-[380px] w-[450px] rounded-full bg-[radial-gradient(circle,rgba(169,232,255,0.5)_0%,rgba(120,180,255,0.2)_50%,transparent_75%)] blur-[40px] animate-float-one will-change-transform [transform:translateZ(0)]" />
+        <div className="absolute top-[20%] right-[10%] h-[420px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(255,180,220,0.45)_0%,rgba(215,140,255,0.18)_50%,transparent_75%)] blur-[45px] animate-float-two will-change-transform [transform:translateZ(0)]" />
+        <div className="absolute -bottom-[5%] left-[35%] h-[350px] w-[400px] rounded-full bg-[radial-gradient(circle,rgba(150,255,230,0.4)_0%,rgba(100,210,240,0.15)_50%,transparent_75%)] blur-[40px] animate-float-three will-change-transform [transform:translateZ(0)]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl text-center">
         {/* Top Pills / Badges */}
         <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#111111]/15 bg-white/70 px-4 py-1.5 backdrop-blur-md text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-[#111111] shadow-sm">
-            <span className={styles.badgePulse}>
-              <span className={styles.badgePulseDot} />
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#111111]/15 bg-white/90 px-4 py-1.5 backdrop-blur-md text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-[#111111] shadow-sm">
+            <span className="relative inline-flex items-center justify-center">
+              <span className="h-2 w-2 rounded-full bg-[#10b981] animate-pulse-dot" />
             </span>
             <span>Registration Open</span>
           </div>
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#111111]/10 bg-white/50 px-4 py-1.5 backdrop-blur-md text-[0.72rem] font-medium uppercase tracking-[0.22em] text-[#111111]/70">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#111111]/10 bg-white/80 px-4 py-1.5 backdrop-blur-md text-[0.72rem] font-medium uppercase tracking-[0.22em] text-[#111111]/70">
             <span>FIEM ACM STUDENT CHAPTER</span>
           </div>
         </div>
 
         {/* Main Title Section */}
         <div className="mb-6 space-y-2">
-          <p className={`${styles.heroTitle} text-2xl sm:text-3xl md:text-4xl lg:text-5xl italic tracking-tight text-[#111111]/80 font-normal`}>
+          <p className="font-editorial text-2xl sm:text-3xl md:text-4xl lg:text-5xl italic tracking-tight text-[#111111]/80 font-normal">
             Where Innovation Meets Shakti
           </p>
 
-          <h1 className={`${styles.heroTitle} text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-bold uppercase tracking-[-0.04em] leading-[0.9] text-[#111111]`}>
-            SINGULARITY <span className="font-sans text-3xl sm:text-5xl md:text-6xl align-top text-[#111111]/40">'26</span>
+          <h1 className="font-editorial text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-bold uppercase tracking-[-0.04em] leading-[0.9] text-[#111111]">
+            SINGULARITY <span className="font-sans text-3xl sm:text-5xl md:text-6xl align-top text-[#111111]/40">&apos;26</span>
           </h1>
         </div>
 
@@ -88,7 +95,7 @@ export default function HeroSection() {
             href="https://discord.gg/KVjtT7Ursg"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full border border-[#111111]/20 bg-white/80 backdrop-blur-md px-8 py-4 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-[#111111] shadow-md transition-all duration-300 hover:bg-white hover:border-[#111111]/40 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+            className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full border border-[#111111]/20 bg-white px-8 py-4 text-xs sm:text-sm font-bold uppercase tracking-[0.18em] text-[#111111] shadow-md transition-all duration-300 hover:border-[#111111]/40 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
           >
             {/* Discord Logo SVG */}
             <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 640 512" className="w-5 h-5 transition-transform duration-300 group-hover:scale-110">
@@ -115,9 +122,9 @@ export default function HeroSection() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className={`rounded-2xl p-5 text-center ${styles.statCard}`}
+              className="rounded-2xl p-5 text-center transition-all duration-300 bg-white/85 backdrop-blur-md border border-[#111111]/8 hover:-translate-y-1 hover:bg-white hover:border-[#111111]/20 hover:shadow-lg"
             >
-              <div className={`${styles.heroTitle} text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#111111]`}>
+              <div className="font-editorial text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#111111]">
                 {stat.value}
               </div>
               <div className="mt-1 text-xs font-bold uppercase tracking-[0.16em] text-[#111111]/80">

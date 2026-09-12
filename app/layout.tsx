@@ -1,5 +1,6 @@
 import { Agentation } from 'agentation';
 import SmoothScroll from './components/SmoothScroll';
+import 'lenis/dist/lenis.css';
 import './globals.css';
 
 export const metadata = {

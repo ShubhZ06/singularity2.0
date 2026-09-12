@@ -1,7 +1,7 @@
 'use client';
 
-import ScrollStorySection from './ScrollStorySection';
+import StorySection from '@/app/sections/StorySection';
 
 export default function Story() {
-  return <ScrollStorySection />;
+  return <StorySection />;
 }
