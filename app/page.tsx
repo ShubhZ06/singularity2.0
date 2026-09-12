@@ -14,9 +14,13 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white text-[#111111]">
       <HeroSection />
-      <div className="mx-auto max-w-[1600px] px-5 pb-8 pt-6 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-[1600px] px-5 pt-6 sm:px-8 lg:px-10">
         <AboutSection />
-        <PastEditionSection />
+      </div>
+
+      <PastEditionSection />
+
+      <div className="mx-auto max-w-[1600px] px-5 pb-8 pt-6 sm:px-8 lg:px-10">
         <ThemeSection />
       </div>
 

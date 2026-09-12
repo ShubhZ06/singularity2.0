@@ -1,81 +1,77 @@
 'use client';
 
 import React from 'react';
+import ScrollExpand from '../components/ScrollExpand';
 
 export default function PastEditionSection() {
   return (
-    <section id="past-editions" className="relative w-full py-16 sm:py-24 bg-white overflow-hidden border-t border-[#111111]/8">
-      {/* Decorative background grid pattern */}
-      <div 
-        aria-hidden="true" 
-        className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:20px_20px]"
+    <section id="past-editions" className="relative w-full bg-white">
+      {/* 1. Expandable Image Component with "Our Glory" headline */}
+      <ScrollExpand
+        src="/images/temp.png"
+        alt="Our Glory"
+        title="Our Glory"
+        useWindowScroll={true}
+        startWidth={52}
+        startHeight={62}
+        startRadius={24}
+        endRadius={0}
+        mediaZoom={1.25}
+        scrollDistance={1.2}
+        holdDistance={0.35}
+        titleMinOpacity={0.25}
+        overlayScrim={0}
+        smoothing={0.08}
+        className="w-full"
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 sm:px-10 lg:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#7B35F8]/25 bg-[#7B35F8]/5 px-3.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#7B35F8] mb-4">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#7B35F8] animate-pulse" />
-              <span>Coming Soon</span>
-            </div>
-            <h2 className="font-seasonmix text-4xl sm:text-5xl md:text-6xl text-[#111111] font-normal leading-[1.1]">
-              Past Editions
-            </h2>
-          </div>
-          <p className="max-w-md text-sm sm:text-base text-[#111111]/60 leading-relaxed font-normal">
-            Relive the legacy of innovation. We are compiling highlights, winning projects, photo galleries, and memorable milestones from our previous editions.
+      {/* 2. Content & Numbers After The Image Component */}
+      <div className="relative w-full py-16 sm:py-24 md:py-32 bg-white">
+        <div className="mx-auto max-w-5xl px-6 sm:px-10 lg:px-12">
+          {/* Narrative Paragraph */}
+          <p className="text-base sm:text-lg md:text-[1.22rem] lg:text-[1.28rem] text-[#222222] font-light leading-[1.8] sm:leading-[1.85] tracking-[-0.01em] mb-16 sm:mb-24">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
-        </div>
 
-        {/* Coming Soon Preview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {[
-            {
-              year: 'HackSpire 2025',
-              tag: 'Previous Edition',
-              metrics: '4,100+ Registrations • 254 Finalists',
-              desc: 'Relive the energy where developers and designers converged for 24 hours of non-stop building.',
-            },
-            {
-              year: 'Hall of Fame',
-              tag: 'Winners & Projects',
-              metrics: 'Top 10 Groundbreaking Prototypes',
-              desc: 'Explore the winning solutions that turned bold ideas into real-world applications.',
-            },
-            {
-              year: 'Gallery & Media',
-              tag: 'Event Archives',
-              metrics: 'Moments Captured',
-              desc: 'High-energy captures, keynote presentations, and mentor interactions from the floor.',
-            },
-          ].map((card, idx) => (
-            <div
-              key={card.year}
-              className="group relative rounded-2xl border border-[#111111]/10 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-[#7B35F8]/30"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[#7B35F8]">
-                  {card.tag}
-                </span>
-                <span className="text-[0.65rem] font-medium uppercase tracking-[0.16em] text-[#111111]/40 border border-[#111111]/10 px-2.5 py-0.5 rounded-full">
-                  Preview {idx + 1}
-                </span>
+          {/* Metrics / Numbers Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 md:gap-12 text-center">
+            <div>
+              <div className="text-5xl sm:text-6xl md:text-[4rem] text-[#111111] font-normal tracking-tight mb-2 sm:mb-3 leading-none">
+                25H
               </div>
-              <h3 className="font-seasonmix text-2xl sm:text-3xl text-[#111111] mb-2">
-                {card.year}
-              </h3>
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#111111]/50 mb-4">
-                {card.metrics}
-              </p>
-              <p className="text-sm text-[#111111]/70 leading-relaxed">
-                {card.desc}
-              </p>
-              <div className="mt-8 pt-4 border-t border-[#111111]/8 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.14em] text-[#111111]/60 group-hover:text-[#7B35F8] transition-colors">
-                <span>Archive Reveal</span>
-                <span>Coming Soon →</span>
+              <div className="text-[0.68rem] sm:text-xs font-semibold uppercase tracking-[0.22em] text-[#777777]">
+                Non-stop coding
               </div>
             </div>
-          ))}
+
+            <div>
+              <div className="text-5xl sm:text-6xl md:text-[4rem] text-[#111111] font-normal tracking-tight mb-2 sm:mb-3 leading-none">
+                4.1K+
+              </div>
+              <div className="text-[0.68rem] sm:text-xs font-semibold uppercase tracking-[0.22em] text-[#777777]">
+                Global registrations
+              </div>
+            </div>
+
+            <div>
+              <div className="text-5xl sm:text-6xl md:text-[4rem] text-[#111111] font-normal tracking-tight mb-2 sm:mb-3 leading-none">
+                ₹140k+
+              </div>
+              <div className="text-[0.68rem] sm:text-xs font-semibold uppercase tracking-[0.22em] text-[#777777]">
+                Prize pool
+              </div>
+            </div>
+
+            <div>
+              <div className="text-5xl sm:text-6xl md:text-[4rem] text-[#111111] font-normal tracking-tight mb-2 sm:mb-3 leading-none">
+                55
+              </div>
+              <div className="text-[0.68rem] sm:text-xs font-semibold uppercase tracking-[0.22em] text-[#777777]">
+                Top finalists
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

@@ -25,6 +25,12 @@
 html {
   background-color: #ffffff;
   scroll-behavior: auto !important;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 html.lenis, html.lenis body {
@@ -53,10 +59,22 @@ body {
   background-color: #ffffff;
   color: #111111;
   font-family: Arial, Helvetica, sans-serif;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 * {
   box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 /* Reusable Keyframe Animations */
