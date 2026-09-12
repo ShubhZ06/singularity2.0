@@ -225,16 +225,17 @@ export default function StorySection({
           titleRef.current.style.filter = 'blur(0px)';
           titleRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
         } else if (p < 0.78) {
-          // Dissolves into the billowing white smudge clouds
+          // A soft cloudy fog dissolve
           const t = (p - 0.65) / 0.13;
           const op = Math.max(0, 1 - t);
-          const blur = t * 14;
+          const blur = t * 24;
+          const scale = 1 + t * 0.08;
           titleRef.current.style.opacity = String(op);
           titleRef.current.style.filter = `blur(${blur.toFixed(1)}px)`;
-          titleRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
+          titleRef.current.style.transform = `translate3d(-50%, -50%, 0) scale(${scale.toFixed(3)})`;
         } else {
           titleRef.current.style.opacity = '0';
-          titleRef.current.style.filter = 'blur(16px)';
+          titleRef.current.style.filter = 'blur(24px)';
         }
       }
 
@@ -242,29 +243,40 @@ export default function StorySection({
       if (videoWrapperRef.current) {
         if (p < 0.44) {
           videoWrapperRef.current.style.opacity = '0';
+          videoWrapperRef.current.style.filter = 'none';
           if (videoRef.current && !videoRef.current.paused) {
             videoRef.current.pause();
           }
         } else if (p < 0.52) {
           const t = (p - 0.44) / 0.08;
           videoWrapperRef.current.style.opacity = String(Math.min(1, t));
+          videoWrapperRef.current.style.filter = 'none';
+          if (videoRef.current && videoRef.current.paused) {
+            videoRef.current.play().catch(() => {});
+          }
+        } else if (p < 0.65) {
+          videoWrapperRef.current.style.opacity = '1';
+          videoWrapperRef.current.style.filter = 'none';
           if (videoRef.current && videoRef.current.paused) {
             videoRef.current.play().catch(() => {});
           }
         } else {
-          videoWrapperRef.current.style.opacity = '1';
-          if (videoRef.current && videoRef.current.paused) {
-            videoRef.current.play().catch(() => {});
-          }
+          // Soft Cloudy Fog Dissolve: Video progressively blurs and blooms into luminous mist
+          const tFog = Math.min(1, (p - 0.65) / 0.25);
+          const videoBlur = tFog * 24;
+          const videoBright = 1 + tFog * 0.45;
+          const videoOpacity = Math.max(0, 1 - tFog * 0.95);
+          videoWrapperRef.current.style.opacity = String(videoOpacity);
+          videoWrapperRef.current.style.filter = `blur(${videoBlur.toFixed(1)}px) brightness(${videoBright.toFixed(2)})`;
           if (p >= 0.94 && videoRef.current && !videoRef.current.paused) {
             videoRef.current.pause();
           }
         }
       }
 
-      // Step 4: White Smudge Bloom & Rising Deep White Wave
+      // Step 4: A Soft Cloudy Fog Dissolve & Direct Footer Emergence
       if (p >= 0.65) {
-        // A. Rising Deep White Wave Layer (starts below screen, ascends with feathered shadow)
+        // A. Soft Dreamy Cloud Mist Ambience
         if (deepWhiteWaveRef.current) {
           const tWave = Math.min(1, (p - 0.65) / 0.28);
           const easeWave = tWave * tWave * (3 - 2 * tWave);
@@ -273,36 +285,37 @@ export default function StorySection({
           deepWhiteWaveRef.current.style.opacity = String(Math.min(1, easeWave * 1.5));
         }
 
-        // B. Billowing White Cloudy Canvas Smudge Blobs
+        // B. Billowing Soft Cloudy Fog Canvas Blobs
         let whiteCanvasAlpha = 1;
         if (p < 0.70) {
           whiteCanvasAlpha = (p - 0.65) / 0.05;
-        } else if (p > 0.94) {
-          whiteCanvasAlpha = Math.max(0, 1 - (p - 0.94) / 0.05);
+        } else if (p > 0.96) {
+          whiteCanvasAlpha = Math.max(0, 1 - (p - 0.96) / 0.04);
         }
         whiteCanvas.style.opacity = String(Math.min(1, Math.max(0, whiteCanvasAlpha)));
         whiteCtx.clearRect(0, 0, width, height);
 
         const progressGrowth = (p - 0.65) / 0.26;
-        const expansion = 0.50 + progressGrowth * 3.0;
-        const whiteMultiplier = Math.min(1, 0.65 + progressGrowth * 0.85);
+        const expansion = 0.55 + progressGrowth * 3.2;
+        const whiteMultiplier = Math.min(1, 0.70 + progressGrowth * 0.85);
         const minDim = Math.min(width, height);
 
         whiteBlobAnchors.forEach((blob) => {
-          const driftX = Math.cos(time * blob.speed + blob.phase) * (minDim * 0.035);
-          const driftY = Math.sin(time * blob.speed * 0.8 + blob.phase) * (minDim * 0.035);
+          const driftX = Math.cos(time * blob.speed + blob.phase) * (minDim * 0.04);
+          const driftY = Math.sin(time * blob.speed * 0.8 + blob.phase) * (minDim * 0.04);
           const cx = blob.rx * width + driftX;
           const cy = blob.ry * height + driftY;
           const r = blob.baseR * minDim * expansion;
 
           if (r <= 0) return;
 
-          const grad = whiteCtx.createRadialGradient(cx, cy, r * 0.04, cx, cy, r);
+          const grad = whiteCtx.createRadialGradient(cx, cy, r * 0.02, cx, cy, r);
           const a = Math.min(1.0, blob.maxAlpha * whiteMultiplier);
 
           grad.addColorStop(0.0, `rgba(255, 255, 255, ${a})`);
-          grad.addColorStop(0.35, `rgba(255, 255, 255, ${a * 0.95})`);
-          grad.addColorStop(0.65, `rgba(255, 255, 255, ${a * 0.65})`);
+          grad.addColorStop(0.25, `rgba(255, 255, 255, ${(a * 0.92).toFixed(2)})`);
+          grad.addColorStop(0.55, `rgba(255, 255, 255, ${(a * 0.58).toFixed(2)})`);
+          grad.addColorStop(0.80, `rgba(255, 255, 255, ${(a * 0.22).toFixed(2)})`);
           grad.addColorStop(1.0, 'rgba(255, 255, 255, 0)');
 
           whiteCtx.fillStyle = grad;
@@ -311,15 +324,22 @@ export default function StorySection({
           whiteCtx.fill();
         });
 
-        // C. Direct Footer Fade-in on Solid Deep White Layer
+        // C. Direct Footer Cloudy Fog Dissolve (crystallizes out of the soft fog into focus)
         if (whiteCoverRef.current) {
           if (p < 0.68) {
             whiteCoverRef.current.style.opacity = '0';
+            whiteCoverRef.current.style.filter = 'blur(20px)';
+            whiteCoverRef.current.style.transform = 'scale(0.98)';
             whiteCoverRef.current.style.pointerEvents = 'none';
           } else {
             const tCover = Math.min(1, (p - 0.68) / 0.24);
-            whiteCoverRef.current.style.opacity = String(tCover);
-            whiteCoverRef.current.style.pointerEvents = tCover > 0.6 ? 'auto' : 'none';
+            const easeCover = tCover * tCover * (3 - 2 * tCover);
+            const footerBlur = (1 - easeCover) * 20;
+            const footerScale = 0.98 + easeCover * 0.02;
+            whiteCoverRef.current.style.opacity = String(easeCover);
+            whiteCoverRef.current.style.filter = `blur(${footerBlur.toFixed(1)}px)`;
+            whiteCoverRef.current.style.transform = `scale(${footerScale.toFixed(3)})`;
+            whiteCoverRef.current.style.pointerEvents = easeCover > 0.7 ? 'auto' : 'none';
           }
         }
       } else {
@@ -331,6 +351,8 @@ export default function StorySection({
         }
         if (whiteCoverRef.current) {
           whiteCoverRef.current.style.opacity = '0';
+          whiteCoverRef.current.style.filter = 'blur(20px)';
+          whiteCoverRef.current.style.transform = 'scale(0.98)';
           whiteCoverRef.current.style.pointerEvents = 'none';
         }
       }
@@ -367,6 +389,8 @@ export default function StorySection({
             render(1);
             if (whiteCoverRef.current) {
               whiteCoverRef.current.style.opacity = '1';
+              whiteCoverRef.current.style.filter = 'blur(0px)';
+              whiteCoverRef.current.style.transform = 'scale(1)';
               whiteCoverRef.current.style.pointerEvents = 'auto';
             }
           } else if (self.progress <= 0) {
@@ -374,6 +398,8 @@ export default function StorySection({
             render(0);
             if (whiteCoverRef.current) {
               whiteCoverRef.current.style.opacity = '0';
+              whiteCoverRef.current.style.filter = 'blur(20px)';
+              whiteCoverRef.current.style.transform = 'scale(0.98)';
               whiteCoverRef.current.style.pointerEvents = 'none';
             }
           }
@@ -484,27 +510,28 @@ export default function StorySection({
           </div>
         </div>
 
-        {/* Step 4A: Rising Deep White Wave Layer (covers the video from bottom to top with feathered smoke shadow) */}
+        {/* Step 4A: Soft Dreamy Cloud Mist Ambience (covers video with feathered fog bloom) */}
         <div
           ref={deepWhiteWaveRef}
           className="absolute inset-0 bg-white pointer-events-none z-[60] [transform:translateZ(0)]"
           style={{
             transform: 'translate3d(0, 105%, 0)',
-            boxShadow: '0 -100px 160px 80px #ffffff, 0 -40px 80px 30px #ffffff',
+            boxShadow: '0 -100px 180px 90px #ffffff, 0 -40px 90px 30px #ffffff',
+            filter: 'blur(20px)',
           }}
           aria-hidden="true"
         />
 
-        {/* Step 4B: White Cloudy Smudge Bloom Canvas (z-[65] bills organic clouds to blanket the video in deep white) */}
+        {/* Step 4B: White Cloudy Fog Canvas (z-[65] bills organic clouds to blanket the video in deep white) */}
         <canvas
           ref={whiteCanvasRef}
-          className="absolute inset-0 w-full h-full pointer-events-none z-[65] blur-[45px] sm:blur-[52px] opacity-0 transition-opacity duration-300 [transform:translateZ(0)]"
+          className="absolute inset-0 w-full h-full pointer-events-none z-[65] blur-[55px] sm:blur-[70px] opacity-0 transition-opacity duration-300 [transform:translateZ(0)]"
         />
 
-        {/* Step 4C: Direct Footer Fade-in on Pure White Canvas (z-[70]) */}
+        {/* Step 4C: Direct Footer Cloudy Fog Dissolve (z-[70]) */}
         <div
           ref={whiteCoverRef}
-          className="absolute inset-0 bg-white pointer-events-none z-[70] opacity-0 [transform:translateZ(0)] overflow-y-auto"
+          className="absolute inset-0 bg-white pointer-events-none z-[70] opacity-0 [transform:translateZ(0)] overflow-y-auto will-change-[opacity,filter,transform]"
           style={{ opacity: 0 }}
         >
           <Footer />

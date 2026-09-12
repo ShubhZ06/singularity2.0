@@ -222,20 +222,20 @@ const AccordionGallery = ({
 
         const content = (
           <>
-            <span className="ag-panel__frame">
-              <span
+            <div className="ag-panel__frame">
+              <div
                 className="ag-panel__media"
                 ref={(el: HTMLElement | null) => {
                   mediaRefs.current[i] = el;
                 }}
               >
                 <img src={item.image} alt={item.alt || item.label || ''} draggable={false} />
-              </span>
-              <span className="ag-panel__overlay" aria-hidden="true" />
-            </span>
+              </div>
+              <div className="ag-panel__overlay" aria-hidden="true" />
+            </div>
 
             {showLabels && (
-              <span className="ag-panel__label" aria-hidden="true">
+              <div className="ag-panel__label" aria-hidden="true">
                 <span
                   className="ag-panel__bar"
                   ref={(el: HTMLElement | null) => {
@@ -250,7 +250,7 @@ const AccordionGallery = ({
                 >
                   {item.label}
                 </span>
-              </span>
+              </div>
             )}
           </>
         );
