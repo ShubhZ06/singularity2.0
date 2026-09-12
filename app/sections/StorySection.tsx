@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { WordsStagger } from '@/components/ui/words-stagger';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -34,19 +34,20 @@ export default function StorySection({
   const bgWhiteRef = useRef<HTMLDivElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
 
-  const quoteWords = useMemo(() => {
-    return quote.split(' ');
-  }, [quote]);
 
   useEffect(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
     const whiteCanvas = whiteCanvasRef.current;
-    if (!container || !canvas || !whiteCanvas) return;
+    const video = videoRef.current;
+    if (!container || !canvas || !whiteCanvas || !video) return;
 
     const ctx = canvas.getContext('2d');
     const whiteCtx = whiteCanvas.getContext('2d');
     if (!ctx || !whiteCtx) return;
+
+    // Pause video to ensure ScrollTrigger purely controls currentTime
+    video.pause();
 
     let animId: number;
     let isRunning = false;
@@ -73,7 +74,7 @@ export default function StorySection({
       { rx: 0.80, ry: 0.40, baseR: 0.22, phase: 3.2, speed: 0.17, maxAlpha: 0.82 },
     ];
 
-    // Deep white cloudy smudge anchors billowing across the screen as per scroll (matching HackSpire reference)
+    // Deep white cloudy smudge anchors billowing across the screen as per scroll
     const whiteBlobAnchors = [
       // Bottom surge anchors
       { rx: 0.50, ry: 0.82, baseR: 0.44, phase: 0.0, speed: 0.24, maxAlpha: 1.0 },
@@ -94,10 +95,89 @@ export default function StorySection({
 
     let time = 0;
 
+    // Helper to calculate target currentTime in seconds for the story girl video
+    const getVideoTargetTime = (progress: number) => {
+      const dur =
+        video.duration && isFinite(video.duration) && video.duration > 0
+          ? Math.max(0, video.duration - 0.05)
+          : 10.0;
+      if (progress <= 0.40) return 0;
+      if (progress >= 0.78) return dur;
+      const vp = (progress - 0.40) / (0.78 - 0.40);
+      return Math.min(dur, Math.max(0, vp * dur));
+    };
+
+    // Smooth velocity playhead synchronization:
+    // When scrolling forward, uses dynamic playbackRate so the video plays continuously at 60fps
+    // without stalling the hardware decoder via repeated seeks!
+    const syncVideoPlayback = (progress: number) => {
+      if (!video || !video.duration || isNaN(video.duration) || video.duration <= 0) return;
+
+      const targetTime = getVideoTargetTime(progress);
+      const cur = video.currentTime;
+      const diff = targetTime - cur;
+
+      // When outside the active video zone, stop and align
+      if (progress < 0.38) {
+        if (!video.paused) video.pause();
+        if (cur > 0.05 && !video.seeking) {
+          video.currentTime = 0;
+        }
+        return;
+      }
+      if (progress > 0.82) {
+        if (!video.paused) video.pause();
+        const maxTime = Math.max(0, video.duration - 0.05);
+        if (Math.abs(cur - maxTime) > 0.05 && !video.seeking) {
+          video.currentTime = maxTime;
+        }
+        return;
+      }
+
+      // Large jump (e.g. scrollbar drag or anchor jump)
+      if (Math.abs(diff) > 1.8) {
+        if (!video.paused) video.pause();
+        if (!video.seeking) {
+          video.currentTime = targetTime;
+        }
+        return;
+      }
+
+      // Forward scrolling: smoothly stream-play at dynamic matching speed!
+      if (diff > 0.035) {
+        const rate = Math.min(4.0, Math.max(0.4, diff * 3.5));
+        video.playbackRate = rate;
+        if (video.paused) {
+          video.play().catch(() => {});
+        }
+      } else if (diff < -0.04) {
+        // Reverse scrolling: pause and seek backward
+        if (!video.paused) video.pause();
+        if (!video.seeking) {
+          video.currentTime = targetTime;
+        }
+      } else {
+        // Reached target frame: pause precisely
+        if (!video.paused) {
+          video.pause();
+        }
+      }
+    };
+
+    const handleLoadedMetadata = () => {
+      video.pause();
+      const targetTime = getVideoTargetTime(smoothProgress);
+      video.currentTime = targetTime;
+    };
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+
     const render = () => {
-      smoothProgress += (targetProgress - smoothProgress) * 0.12;
+      smoothProgress += (targetProgress - smoothProgress) * 0.22;
       const p = smoothProgress;
       time += 0.008;
+
+      // Synchronize video playback with fluid 60fps tracking
+      syncVideoPlayback(p);
 
       // 1. Background crossfade (White -> Black)
       if (bgBlackRef.current && bgWhiteRef.current) {
@@ -217,14 +297,13 @@ export default function StorySection({
       }
 
       // Step 2: "SINGULARITY" White Logo Rises Up as Per Scroll out of Black Smudge
-      // Then STAYS centered on top of the video throughout the video showcase!
+      // Then STAYS centered on top of the story girl video!
       if (titleRef.current) {
         if (p < 0.28) {
           titleRef.current.style.opacity = '0';
           titleRef.current.style.filter = 'blur(22px)';
           titleRef.current.style.transform = `translate3d(-50%, calc(-50% + ${(height * 0.35).toFixed(1)}px), 0) scale(0.88)`;
         } else if (p < 0.46) {
-          // Rises up from below as per scroll with the black smudge!
           const t = (p - 0.28) / 0.18;
           const ease = t * t * (3 - 2 * t);
           const yOffset = (1 - ease) * (height * 0.35);
@@ -235,7 +314,7 @@ export default function StorySection({
           titleRef.current.style.filter = `blur(${blur.toFixed(1)}px)`;
           titleRef.current.style.transform = `translate3d(-50%, calc(-50% + ${yOffset.toFixed(1)}px), 0) scale(${scale.toFixed(3)})`;
         } else if (p < 0.74) {
-          // STAYS perfectly anchored on top of the video till the white smudge comes!
+          // STAYS perfectly anchored on top of the story girl video!
           titleRef.current.style.opacity = '1';
           titleRef.current.style.filter = 'blur(0px)';
           titleRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
@@ -253,32 +332,22 @@ export default function StorySection({
         }
       }
 
-      // Step 3: Final Story Girl Video (Clean, Natural Colors, No Overlays)
+      // Step 3: Story Girl Video Scrubbed via GSAP ScrollTrigger
       if (videoWrapperRef.current) {
-        if (p < 0.44) {
+        if (p < 0.42) {
           videoWrapperRef.current.style.opacity = '0';
-          if (videoRef.current && !videoRef.current.paused) {
-            videoRef.current.pause();
-          }
-        } else if (p < 0.52) {
-          const t = (p - 0.44) / 0.08;
+        } else if (p < 0.50) {
+          const t = (p - 0.42) / 0.08;
           videoWrapperRef.current.style.opacity = String(Math.min(1, t));
-          if (videoRef.current && videoRef.current.paused) {
-            videoRef.current.play().catch(() => {});
-          }
+        } else if (p > 0.88) {
+          videoWrapperRef.current.style.opacity = '0';
         } else {
           videoWrapperRef.current.style.opacity = '1';
-          if (videoRef.current && videoRef.current.paused) {
-            videoRef.current.play().catch(() => {});
-          }
-          if (p >= 0.96 && videoRef.current && !videoRef.current.paused) {
-            videoRef.current.pause();
-          }
         }
       }
 
+
       // Step 4: White Smudge Bloom & Rising Black Singularity 2.0 (as per scroll)
-      // Exactly matching HackSpire reference (media_1789234007689.png)
       if (p >= 0.68) {
         // A. Rising Deep White Wave Layer (starts below screen, ascends with feathered shadow)
         if (deepWhiteWaveRef.current) {
@@ -376,7 +445,11 @@ export default function StorySection({
         }
       }
 
-      if (isRunning) {
+      const isVideoCatchingUp =
+        !video.paused || Math.abs(getVideoTargetTime(smoothProgress) - video.currentTime) > 0.04;
+      const isProgressCatchingUp = Math.abs(targetProgress - smoothProgress) > 0.001;
+
+      if (isRunning || isVideoCatchingUp || isProgressCatchingUp) {
         animId = requestAnimationFrame(render);
       }
     };
@@ -391,36 +464,42 @@ export default function StorySection({
     const stopLoop = () => {
       isRunning = false;
       cancelAnimationFrame(animId);
+      if (videoRef.current && !videoRef.current.paused) {
+        videoRef.current.pause();
+      }
     };
 
-    const progressTrigger = ScrollTrigger.create({
-      trigger: container,
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: true,
-      onToggle: (self) => {
-        if (self.isActive) {
-          startLoop();
-        } else {
-          stopLoop();
-        }
-      },
-      onUpdate: (self) => {
-        targetProgress = self.progress;
-        if (!isRunning) {
-          startLoop();
-        }
-      },
-    });
+    const ctxGSAP = gsap.context(() => {
+      const progressTrigger = ScrollTrigger.create({
+        trigger: container,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 0.6,
+        onToggle: (self) => {
+          if (self.isActive) {
+            startLoop();
+          } else {
+            stopLoop();
+          }
+        },
+        onUpdate: (self) => {
+          targetProgress = self.progress;
+          if (!isRunning) {
+            startLoop();
+          }
+        },
+      });
 
-    targetProgress = progressTrigger.progress;
-    smoothProgress = targetProgress;
-    render();
+      targetProgress = progressTrigger.progress;
+      smoothProgress = targetProgress;
+      render();
+    }, containerRef);
 
     return () => {
       stopLoop();
-      progressTrigger.kill();
+      ctxGSAP.revert();
       window.removeEventListener('resize', handleResize);
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
     };
   }, []);
 
@@ -439,10 +518,10 @@ export default function StorySection({
           aria-hidden="true"
         />
 
-        {/* Layer 2: Final Story Girl Video (Clean, Original Theme) */}
+        {/* Layer 2: Final Story Girl Video scrubbed via GSAP ScrollTrigger */}
         <div
           ref={videoWrapperRef}
-          className="absolute inset-0 w-full h-full overflow-hidden z-[6] opacity-0 transition-opacity duration-400 [transform:translateZ(0)] pointer-events-none"
+          className="absolute inset-0 w-full h-full overflow-hidden z-[6] opacity-0 transition-opacity duration-300 [transform:translateZ(0)] pointer-events-none"
           aria-hidden="true"
         >
           <video
@@ -451,7 +530,6 @@ export default function StorySection({
             muted
             playsInline
             preload="auto"
-            loop
             className="absolute inset-0 w-full h-full object-cover object-center [transform:translateZ(0)]"
           />
           {/* Subtle edge falloff into background */}
@@ -493,7 +571,7 @@ export default function StorySection({
           </div>
 
           {/* Step 2: Giant Center "SINGULARITY" White Logo */}
-          {/* Rises up as per scroll with black smudge, then stays on top of video */}
+          {/* Rises up as per scroll with black smudge, then stays on top of the scrubbed story girl video */}
           <div
             ref={titleRef}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-5xl z-40 pointer-events-none flex flex-col items-center justify-center opacity-0 [transform-origin:center] will-change-transform"
