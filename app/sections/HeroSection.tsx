@@ -37,6 +37,7 @@ export default function HeroSection() {
           loop
           muted
           playsInline
+          preload="auto"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out"
         >
           <source src="/videos/hero-bg-video.webm" type="video/webm" />

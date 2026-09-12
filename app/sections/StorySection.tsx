@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Lightning from '@/app/components/Lightning';
 import { WordsStagger } from '@/components/ui/words-stagger';
 import { gsap } from 'gsap';
@@ -34,10 +34,6 @@ export default function StorySection({
   const statusRef = useRef<HTMLDivElement>(null);
 
   const [lightningActive, setLightningActive] = useState(false);
-
-  const quoteWords = useMemo(() => {
-    return quote.split(' ');
-  }, [quote]);
 
   useEffect(() => {
     const container = containerRef.current;
