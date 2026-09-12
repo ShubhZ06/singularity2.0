@@ -141,9 +141,9 @@ export default function StorySection({
         return;
       }
 
-      // Forward scrolling: smoothly stream-play at dynamic matching speed!
+      // Forward scrolling: smoothly stream-play at natural cinematic pace!
       if (diff > 0.035) {
-        const rate = Math.min(4.0, Math.max(0.4, diff * 3.5));
+        const rate = Math.min(2.0, Math.max(0.4, diff * 2.0));
         video.playbackRate = rate;
         if (video.paused) {
           video.play().catch(() => {});
@@ -514,7 +514,7 @@ export default function StorySection({
   }, []);
 
   return (
-    <section id="story" ref={containerRef} className="relative w-full h-[280vh] bg-white">
+    <section id="story" ref={containerRef} className="relative w-full h-[520vh] bg-white">
       <div className="sticky top-0 h-screen h-svh w-full overflow-hidden bg-black [transform:translateZ(0)]">
         {/* Layer 1: Hardware-Accelerated Crossfading Backgrounds */}
         <div
