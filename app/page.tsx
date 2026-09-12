@@ -14,8 +14,8 @@ import {
 export default function Home() {
   return (
     <main className="min-h-screen bg-white text-[#111111]">
-      <div className="mx-auto max-w-[1600px] px-5 pb-8 pt-5 sm:px-8 lg:px-10">
-        <Header />
+      <Header />
+      <div className="mx-auto max-w-[1600px] px-5 pb-8 pt-3 sm:px-8 lg:px-10">
         <HeroSection />
         <AboutSection />
         <PastEditionSection />

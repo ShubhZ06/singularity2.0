@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import Lightning from '@/app/components/Lightning';
+import { WordsStagger } from '@/components/ui/words-stagger';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -10,16 +11,14 @@ gsap.registerPlugin(ScrollTrigger);
 interface StorySectionProps {
   quote?: string;
   wordmark?: string;
-  onMenuClick?: () => void;
 }
 
 const DEFAULT_QUOTE =
-  'This is not just a hackathon. It is an invocation of Shakti, where the devotion of Durga Puja merges with the rhythm of code, discovering peace within technology.';
+  "This is not just a hackathon—it’s a place where normal rules don't apply and limits disappear. A space where builders, dreamers, and problem-solvers come together to celebrate the art of creation, share ideas, and turn code into lasting, real-world impact for a cause that matters.";
 
 export default function StorySection({
   quote = DEFAULT_QUOTE,
   wordmark = 'SINGULARITY',
-  onMenuClick,
 }: StorySectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -32,7 +31,6 @@ export default function StorySection({
   const auroraRef = useRef<HTMLDivElement>(null);
   const bgBlackRef = useRef<HTMLDivElement>(null);
   const bgWhiteRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
 
   const [lightningActive, setLightningActive] = useState(false);
@@ -97,18 +95,7 @@ export default function StorySection({
         }
       }
 
-      // Header & status color
-      if (headerRef.current) {
-        if (p < 0.40) {
-          headerRef.current.style.color = '#0A0A0A';
-        } else if (p < 0.48) {
-          const t = (p - 0.40) / 0.08;
-          const c = Math.round(10 + (255 - 10) * t);
-          headerRef.current.style.color = `rgb(${c}, ${c}, ${c})`;
-        } else {
-          headerRef.current.style.color = '#FFFFFF';
-        }
-      }
+
       if (statusRef.current) {
         statusRef.current.style.color = p < 0.44 ? '#0A0A0A' : '#FFFFFF';
       }
@@ -341,36 +328,24 @@ export default function StorySection({
         {/* Layer 3: Divine Purple Aurora Glow at bottom */}
         <div ref={auroraRef} className="absolute inset-0 pointer-events-none z-[8] bg-[radial-gradient(ellipse_110%_75%_at_50%_100%,rgba(123,53,248,0.8)_0%,rgba(76,29,149,0.45)_45%,rgba(0,0,0,0)_75%)] opacity-0 mix-blend-screen transition-opacity duration-400 [transform:translateZ(0)]" aria-hidden="true" />
 
-        {/* Global Floating Header with dynamic color interpolation */}
-        <header ref={headerRef} className="absolute top-0 left-0 right-0 z-50 flex h-20 items-center justify-between px-8 md:px-16 pointer-events-auto transition-colors duration-300 [transform:translateZ(0)]">
-          <div className="font-seasonmix text-2xl md:text-3xl font-normal tracking-wide uppercase select-none">{wordmark}</div>
-          <button
-            type="button"
-            className="bg-transparent border-0 cursor-pointer p-2 flex items-center justify-center hover:opacity-80 transition-opacity"
-            onClick={onMenuClick}
-            aria-label="Toggle navigation menu"
-          >
-            <span className="flex flex-col justify-between w-7 h-3.5">
-              <span className="block w-full h-[2px] bg-current rounded-sm transition-colors duration-300" />
-              <span className="block w-full h-[2px] bg-current rounded-sm transition-colors duration-300" />
-            </span>
-          </button>
-        </header>
+
 
         {/* Main Content Stage */}
         <div className="absolute inset-0 w-full h-full flex items-center justify-center z-10 isolate pointer-events-none">
           {/* Fluid canvas for Phase 1C organic ink bloom */}
           <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-[5] blur-[55px] opacity-0 transition-opacity duration-300 [transform:translateZ(0)]" />
 
-          {/* Step 1A: Centered Proclamation Quote */}
-          <div ref={quoteRef} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-4xl text-justify z-[25] pointer-events-none opacity-1 [transform-origin:center] will-change-transform">
-            <p className="font-sans font-light text-xl sm:text-3xl md:text-4xl leading-snug tracking-tight text-[#0A0A0A]">
-              {quoteWords.map((word, i) => (
-                <span key={i} className="inline">
-                  {word}{' '}
-                </span>
-              ))}
-            </p>
+          {/* Step 1A: Centered Proclamation Quote with WordsStagger text reveal */}
+          <div ref={quoteRef} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-4xl z-[25] pointer-events-none opacity-1 [transform-origin:center] will-change-transform">
+            <WordsStagger
+              className="font-sans font-light text-xl sm:text-3xl md:text-4xl leading-snug tracking-tight text-[#0A0A0A] justify-center sm:justify-start"
+              inView={true}
+              once={false}
+              stagger={0.035}
+              speed={0.45}
+            >
+              {quote}
+            </WordsStagger>
           </div>
 
           {/* Step 1B: "This is..." */}
@@ -391,15 +366,19 @@ export default function StorySection({
             />
           </div>
 
-          {/* Step 2: Giant "SINGULARITY" Wordmark */}
-          <div ref={titleRef} className="absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 w-[96%] max-w-[92vw] z-40 pointer-events-none text-center opacity-0 [transform-origin:center] will-change-transform">
-            <div className="relative inline-block">
-              <h1 className="font-seasonmix font-normal uppercase text-5xl sm:text-8xl md:text-9xl lg:text-[14rem] leading-[0.9] tracking-tight text-white select-none whitespace-nowrap relative z-[41] drop-shadow-[0_0_20px_rgba(0,0,0,0.9)]">{wordmark}</h1>
+          {/* Step 2: Giant Center "SINGULARITY" White Logo */}
+          <div ref={titleRef} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-5xl z-40 pointer-events-none flex flex-col items-center justify-center opacity-0 [transform-origin:center] will-change-transform">
+            <div className="relative w-full flex justify-center items-center">
+              <img
+                src="/logo/logo-white.svg"
+                alt={wordmark}
+                className="w-full max-h-[28vh] sm:max-h-[35vh] md:max-h-[42vh] object-contain select-none drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]"
+              />
               {/* Elegant 4-point star sparkle ornament */}
               <svg
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="absolute -top-[8%] right-[28%] w-6 h-6 sm:w-10 sm:h-10 text-white pointer-events-none z-[42] drop-shadow-[0_0_12px_rgba(255,255,255,0.85)] animate-star-twinkle"
+                className="absolute -top-3 sm:-top-6 right-[6%] sm:right-[10%] w-6 h-6 sm:w-10 sm:h-10 text-white pointer-events-none z-[42] drop-shadow-[0_0_16px_rgba(255,255,255,0.9)] animate-star-twinkle"
                 aria-hidden="true"
               >
                 <path d="M12 0 C12 7.5 16.5 12 24 12 C16.5 12 12 16.5 12 24 C12 16.5 7.5 12 0 12 C7.5 12 12 7.5 12 0 Z" />
