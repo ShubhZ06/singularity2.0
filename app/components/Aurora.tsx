@@ -1,6 +1,6 @@
 'use client';
 
-// @ts-expect-error ogl does not provide bundled types
+// @ts-ignore ogl does not provide bundled types
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
 import React, { useEffect, useRef } from 'react';
 
