@@ -34,8 +34,15 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
 
   return (
     <section className="relative w-full h-[100dvh] min-h-[540px] pt-[1vw] px-[1vw] pb-[1vw] bg-white select-none overflow-hidden">
-      {/* Main Full-Screen Canvas with Smooth Rounded Corners */}
-      <div className="relative w-full h-full rounded-[clamp(1.2rem,2.8vw,2.75rem)] overflow-hidden bg-white">
+      {/* Main Full-Screen Canvas with Smooth Rounded Corners on TL & BR */}
+      <div
+        style={{
+          ['--frame-border' as any]: 'clamp(10px, 0.854vw, 14px)',
+          ['--notch-top-h' as any]: 'calc(var(--frame-border) * 82 / 14)',
+          ['--notch-bot-h' as any]: 'calc(var(--frame-border) * 110 / 14)',
+        }}
+        className="relative w-full h-full rounded-tl-[clamp(1.2rem,2.8vw,2.75rem)] rounded-br-[clamp(1.2rem,2.8vw,2.75rem)] rounded-tr-none rounded-bl-none overflow-hidden bg-white"
+      >
         {/* Central Background Video - Desktop */}
         <video
           autoPlay
@@ -70,23 +77,23 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         {/* SEAMLESS PURE WHITE PERIMETER FRAME & CORNER FILLETS                     */}
         {/* ========================================================================= */}
         {/* Top Border */}
-        <div className="pointer-events-none absolute top-0 left-0 right-0 h-[clamp(8px,0.85vw,14px)] bg-white z-20" />
+        <div className="pointer-events-none absolute top-0 left-0 right-0 h-[var(--frame-border)] bg-white z-20" />
         {/* Bottom Border */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[clamp(8px,0.85vw,14px)] bg-white z-20" />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[var(--frame-border)] bg-white z-20" />
         {/* Left Border */}
-        <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-[clamp(8px,0.85vw,14px)] bg-white z-20" />
+        <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-[var(--frame-border)] bg-white z-20" />
         {/* Right Border */}
-        <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-[clamp(8px,0.85vw,14px)] bg-white z-20" />
+        <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-[var(--frame-border)] bg-white z-20" />
 
         {/* Top-Left Video Corner Fillet (Rounds the video inside the frame) */}
-        <div className="pointer-events-none absolute top-[clamp(8px,0.85vw,14px)] left-[clamp(8px,0.85vw,14px)] w-[clamp(24px,2.4vw,44px)] h-[clamp(24px,2.4vw,44px)] z-20">
+        <div className="pointer-events-none absolute top-[var(--frame-border)] left-[var(--frame-border)] w-[clamp(24px,2.4vw,44px)] h-[clamp(24px,2.4vw,44px)] z-20">
           <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M0 0 H44 C19.699 0 0 19.699 0 44 Z" fill="#ffffff" />
           </svg>
         </div>
 
         {/* Bottom-Right Video Corner Fillet (Rounds the video inside the frame) */}
-        <div className="pointer-events-none absolute bottom-[clamp(8px,0.85vw,14px)] right-[clamp(8px,0.85vw,14px)] w-[clamp(24px,2.4vw,44px)] h-[clamp(24px,2.4vw,44px)] z-20">
+        <div className="pointer-events-none absolute bottom-[var(--frame-border)] right-[var(--frame-border)] w-[clamp(24px,2.4vw,44px)] h-[clamp(24px,2.4vw,44px)] z-20">
           <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M44 44 H0 C24.301 44 44 24.301 44 0 Z" fill="#ffffff" />
           </svg>
@@ -95,7 +102,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         {/* ========================================================================= */}
         {/* TOP-LEFT: Brand Logo                                                      */}
         {/* ========================================================================= */}
-        <div className="absolute top-[clamp(0.35rem,0.8vw,0.65rem)] left-0 z-30 h-[clamp(3.8rem,5vw,5.125rem)] pl-[clamp(0.75rem,1.8vw,2.25rem)] flex items-center">
+        <div className="absolute top-[var(--frame-border)] left-0 z-30 h-[var(--notch-top-h)] pl-[clamp(0.75rem,1.8vw,2.25rem)] flex items-center">
           <div className="relative h-[clamp(2.5rem,6.8vw,3.2rem)] sm:h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(14rem,55vw,18rem)] sm:w-[clamp(10.5rem,14vw,13.5rem)] flex items-center select-none cursor-pointer">
             <img
               src="/logo/logo-white.svg"
@@ -110,7 +117,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         {/* ========================================================================= */}
         <div className="absolute top-0 right-0 z-30 flex items-start">
           {/* Trapezoidal Diagonal S-Curve Slope (Left of Top-Right Notch) */}
-          <div className="relative w-[clamp(1.8rem,3.5vw,6rem)] h-[clamp(3.8rem,5vw,5.125rem)] shrink-0 -mr-[0.5px] pointer-events-none">
+          <div className="relative w-[clamp(2rem,3.8vw,6rem)] h-[var(--notch-top-h)] shrink-0 -mr-[1px] pointer-events-none">
             <svg
               viewBox="0 0 96 82"
               xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +130,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
           </div>
 
           {/* Solid White Cutout Content Area */}
-          <div className="relative bg-white h-[clamp(3.8rem,5vw,5.125rem)] pl-1.5 sm:pl-2.5 pr-[clamp(0.75rem,1.8vw,2.25rem)] flex items-center">
+          <div className="relative bg-white h-[var(--notch-top-h)] pl-1.5 sm:pl-2.5 pr-[clamp(0.75rem,1.8vw,2.25rem)] flex items-center">
             {/* Buttons Group */}
             <div className="flex items-center gap-[clamp(0.5rem,1vw,1rem)]">
               {/* Social Icons (Desktop & Tablet only to prevent mobile header collision) */}
@@ -132,7 +139,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                 <button
                   type="button"
                   aria-label="Social Link 1"
-                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -153,7 +160,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                 <button
                   type="button"
                   aria-label="Social Link 2"
-                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -168,7 +175,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                 <button
                   type="button"
                   aria-label="Social Link 3"
-                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -211,7 +218,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         </div>
 
         {/* Inner Concave Fillet below Top-Right Notch */}
-        <div className="pointer-events-none absolute top-[clamp(3.8rem,5vw,5.125rem)] right-[clamp(8px,0.85vw,14px)] w-[clamp(20px,2vw,36px)] h-[clamp(20px,2vw,36px)] z-20">
+        <div className="pointer-events-none absolute top-[var(--notch-top-h)] right-[var(--frame-border)] w-[clamp(20px,2vw,36px)] h-[clamp(20px,2vw,36px)] z-20">
           <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M36 0 V36 C36 16.118 19.882 0 0 0 Z" fill="#ffffff" />
           </svg>
@@ -232,7 +239,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         {/* ========================================================================= */}
         <div className="absolute bottom-0 left-0 z-30 flex items-end">
           {/* Solid White Cutout Content Area for Stats */}
-          <div className="relative bg-white h-[clamp(5.4rem,7.2vw,6.875rem)] pl-[clamp(1rem,2vw,2.25rem)] pr-2 sm:pr-3 md:pr-4 flex items-center">
+          <div className="relative bg-white h-[var(--notch-bot-h)] pl-[clamp(1rem,2vw,2.25rem)] pr-2 sm:pr-3 md:pr-4 flex items-center">
             {/* Outlined Pill Container around countdown timer */}
             <div className="inline-flex items-center gap-[clamp(0.8rem,1.8vw,2.5rem)] rounded-full border border-black bg-white px-[clamp(0.95rem,1.8vw,2.25rem)] py-[clamp(0.5rem,0.8vw,0.75rem)] shadow-sm">
               {/* Days Column */}
@@ -272,7 +279,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
           </div>
 
           {/* Trapezoidal Diagonal S-Curve Slope (Right of Bottom-Left Notch) */}
-          <div className="relative w-[clamp(3.5rem,6vw,8rem)] h-[clamp(5.4rem,7.2vw,6.875rem)] shrink-0 -ml-[0.5px] pointer-events-none">
+          <div className="relative w-[clamp(3.5rem,6vw,8rem)] h-[var(--notch-bot-h)] shrink-0 -ml-[1px] pointer-events-none">
             <svg
               viewBox="0 0 110 110"
               xmlns="http://www.w3.org/2000/svg"
@@ -286,7 +293,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         </div>
 
         {/* Inner Concave Fillet above Bottom-Left Notch where stats bar meets left border */}
-        <div className="pointer-events-none absolute bottom-[clamp(5.4rem,7.2vw,6.875rem)] left-[clamp(8px,0.85vw,14px)] w-[clamp(20px,2vw,36px)] h-[clamp(20px,2vw,36px)] z-20">
+        <div className="pointer-events-none absolute bottom-[var(--notch-bot-h)] left-[var(--frame-border)] w-[clamp(20px,2vw,36px)] h-[clamp(20px,2vw,36px)] z-20">
           <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M0 36 V0 C0 19.882 16.118 36 36 36 Z" fill="#ffffff" />
           </svg>
