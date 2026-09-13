@@ -57,16 +57,32 @@ export default function TimelineSection() {
       }
 
       let cachedCorr = 1;
+      let cachedMobileCorr = 1;
       const updateAspectCorrection = () => {
-        if (!desktopPath) return;
-        const svgEl = desktopPath.ownerSVGElement;
-        if (!svgEl) return;
-        const rect = svgEl.getBoundingClientRect();
-        const vb = svgEl.viewBox?.baseVal;
-        const vbW = vb?.width || 1320;
-        const vbH = vb?.height || 2800;
-        if (rect.width > 0 && rect.height > 0) {
-          cachedCorr = (rect.height / vbH) / (rect.width / vbW);
+        if (desktopPath) {
+          const svgEl = desktopPath.ownerSVGElement;
+          if (svgEl) {
+            const rect = svgEl.getBoundingClientRect();
+            const vb = svgEl.viewBox?.baseVal;
+            const vbW = vb?.width || 1320;
+            const vbH = vb?.height || 2800;
+            if (rect.width > 0 && rect.height > 0) {
+              cachedCorr = (rect.height / vbH) / (rect.width / vbW);
+            }
+          }
+        }
+
+        if (mobilePath) {
+          const svgEl = mobilePath.ownerSVGElement;
+          if (svgEl) {
+            const rect = svgEl.getBoundingClientRect();
+            const vb = svgEl.viewBox?.baseVal;
+            const vbW = vb?.width || 24;
+            const vbH = vb?.height || 1000;
+            if (rect.width > 0 && rect.height > 0) {
+              cachedMobileCorr = (rect.height / vbH) / (rect.width / vbW);
+            }
+          }
         }
       };
       updateAspectCorrection();
@@ -78,7 +94,7 @@ export default function TimelineSection() {
       }
       if (mobileDot && mobilePath) {
         const startPt = mobilePath.getPointAtLength(0);
-        mobileDot.setAttribute('transform', `translate(${startPt.x}, ${startPt.y})`);
+        mobileDot.setAttribute('transform', `translate(${startPt.x}, ${startPt.y}) scale(${cachedMobileCorr}, 1)`);
         mobileDot.style.opacity = '0';
       }
 
@@ -111,7 +127,7 @@ export default function TimelineSection() {
 
             if (mobileDot) {
               const point = mobilePath.getPointAtLength(drawnLength);
-              mobileDot.setAttribute('transform', `translate(${point.x}, ${point.y})`);
+              mobileDot.setAttribute('transform', `translate(${point.x}, ${point.y}) scale(${cachedMobileCorr}, 1)`);
               mobileDot.style.opacity = p > 0.002 ? '1' : '0';
             }
           }
@@ -199,13 +215,21 @@ export default function TimelineSection() {
           });
         },
       });
+
+      const handleLoad = () => {
+        updateAspectCorrection();
+        ScrollTrigger.refresh();
+      };
+      window.addEventListener('load', handleLoad);
+      window.addEventListener('resize', handleLoad);
+
+      return () => {
+        window.removeEventListener('load', handleLoad);
+        window.removeEventListener('resize', handleLoad);
+      };
     }, container);
 
-    const handleLoad = () => ScrollTrigger.refresh();
-    window.addEventListener('load', handleLoad);
-
     return () => {
-      window.removeEventListener('load', handleLoad);
       ctx.revert();
     };
   }, []);
@@ -272,34 +296,35 @@ export default function TimelineSection() {
         </div>
 
         {/* Mobile Straight Vertical Path */}
-        <div className="pointer-events-none absolute top-2 bottom-2 left-[1.15rem] w-[1.5rem] lg:hidden" aria-hidden="true">
+        <div className="pointer-events-none absolute top-2 bottom-2 left-[0.5rem] sm:left-[0.75rem] w-[1.5rem] lg:hidden" aria-hidden="true">
           <svg viewBox="0 0 24 1000" preserveAspectRatio="none" className="h-full w-full overflow-visible" fill="none">
             <path d="M12 0 L12 1000" stroke="#EAEAEA" strokeWidth={3} strokeLinecap="round" strokeDasharray="6 8" fill="none" />
             <path ref={mobilePathRef} d="M12 0 L12 1000" stroke="#7B35F8" strokeWidth={3} strokeLinecap="round" fill="none" />
             <g ref={mobileDotRef} style={{ opacity: 0 }}>
               <circle
-                r="6"
+                r="4.5"
                 fill="white"
                 stroke="#7B35F8"
                 strokeWidth="2.5"
                 vectorEffect="non-scaling-stroke"
-                style={{ filter: 'drop-shadow(0 0 8px #CDB3FC)' }}
+                style={{ filter: 'drop-shadow(0 0 6px rgba(123, 53, 248, 0.45))' }}
               />
+              <circle r="1.8" fill="#7B35F8" vectorEffect="non-scaling-stroke" />
             </g>
           </svg>
         </div>
 
         {/* Milestone Cards 1-8 */}
-        <div className="relative z-20 mt-[2.5rem] flex w-full flex-col items-center gap-[2.5rem] md:gap-[3rem] lg:mt-0 lg:block lg:h-full lg:gap-0">
+        <div className="relative z-20 mt-[2.5rem] flex w-full flex-col items-start gap-[2.75rem] md:gap-[3.25rem] lg:mt-0 lg:block lg:h-full lg:gap-0">
           {/* Milestone 1 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[5%] lg:left-[4%] xl:left-[8%] 2xl:left-[6%] transition-transform duration-300 hover:-translate-y-1">
-            <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
+          <div className="stage-card group relative z-20 flex w-full max-w-full items-start pl-[3.25rem] sm:pl-[3.75rem] md:max-w-[34rem] md:pl-[4rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[5%] lg:left-[4%] xl:left-[8%] 2xl:left-[6%] transition-transform duration-300 hover:-translate-y-1">
+            <span className="absolute top-3 sm:top-4 left-[1.25rem] sm:left-[1.5rem] z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center lg:hidden" aria-hidden="true">
+              <span className="stage-marker-dot shrink-0 h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
             </span>
             <div className="shrink-0 self-start">
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">1</h3>
             </div>
-            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+            <div className="flex flex-col flex-1 min-w-0 pr-2 pt-0.5 sm:pr-4 md:px-4 lg:py-2">
               <h4 className="stage-title pt-1 font-seasonmix font-normal leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hackathon Goes Live</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
@@ -310,14 +335,14 @@ export default function TimelineSection() {
           </div>
 
           {/* Milestone 2 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[17%] lg:left-auto lg:right-[-2vw] xl:right-[-1vw] 2xl:right-[1%] transition-transform duration-300 hover:-translate-y-1">
-            <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
+          <div className="stage-card group relative z-20 flex w-full max-w-full items-start pl-[3.25rem] sm:pl-[3.75rem] md:max-w-[34rem] md:pl-[4rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[17%] lg:left-auto lg:right-[-2vw] xl:right-[-1vw] 2xl:right-[1%] transition-transform duration-300 hover:-translate-y-1">
+            <span className="absolute top-3 sm:top-4 left-[1.25rem] sm:left-[1.5rem] z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center lg:hidden" aria-hidden="true">
+              <span className="stage-marker-dot shrink-0 h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
             </span>
             <div className="shrink-0 self-start">
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">2</h3>
             </div>
-            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+            <div className="flex flex-col flex-1 min-w-0 pr-2 pt-0.5 sm:pr-4 md:px-4 lg:py-2">
               <h4 className="stage-title pt-1 font-seasonmix font-normal leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Build Your Team</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
@@ -328,14 +353,14 @@ export default function TimelineSection() {
           </div>
 
           {/* Milestone 3 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[30%] lg:left-[3%] xl:left-[6%] 2xl:left-[5%] transition-transform duration-300 hover:-translate-y-1">
-            <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
+          <div className="stage-card group relative z-20 flex w-full max-w-full items-start pl-[3.25rem] sm:pl-[3.75rem] md:max-w-[34rem] md:pl-[4rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[30%] lg:left-[3%] xl:left-[6%] 2xl:left-[5%] transition-transform duration-300 hover:-translate-y-1">
+            <span className="absolute top-3 sm:top-4 left-[1.25rem] sm:left-[1.5rem] z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center lg:hidden" aria-hidden="true">
+              <span className="stage-marker-dot shrink-0 h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
             </span>
             <div className="shrink-0 self-start">
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">3</h3>
             </div>
-            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+            <div className="flex flex-col flex-1 min-w-0 pr-2 pt-0.5 sm:pr-4 md:px-4 lg:py-2">
               <h4 className="stage-title pt-1 font-seasonmix font-normal leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Developers Connect</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
@@ -346,14 +371,14 @@ export default function TimelineSection() {
           </div>
 
           {/* Milestone 4 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[26rem] lg:pl-0 xl:max-w-[29rem] 2xl:max-w-[32rem] lg:top-[39%] lg:left-auto lg:right-[-2vw] xl:right-[-3.5vw] 2xl:right-[-5vw] transition-transform duration-300 hover:-translate-y-1">
-            <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
+          <div className="stage-card group relative z-20 flex w-full max-w-full items-start pl-[3.25rem] sm:pl-[3.75rem] md:max-w-[34rem] md:pl-[4rem] lg:absolute lg:max-w-[26rem] lg:pl-0 xl:max-w-[29rem] 2xl:max-w-[32rem] lg:top-[39%] lg:left-auto lg:right-[-2vw] xl:right-[-3.5vw] 2xl:right-[-5vw] transition-transform duration-300 hover:-translate-y-1">
+            <span className="absolute top-3 sm:top-4 left-[1.25rem] sm:left-[1.5rem] z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center lg:hidden" aria-hidden="true">
+              <span className="stage-marker-dot shrink-0 h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
             </span>
             <div className="shrink-0 self-start">
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">4</h3>
             </div>
-            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+            <div className="flex flex-col flex-1 min-w-0 pr-2 pt-0.5 sm:pr-4 md:px-4 lg:py-2">
               <h4 className="stage-title pt-1 font-seasonmix font-normal leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Round 2 Begins</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
@@ -364,14 +389,14 @@ export default function TimelineSection() {
           </div>
 
           {/* Milestone 5 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[57%] lg:left-[6%] xl:left-[10%] 2xl:left-[8%] transition-transform duration-300 hover:-translate-y-1">
-            <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
+          <div className="stage-card group relative z-20 flex w-full max-w-full items-start pl-[3.25rem] sm:pl-[3.75rem] md:max-w-[34rem] md:pl-[4rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[57%] lg:left-[6%] xl:left-[10%] 2xl:left-[8%] transition-transform duration-300 hover:-translate-y-1">
+            <span className="absolute top-3 sm:top-4 left-[1.25rem] sm:left-[1.5rem] z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center lg:hidden" aria-hidden="true">
+              <span className="stage-marker-dot shrink-0 h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
             </span>
             <div className="shrink-0 self-start">
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">5</h3>
             </div>
-            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+            <div className="flex flex-col flex-1 min-w-0 pr-2 pt-0.5 sm:pr-4 md:px-4 lg:py-2">
               <h4 className="stage-title pt-1 font-seasonmix font-normal leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Round 2 Ends</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
@@ -382,14 +407,14 @@ export default function TimelineSection() {
           </div>
 
           {/* Milestone 6 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[26rem] lg:pl-0 xl:max-w-[29rem] 2xl:max-w-[32rem] lg:top-[70%] lg:left-auto lg:right-[-1vw] xl:right-[-2vw] 2xl:right-[-3.5vw] transition-transform duration-300 hover:-translate-y-1">
-            <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
+          <div className="stage-card group relative z-20 flex w-full max-w-full items-start pl-[3.25rem] sm:pl-[3.75rem] md:max-w-[34rem] md:pl-[4rem] lg:absolute lg:max-w-[26rem] lg:pl-0 xl:max-w-[29rem] 2xl:max-w-[32rem] lg:top-[70%] lg:left-auto lg:right-[-1vw] xl:right-[-2vw] 2xl:right-[-3.5vw] transition-transform duration-300 hover:-translate-y-1">
+            <span className="absolute top-3 sm:top-4 left-[1.25rem] sm:left-[1.5rem] z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center lg:hidden" aria-hidden="true">
+              <span className="stage-marker-dot shrink-0 h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
             </span>
             <div className="shrink-0 self-start">
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">6</h3>
             </div>
-            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+            <div className="flex flex-col flex-1 min-w-0 pr-2 pt-0.5 sm:pr-4 md:px-4 lg:py-2">
               <h4 className="stage-title pt-1 font-seasonmix font-normal leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Results Announcement</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
@@ -400,14 +425,14 @@ export default function TimelineSection() {
           </div>
 
           {/* Milestone 7 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[82%] lg:left-[4%] xl:left-[7%] 2xl:left-[6%] transition-transform duration-300 hover:-translate-y-1">
-            <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
+          <div className="stage-card group relative z-20 flex w-full max-w-full items-start pl-[3.25rem] sm:pl-[3.75rem] md:max-w-[34rem] md:pl-[4rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[82%] lg:left-[4%] xl:left-[7%] 2xl:left-[6%] transition-transform duration-300 hover:-translate-y-1">
+            <span className="absolute top-3 sm:top-4 left-[1.25rem] sm:left-[1.5rem] z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center lg:hidden" aria-hidden="true">
+              <span className="stage-marker-dot shrink-0 h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
             </span>
             <div className="shrink-0 self-start">
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">7</h3>
             </div>
-            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+            <div className="flex flex-col flex-1 min-w-0 pr-2 pt-0.5 sm:pr-4 md:px-4 lg:py-2">
               <h4 className="stage-title pt-1 font-seasonmix font-normal leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hackathon Commences</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
@@ -418,14 +443,14 @@ export default function TimelineSection() {
           </div>
 
           {/* Milestone 8 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[95.5%] lg:left-auto lg:right-[6%] xl:right-[10%] 2xl:right-[8%] transition-transform duration-300 hover:-translate-y-1">
-            <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
+          <div className="stage-card group relative z-20 flex w-full max-w-full items-start pl-[3.25rem] sm:pl-[3.75rem] md:max-w-[34rem] md:pl-[4rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[95.5%] lg:left-auto lg:right-[6%] xl:right-[10%] 2xl:right-[8%] transition-transform duration-300 hover:-translate-y-1">
+            <span className="absolute top-3 sm:top-4 left-[1.25rem] sm:left-[1.5rem] z-10 flex h-6 w-6 -translate-x-1/2 items-center justify-center lg:hidden" aria-hidden="true">
+              <span className="stage-marker-dot shrink-0 h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8' }}></span>
             </span>
             <div className="shrink-0 self-start">
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">8</h3>
             </div>
-            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+            <div className="flex flex-col flex-1 min-w-0 pr-2 pt-0.5 sm:pr-4 md:px-4 lg:py-2">
               <h4 className="stage-title pt-1 font-seasonmix font-normal leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hackathon Ends</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">

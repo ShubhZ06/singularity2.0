@@ -530,33 +530,16 @@ export default function StorySection({
       targetProgress = progressTrigger.progress;
       render(targetProgress);
 
-      // Both timers fire while the page is hidden (opacity:0, locked until 1150ms).
-      // Timer 1 (300ms): reset scroll to 0 after early refresh
-      // Timer 2 (1000ms): only refresh positions, no scroll reset
-      //   (user starts scrolling at 1150ms unlock, we don't want to fight them)
-      type LenisLike = { stop: () => void; start: () => void; scrollTo: (t: number, o: object) => void };
-
+      // Both timers fire while the page is hidden (opacity:0, locked until 1150ms by SmoothScroll).
+      // They ONLY refresh ScrollTrigger's position measurements — scroll-to-top is handled
+      // exclusively by SmoothScroll to avoid race conditions.
       const refreshTimer1 = setTimeout(() => {
-        const lenisInst = (window as unknown as { lenis?: LenisLike }).lenis;
-        if (lenisInst) lenisInst.stop();
         ScrollTrigger.refresh();
-        window.scrollTo(0, 0);
-        if (lenisInst) {
-          lenisInst.start();
-          lenisInst.scrollTo(0, { immediate: true });
-        }
       }, 300);
 
       const refreshTimer2 = setTimeout(() => {
-        const lenisInst = (window as unknown as { lenis?: LenisLike }).lenis;
-        if (lenisInst) lenisInst.stop();
         ScrollTrigger.refresh();
-        window.scrollTo(0, 0);
-        if (lenisInst) {
-          lenisInst.start();
-          lenisInst.scrollTo(0, { immediate: true });
-        }
-      }, 1000);
+      }, 900);
 
       return () => {
         clearTimeout(refreshTimer1);
