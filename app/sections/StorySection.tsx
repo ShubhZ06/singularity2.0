@@ -496,8 +496,33 @@ export default function StorySection({
       targetProgress = progressTrigger.progress;
       render(targetProgress);
 
-      const refreshTimer1 = setTimeout(() => ScrollTrigger.refresh(), 300);
-      const refreshTimer2 = setTimeout(() => ScrollTrigger.refresh(), 1000);
+      // Both timers fire while the page is hidden (opacity:0, locked until 1150ms).
+      // Timer 1 (300ms): reset scroll to 0 after early refresh
+      // Timer 2 (1000ms): only refresh positions, no scroll reset
+      //   (user starts scrolling at 1150ms unlock, we don't want to fight them)
+      type LenisLike = { stop: () => void; start: () => void; scrollTo: (t: number, o: object) => void };
+
+      const refreshTimer1 = setTimeout(() => {
+        const lenisInst = (window as unknown as { lenis?: LenisLike }).lenis;
+        if (lenisInst) lenisInst.stop();
+        ScrollTrigger.refresh();
+        window.scrollTo(0, 0);
+        if (lenisInst) {
+          lenisInst.start();
+          lenisInst.scrollTo(0, { immediate: true });
+        }
+      }, 300);
+
+      const refreshTimer2 = setTimeout(() => {
+        const lenisInst = (window as unknown as { lenis?: LenisLike }).lenis;
+        if (lenisInst) lenisInst.stop();
+        ScrollTrigger.refresh();
+        window.scrollTo(0, 0);
+        if (lenisInst) {
+          lenisInst.start();
+          lenisInst.scrollTo(0, { immediate: true });
+        }
+      }, 1000);
 
       return () => {
         clearTimeout(refreshTimer1);
@@ -515,7 +540,7 @@ export default function StorySection({
 
   return (
     <section id="story" ref={containerRef} className="relative w-full h-[520vh] bg-white">
-      <div className="sticky top-0 h-screen h-svh w-full overflow-hidden bg-black [transform:translateZ(0)]">
+      <div className="sticky top-0 h-dvh w-full overflow-hidden bg-black [transform:translateZ(0)]">
         {/* Layer 1: Hardware-Accelerated Crossfading Backgrounds */}
         <div
           ref={bgWhiteRef}

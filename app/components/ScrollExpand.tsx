@@ -159,7 +159,10 @@ const ScrollExpand: React.FC<ScrollExpandProps> = ({
 
     const measure = () => {
       const c = propsRef.current;
-      stageH = c.useWindowScroll ? window.innerHeight : root.clientHeight;
+      // Use visualViewport.height (actual visible area) on mobile — window.innerHeight
+      // includes space behind the browser address bar, causing content to be cut.
+      const vvHeight = window.visualViewport?.height ?? window.innerHeight;
+      stageH = c.useWindowScroll ? vvHeight : root.clientHeight;
       if (stageH <= 0) return;
       stage.style.height = `${stageH}px`;
       track.style.height = `${stageH * (1 + Math.max(0, c.scrollDistance) + Math.max(0, c.holdDistance))}px`;
@@ -199,6 +202,13 @@ const ScrollExpand: React.FC<ScrollExpandProps> = ({
 
     const onScroll = () => {
       target = readProgress();
+      // During the page scroll-lock period, snap instantly so enforcement scrolls
+      // don't drive the animation to a wrong state that unwinds visibly on unlock.
+      if ((window as unknown as { __scrollLocked?: boolean }).__scrollLocked) {
+        current = target;
+        applyProgress(current);
+        return;
+      }
       if (propsRef.current.smoothing <= 0 || reduceMotion) {
         current = target;
         applyProgress(current);
@@ -222,6 +232,8 @@ const ScrollExpand: React.FC<ScrollExpandProps> = ({
     const scroller = useWindowScroll ? window : root;
     scroller.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
+    // visualViewport fires when mobile browser UI (address bar) shows/hides
+    window.visualViewport?.addEventListener('resize', onResize);
     const ro = new ResizeObserver(onResize);
     ro.observe(root);
 
@@ -242,6 +254,7 @@ const ScrollExpand: React.FC<ScrollExpandProps> = ({
       if (raf) cancelAnimationFrame(raf);
       scroller.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
+      window.visualViewport?.removeEventListener('resize', onResize);
       ro.disconnect();
       if (lenisInstance && useWindowScroll) {
         lenisInstance.off('scroll', onScroll);
