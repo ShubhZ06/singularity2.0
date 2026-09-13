@@ -114,12 +114,9 @@ export default function FullScreenMenu({
 
   const navLinks = [
     { number: '01', label: 'About', targetId: 'about-section' },
-    { number: '02', label: 'Timeline', targetId: 'timeline-section' },
-    { number: '03', label: 'Themes', targetId: 'theme-section' },
-    { number: '04', label: 'Past Editions', targetId: 'past-editions' },
-    { number: '05', label: 'Sponsors', targetId: 'sponsors-section' },
-    { number: '06', label: 'FAQ', targetId: 'faq-section' },
-    { number: '07', label: 'Story & Finale', targetId: 'story-section' },
+    { number: '02', label: 'Theme', targetId: 'theme-section' },
+    { number: '03', label: 'Timeline', targetId: 'timeline-section' },
+    { number: '04', label: 'FAQ', targetId: 'faq-section' },
   ];
 
   return (
@@ -172,7 +169,7 @@ export default function FullScreenMenu({
             aria-label="Close Menu"
             className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_16px_rgba(0,0,0,0.14)] transition-all duration-200 hover:shadow-[0_6px_22px_rgba(0,0,0,0.2)] cursor-pointer"
           >
-            <span className="font-serif italic text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
+            <span className="font-seasonmix text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
               Close
             </span>
 
@@ -210,7 +207,7 @@ export default function FullScreenMenu({
                 <span className="font-mono text-[clamp(0.8rem,1vw,1rem)] text-[#111111]/35 font-medium transition-colors group-hover:text-[#111111]">
                   {item.number}
                 </span>
-                <span className="font-serif italic text-[clamp(2rem,4.5vw,3.6rem)] font-medium tracking-[-0.03em] text-[#111111] transition-transform duration-300 group-hover:translate-x-2">
+                <span className="font-seasonmix text-[clamp(2.2rem,5vw,4rem)] font-normal tracking-[-0.02em] text-[#111111] transition-transform duration-300 group-hover:translate-x-2">
                   {item.label}
                 </span>
               </div>

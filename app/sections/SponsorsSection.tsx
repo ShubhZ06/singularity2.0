@@ -8,15 +8,11 @@ export default function SponsorsSection() {
       <div className="relative z-10 mx-auto w-full max-w-[92vw] md:max-w-[85vw] lg:max-w-[76rem]">
         {/* Section Header */}
         <div className="text-center max-w-[42rem] mx-auto mb-[3rem] md:mb-[4rem]">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#7B35F8]/25 bg-[#7B35F8]/5 px-3.5 py-1 text-[clamp(0.625rem,0.8vw,0.72rem)] font-semibold uppercase tracking-[0.22em] text-[#7B35F8] mb-4">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#7B35F8] animate-pulse" />
-            <span>Partnerships &amp; Sponsors</span>
-          </div>
           <h2 className="font-seasonmix text-[clamp(2.2rem,5.5vw,2.85rem)] md:text-[clamp(2.85rem,4.5vw,3.75rem)] lg:text-[clamp(3.75rem,4vw,4.5rem)] text-[#111111] font-normal leading-[1.1] mb-4">
             Our Sponsors
           </h2>
           <p className="text-[clamp(0.9rem,2.2vw,1.05rem)] md:text-[clamp(1rem,1.5vw,1.125rem)] text-[#111111]/65 leading-relaxed font-normal">
-            Backed by forward-thinking industry leaders and open-source pioneers empowering Kolkata&apos;s finest student builders. Official sponsor reveal coming soon.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </p>
         </div>
 

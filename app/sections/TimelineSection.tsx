@@ -10,7 +10,7 @@ const DESKTOP_PATH_D =
   'M9.001 4C9.001 4 -15.155 65.5 50.5 133.5C116.155 201.5 229.557 204.076 294.5 296.5C352.121 378.5 348.348 441.21 440.5 512C550.5 596.5 710.501 479.853 862.001 535C955 568.5 1010 720 1040 820C1080 955 1120 1100 1184.5 1180C1240 1250 1280 1380 1220 1500C1150 1640 980 1680 880 1780C780 1880 720 1980 780 2100C850 2240 980 2320 1100 2420C1180 2490 1240 2580 1184.5 2680';
 
 // Activation progress thresholds for the 8 milestones along the path
-const STAGE_THRESHOLDS = [0.01, 0.20, 0.34, 0.42, 0.58, 0.72, 0.82, 0.94];
+const STAGE_THRESHOLDS = [0.01, 0.20, 0.34, 0.39, 0.58, 0.72, 0.82, 0.95];
 
 export default function TimelineSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -222,15 +222,10 @@ export default function TimelineSection() {
       className="relative z-10 flex w-full flex-col items-center overflow-x-clip bg-white px-[4vw] pt-[10vh] pb-[4rem] md:px-[5vw] md:pt-[12vh] md:pb-[5rem] lg:px-[6vw] lg:pt-[14vh] lg:pb-[6rem] border-t border-[#111111]/8"
     >
       {/* Header */}
-      <div className="flex w-full max-w-[88rem] flex-col items-center gap-[1.5rem] md:gap-[2rem]">
+      <div className="flex w-full max-w-[88rem] flex-col items-center">
         <h2 className="text-center font-seasonmix text-[clamp(2.4rem,6vw,4rem)] font-normal text-black" aria-label="Timeline">
           Timeline
         </h2>
-        <div className="relative flex w-full max-w-[62rem] justify-center px-[1rem] md:px-0">
-          <p className="text-center font-sans text-[clamp(0.95rem,2.2vw,1.1rem)] leading-[1.8] text-black/75 md:text-[clamp(1.15rem,1.6vw,1.35rem)] md:leading-[1.9]">
-            From registration to victory — walk the path of innovation through our celebration of code, culture, and creation.
-          </p>
-        </div>
       </div>
 
       {/* Rail Container */}
@@ -310,17 +305,17 @@ export default function TimelineSection() {
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">1</h3>
             </div>
             <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
-              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Registration Opens</h4>
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hackathon Goes Live</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">17 August</p>
-                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">The gates of HackSpire&apos;26 open. Register, gather your team, and begin preparing for a journey shaped by tradition and innovation.</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">15 September</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">The journey officially begins! The hackathon goes live, opening the challenge to innovators, developers, and creators ready to collaborate, solve meaningful problems, and turn their ideas into impact.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 2 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[17%] lg:left-auto lg:right-[4%] xl:right-[6%] 2xl:right-[8%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[17%] lg:left-auto lg:right-[-2vw] xl:right-[-1vw] 2xl:right-[1%] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
               <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
@@ -328,11 +323,11 @@ export default function TimelineSection() {
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">2</h3>
             </div>
             <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
-              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">PPT Submission Window</h4>
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Build Your Team</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">03-15 September</p>
-                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">PPT submission on the registration portal is mandatory. Teams must submit during this window - keep slides concise and true to your idea.</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">15 September – 31 October</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Find the right people to build with and form your team. Bring together different skills, experiences, and perspectives to create a strong team ready to take on the challenge. Submit the resumes of all team members, share your hackathon participation on social media, and provide the link to your post.</p>
               </div>
             </div>
           </div>
@@ -346,17 +341,17 @@ export default function TimelineSection() {
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">3</h3>
             </div>
             <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
-              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Registration Deadline</h4>
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Developers Connect</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">07 September</p>
-                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Final call to secure your place among the builders of HackSpire&apos;26. Last chance to join before the path ahead closes.</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">15 October · Mumbai</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Meet the community in person at <strong className="font-semibold text-black/90">Developers Connect</strong> in Mumbai. Connect with fellow developers and innovators, exchange ideas, build new connections, and get a glimpse of the exciting journey ahead.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 4 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[26rem] lg:pl-0 xl:max-w-[29rem] 2xl:max-w-[32rem] lg:top-[44%] lg:left-auto lg:right-[-2vw] xl:right-[-3.5vw] 2xl:right-[-5vw] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[26rem] lg:pl-0 xl:max-w-[29rem] 2xl:max-w-[32rem] lg:top-[39%] lg:left-auto lg:right-[-2vw] xl:right-[-3.5vw] 2xl:right-[-5vw] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
               <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
@@ -364,11 +359,11 @@ export default function TimelineSection() {
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">4</h3>
             </div>
             <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
-              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">First Rolling Approval</h4>
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Round 2 Begins</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">15 September</p>
-                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">The review panel begins evaluating submissions. Approved teams receive next-step guidance and access to what comes next.</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">1 November</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Round 2 is here! Take your team&apos;s idea forward and start developing your solution. Prepare a <strong className="font-semibold text-black/90">PPT presentation</strong> that clearly communicates your problem statement, proposed solution, approach, innovation, and the impact your idea aims to create.</p>
               </div>
             </div>
           </div>
@@ -382,11 +377,11 @@ export default function TimelineSection() {
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">5</h3>
             </div>
             <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
-              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Second Rolling Approval</h4>
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Round 2 Ends</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">20 September</p>
-                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Further approvals roll out. If your submission was pending earlier, watch for status updates and instructions.</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">20 November</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Bring your solution together and submit your <strong className="font-semibold text-black/90">PPT</strong> before the Round 2 deadline. Make sure your presentation effectively showcases your idea, solution, implementation approach, and the value it can deliver.</p>
               </div>
             </div>
           </div>
@@ -400,11 +395,11 @@ export default function TimelineSection() {
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">6</h3>
             </div>
             <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
-              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Last Rolling Approval</h4>
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Results Announcement</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">24 September</p>
-                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Final approvals before the hackathon begins. Confirm team details and ensure every submission is complete.</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">30 November</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">The wait is finally over! The Round 2 results will be announced, revealing the teams that have successfully made it through to the final stage. Get ready to take your ideas from presentation to execution.</p>
               </div>
             </div>
           </div>
@@ -418,17 +413,17 @@ export default function TimelineSection() {
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">7</h3>
             </div>
             <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
-              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hack Begins</h4>
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hackathon Commences</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">02 October</p>
-                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Building begins. Ideas take form, collaboration deepens, and innovation drives every line of code.</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">18 December</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">The final journey begins! Selected teams come together to build, collaborate, experiment, and turn their ideas into working solutions during the final hackathon experience.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 8 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[93%] lg:left-auto lg:right-[6%] xl:right-[10%] 2xl:right-[8%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[95.5%] lg:left-auto lg:right-[6%] xl:right-[10%] 2xl:right-[8%] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
               <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
@@ -436,11 +431,11 @@ export default function TimelineSection() {
               <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">8</h3>
             </div>
             <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
-              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Celebration &amp; Close</h4>
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hackathon Ends</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">03 October</p>
-                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Final presentations bring the journey to its peak. Winners are celebrated, bonds are forged, and HackSpire&apos;26 finds its close.</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">20 December</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">After an exciting journey of innovation, collaboration, and intense building, the hackathon comes to an end. Teams showcase what they have created and celebrate the culmination of their hard work.</p>
               </div>
             </div>
           </div>

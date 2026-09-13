@@ -196,7 +196,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                 aria-label="Explore Menu"
                 className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
               >
-                <span className="font-serif italic text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
+                <span className="font-seasonmix text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
                   Explore
                 </span>
                 
@@ -318,9 +318,9 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                 const el = document.getElementById('timeline-section') || document.getElementById('story-section');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex h-[clamp(2.2rem,2.8vw,2.75rem)] w-full items-center justify-center rounded-full bg-white text-[#111111] font-serif italic font-semibold text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.02em] shadow-md transition-all duration-200 hover:bg-white/90 hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="flex h-[clamp(2.2rem,2.8vw,2.75rem)] w-full items-center justify-center rounded-full bg-white text-[#111111] font-seasonmix font-normal text-[clamp(0.88rem,1vw,1.05rem)] tracking-[-0.02em] shadow-md transition-all duration-200 hover:bg-white/90 hover:scale-[1.02] active:scale-95 cursor-pointer"
             >
-              Register
+              Register on Unstop
             </button>
           </div>
         </div>
