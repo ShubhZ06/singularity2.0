@@ -77,23 +77,23 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         {/* SEAMLESS PURE WHITE PERIMETER FRAME & CORNER FILLETS                     */}
         {/* ========================================================================= */}
         {/* Top Border */}
-        <div className="pointer-events-none absolute top-0 left-0 right-0 h-[var(--frame-border)] bg-white z-20" />
+        <div className="pointer-events-none absolute top-0 left-0 right-0 h-[var(--frame-border)] bg-white z-30" />
         {/* Bottom Border */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[var(--frame-border)] bg-white z-20" />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-[var(--frame-border)] bg-white z-30" />
         {/* Left Border */}
-        <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-[var(--frame-border)] bg-white z-20" />
+        <div className="pointer-events-none absolute top-0 bottom-0 left-0 w-[var(--frame-border)] bg-white z-30" />
         {/* Right Border */}
-        <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-[var(--frame-border)] bg-white z-20" />
+        <div className="pointer-events-none absolute top-0 bottom-0 right-0 w-[var(--frame-border)] bg-white z-30" />
 
         {/* Top-Left Video Corner Fillet (Rounds the video inside the frame) */}
-        <div className="pointer-events-none absolute top-[var(--frame-border)] left-[var(--frame-border)] w-[clamp(24px,2.4vw,44px)] h-[clamp(24px,2.4vw,44px)] z-20">
+        <div className="pointer-events-none absolute top-[var(--frame-border)] left-[var(--frame-border)] w-[clamp(28px,3vw,48px)] h-[clamp(28px,3vw,48px)] z-30">
           <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M0 0 H44 C19.699 0 0 19.699 0 44 Z" fill="#ffffff" />
           </svg>
         </div>
 
         {/* Bottom-Right Video Corner Fillet (Rounds the video inside the frame) */}
-        <div className="pointer-events-none absolute bottom-[var(--frame-border)] right-[var(--frame-border)] w-[clamp(24px,2.4vw,44px)] h-[clamp(24px,2.4vw,44px)] z-20">
+        <div className="pointer-events-none absolute bottom-[var(--frame-border)] right-[var(--frame-border)] w-[clamp(28px,3vw,48px)] h-[clamp(28px,3vw,48px)] z-30">
           <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M44 44 H0 C24.301 44 44 24.301 44 0 Z" fill="#ffffff" />
           </svg>
