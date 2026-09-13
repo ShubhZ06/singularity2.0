@@ -31,16 +31,29 @@ export default function HeroSection() {
     <section className="relative w-full h-screen min-h-[640px] max-h-[1080px] pt-[1vw] px-[1vw] pb-[1vw] bg-white select-none">
       {/* Main Full-Screen Canvas with Smooth Rounded Corners */}
       <div className="relative w-full h-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden bg-white">
-        {/* Central Background Video */}
+        {/* Central Background Video - Desktop */}
         <video
           autoPlay
           loop
           muted
           playsInline
           preload="auto"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out hidden md:block"
         >
           <source src="/videos/hero-bg-video.webm" type="video/webm" />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Central Background Video - Mobile */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out block md:hidden"
+        >
+          <source src="/videos/hero-bg-mobile.webm" type="video/webm" />
           Your browser does not support the video tag.
         </video>
 
