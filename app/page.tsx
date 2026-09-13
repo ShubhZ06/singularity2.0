@@ -58,7 +58,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-[#111111] overflow-x-clip">
+    <main className="min-h-screen bg-white text-[#13171B] overflow-x-clip">
       {/* Floating Sticky Header with logo and full-screen menu trigger */}
       <Header onMenuClick={handleOpenMenu} />
 

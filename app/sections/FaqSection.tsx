@@ -46,16 +46,16 @@ export default function FaqSection() {
   return (
     <section
       id="faq"
-      className="relative w-full py-[8vh] px-[4vw] md:py-[10vh] md:px-[5vw] lg:py-[12vh] lg:px-[6vw] bg-white overflow-hidden border-t border-[#111111]/8"
+      className="relative w-full py-[8vh] px-[4vw] md:py-[10vh] md:px-[5vw] lg:py-[12vh] lg:px-[6vw] bg-white overflow-hidden border-t border-[#13171B]/8"
     >
       <div className="relative z-10 mx-auto w-full max-w-[92vw] md:max-w-[85vw] lg:max-w-[76rem]">
 
         {/* Section Header */}
         <div className="text-center max-w-[42rem] mx-auto mb-[3rem] md:mb-[4.5rem]">
-          <div className="text-[clamp(0.625rem,0.8vw,0.72rem)] font-semibold uppercase tracking-[0.32em] text-[#111111]/55 mb-3">
+          <div className="text-[clamp(0.625rem,0.8vw,0.72rem)] font-semibold uppercase tracking-[0.32em] text-[#13171B]/55 mb-3">
             Questions &amp; Insights
           </div>
-          <h2 className="font-seasonmix text-[clamp(2.2rem,5.5vw,2.85rem)] md:text-[clamp(2.85rem,4.5vw,3.75rem)] lg:text-[clamp(3.75rem,4vw,4.5rem)] text-[#111111] font-normal leading-[1.1]">
+          <h2 className="font-seasonmix text-[clamp(2.2rem,5.5vw,2.85rem)] md:text-[clamp(2.85rem,4.5vw,3.75rem)] lg:text-[clamp(3.75rem,4vw,4.5rem)] text-[#13171B] font-normal leading-[1.1]">
             Frequently Asked Questions
           </h2>
         </div>

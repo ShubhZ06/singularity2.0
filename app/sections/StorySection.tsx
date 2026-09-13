@@ -603,7 +603,7 @@ export default function StorySection({
             ref={quoteRef}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[85%] md:w-[90%] lg:w-[92%] max-w-[58rem] md:max-w-[64rem] lg:max-w-[70rem] z-[25] pointer-events-none opacity-1 [transform-origin:center] will-change-transform"
           >
-            <p className="font-sans font-light text-[clamp(1.6rem,4.8vw,2.15rem)] md:text-[clamp(2.1rem,3.4vw,2.85rem)] lg:text-[clamp(2.65rem,2.8vw,3.35rem)] xl:text-[clamp(2.95rem,2.5vw,3.75rem)] leading-[1.32] md:leading-[1.28] tracking-tight text-[#0A0A0A] text-justify [text-align:justify] [text-align-last:left]">
+            <p className="font-sans font-light text-[clamp(1.6rem,4.8vw,2.15rem)] md:text-[clamp(2.1rem,3.4vw,2.85rem)] lg:text-[clamp(2.65rem,2.8vw,3.35rem)] xl:text-[clamp(2.95rem,2.5vw,3.75rem)] leading-[1.32] md:leading-[1.28] tracking-tight text-[#13171B] text-justify [text-align:justify] [text-align-last:left]">
               {words.map((word, i) => (
                 <React.Fragment key={`${word}-${i}`}>
                   <span
@@ -630,7 +630,7 @@ export default function StorySection({
             ref={thisIsRef}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[25] pointer-events-none text-center whitespace-nowrap opacity-0 [transform-origin:center] will-change-transform"
           >
-            <h2 className="font-sans font-light text-[clamp(2.4rem,8vw,3.5rem)] md:text-[clamp(3.5rem,7vw,5.5rem)] lg:text-[clamp(5.5rem,6.5vw,7.5rem)] leading-none tracking-tight text-[#0A0A0A]">
+            <h2 className="font-sans font-light text-[clamp(2.4rem,8vw,3.5rem)] md:text-[clamp(3.5rem,7vw,5.5rem)] lg:text-[clamp(5.5rem,6.5vw,7.5rem)] leading-none tracking-tight text-[#13171B]">
               This is...
             </h2>
           </div>

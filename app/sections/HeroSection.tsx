@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import FullScreenMenu from '../components/FullScreenMenu';
+import { OriginButton } from '@/components/ui/origin-button';
 
 interface HeroSectionProps {
   onOpenMenu?: (e?: React.MouseEvent<HTMLElement>) => void;
@@ -145,7 +146,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
+                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#13171B] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -168,7 +169,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
+                  className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-center rounded-full border-2 border-white bg-white text-[#13171B] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:scale-110 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -185,13 +186,13 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                 type="button"
                 onClick={(e) => (onOpenMenu ? onOpenMenu(e) : setIsMenuOpen((prev) => !prev))}
                 aria-label="Explore Menu"
-                className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
+                className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#13171B] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
               >
-                <span className="font-seasonmix text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
+                <span className="font-seasonmix text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#13171B] group-hover:text-black transition-colors select-none">
                   Explore
                 </span>
                 
-                <div className="flex h-[clamp(1.75rem,2vw,2.125rem)] w-[clamp(1.75rem,2vw,2.125rem)] items-center justify-center rounded-full bg-[#111111] text-white transition-transform duration-300 group-hover:rotate-45">
+                <div className="flex h-[clamp(1.75rem,2vw,2.125rem)] w-[clamp(1.75rem,2vw,2.125rem)] items-center justify-center rounded-full bg-[#13171B] text-white transition-transform duration-300 group-hover:rotate-45">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -237,34 +238,34 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
             <div className="inline-flex items-center gap-[clamp(0.8rem,1.8vw,2.5rem)] rounded-full border border-black bg-white px-[clamp(0.95rem,1.8vw,2.25rem)] py-[clamp(0.5rem,0.8vw,0.75rem)] shadow-sm">
               {/* Days Column */}
               <div className="flex flex-col items-center gap-0.5 min-w-[clamp(2.1rem,3.2vw,3.5rem)]">
-                <span className="font-serif italic text-[clamp(1.45rem,2.2vw,2rem)] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
+                <span className="font-serif italic text-[clamp(1.45rem,2.2vw,2rem)] font-medium tracking-tight text-[#13171B] tabular-nums leading-none">
                   {String(timeLeft.days).padStart(2, '0')}
                 </span>
-                <span className="text-[clamp(0.58rem,0.68vw,0.6875rem)] uppercase tracking-wider text-[#111111]/70 font-bold">
+                <span className="text-[clamp(0.58rem,0.68vw,0.6875rem)] uppercase tracking-wider text-[#13171B]/70 font-bold">
                   Days
                 </span>
               </div>
 
-              <span className="font-serif italic text-[clamp(1.1rem,1.6vw,1.45rem)] font-normal text-[#111111]/40 -mt-1">:</span>
+              <span className="font-serif italic text-[clamp(1.1rem,1.6vw,1.45rem)] font-normal text-[#13171B]/40 -mt-1">:</span>
 
               {/* Hours Column */}
               <div className="flex flex-col items-center gap-0.5 min-w-[clamp(2.1rem,3.2vw,3.5rem)]">
-                <span className="font-serif italic text-[clamp(1.45rem,2.2vw,2rem)] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
+                <span className="font-serif italic text-[clamp(1.45rem,2.2vw,2rem)] font-medium tracking-tight text-[#13171B] tabular-nums leading-none">
                   {String(timeLeft.hours).padStart(2, '0')}
                 </span>
-                <span className="text-[clamp(0.58rem,0.68vw,0.6875rem)] uppercase tracking-wider text-[#111111]/70 font-bold">
+                <span className="text-[clamp(0.58rem,0.68vw,0.6875rem)] uppercase tracking-wider text-[#13171B]/70 font-bold">
                   Hours
                 </span>
               </div>
 
-              <span className="font-serif italic text-[clamp(1.1rem,1.6vw,1.45rem)] font-normal text-[#111111]/40 -mt-1">:</span>
+              <span className="font-serif italic text-[clamp(1.1rem,1.6vw,1.45rem)] font-normal text-[#13171B]/40 -mt-1">:</span>
 
               {/* Minutes Column */}
               <div className="flex flex-col items-center gap-0.5 min-w-[clamp(2.1rem,3.2vw,3.5rem)]">
-                <span className="font-serif italic text-[clamp(1.45rem,2.2vw,2rem)] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
+                <span className="font-serif italic text-[clamp(1.45rem,2.2vw,2rem)] font-medium tracking-tight text-[#13171B] tabular-nums leading-none">
                   {String(timeLeft.minutes).padStart(2, '0')}
                 </span>
-                <span className="text-[clamp(0.58rem,0.68vw,0.6875rem)] uppercase tracking-wider text-[#111111]/70 font-bold">
+                <span className="text-[clamp(0.58rem,0.68vw,0.6875rem)] uppercase tracking-wider text-[#13171B]/70 font-bold">
                   Min
                 </span>
               </div>
@@ -303,16 +304,17 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
 
           {/* Card Action: Register Button */}
           <div className="pt-0.5">
-            <button
-              type="button"
+            <OriginButton
               onClick={() => {
                 const el = document.getElementById('timeline-section') || document.getElementById('story-section');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="flex h-[clamp(2.2rem,2.8vw,2.75rem)] w-full items-center justify-center rounded-full bg-white text-[#111111] font-seasonmix font-normal text-[clamp(0.88rem,1vw,1.05rem)] tracking-[-0.02em] shadow-md transition-all duration-200 hover:bg-white/90 hover:scale-[1.02] active:scale-95 cursor-pointer"
+              fillColor="#0030CF"
+              fillTextColor="#ffffff"
+              className="h-[clamp(2.2rem,2.8vw,2.75rem)] w-full rounded-full bg-white text-[#13171B] font-seasonmix font-normal text-[clamp(0.88rem,1vw,1.05rem)] tracking-[-0.02em] shadow-md border-0"
             >
               Register on Unstop
-            </button>
+            </OriginButton>
           </div>
         </div>
       </div>

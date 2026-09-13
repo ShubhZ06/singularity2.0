@@ -36,7 +36,7 @@ export default function PastEditionSection() {
           {/* Metrics / Numbers Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-[1.5rem] md:gap-[2.5rem] lg:gap-[3.5rem] text-center">
             <div>
-              <div className="text-[clamp(2.5rem,6vw,3.25rem)] md:text-[clamp(3.25rem,4.5vw,4.25rem)] lg:text-[clamp(4.25rem,4vw,5rem)] text-[#111111] font-normal tracking-tight mb-[0.5rem] leading-none">
+              <div className="text-[clamp(2.5rem,6vw,3.25rem)] md:text-[clamp(3.25rem,4.5vw,4.25rem)] lg:text-[clamp(4.25rem,4vw,5rem)] text-[#13171B] font-normal tracking-tight mb-[0.5rem] leading-none">
                 25H
               </div>
               <div className="text-[clamp(0.65rem,0.8vw,0.75rem)] font-semibold uppercase tracking-[0.22em] text-[#777777]">
@@ -45,7 +45,7 @@ export default function PastEditionSection() {
             </div>
 
             <div>
-              <div className="text-[clamp(2.5rem,6vw,3.25rem)] md:text-[clamp(3.25rem,4.5vw,4.25rem)] lg:text-[clamp(4.25rem,4vw,5rem)] text-[#111111] font-normal tracking-tight mb-[0.5rem] leading-none">
+              <div className="text-[clamp(2.5rem,6vw,3.25rem)] md:text-[clamp(3.25rem,4.5vw,4.25rem)] lg:text-[clamp(4.25rem,4vw,5rem)] text-[#13171B] font-normal tracking-tight mb-[0.5rem] leading-none">
                 4.1K+
               </div>
               <div className="text-[clamp(0.65rem,0.8vw,0.75rem)] font-semibold uppercase tracking-[0.22em] text-[#777777]">
@@ -54,7 +54,7 @@ export default function PastEditionSection() {
             </div>
 
             <div>
-              <div className="text-[clamp(2.5rem,6vw,3.25rem)] md:text-[clamp(3.25rem,4.5vw,4.25rem)] lg:text-[clamp(4.25rem,4vw,5rem)] text-[#111111] font-normal tracking-tight mb-[0.5rem] leading-none">
+              <div className="text-[clamp(2.5rem,6vw,3.25rem)] md:text-[clamp(3.25rem,4.5vw,4.25rem)] lg:text-[clamp(4.25rem,4vw,5rem)] text-[#13171B] font-normal tracking-tight mb-[0.5rem] leading-none">
                 ₹140k+
               </div>
               <div className="text-[clamp(0.65rem,0.8vw,0.75rem)] font-semibold uppercase tracking-[0.22em] text-[#777777]">
@@ -63,7 +63,7 @@ export default function PastEditionSection() {
             </div>
 
             <div>
-              <div className="text-[clamp(2.5rem,6vw,3.25rem)] md:text-[clamp(3.25rem,4.5vw,4.25rem)] lg:text-[clamp(4.25rem,4vw,5rem)] text-[#111111] font-normal tracking-tight mb-[0.5rem] leading-none">
+              <div className="text-[clamp(2.5rem,6vw,3.25rem)] md:text-[clamp(3.25rem,4.5vw,4.25rem)] lg:text-[clamp(4.25rem,4vw,5rem)] text-[#13171B] font-normal tracking-tight mb-[0.5rem] leading-none">
                 55
               </div>
               <div className="text-[clamp(0.65rem,0.8vw,0.75rem)] font-semibold uppercase tracking-[0.22em] text-[#777777]">

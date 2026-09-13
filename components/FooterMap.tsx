@@ -25,8 +25,8 @@ export default function FooterMap({
 
   if (!mounted) {
     return (
-      <div className="w-full h-[clamp(15rem,25vw,20rem)] overflow-hidden rounded-[clamp(1rem,1.5vw,1.25rem)] border border-[#111111]/10 bg-[#F5F5F7] animate-pulse flex items-center justify-center">
-        <span className="text-xs uppercase tracking-widest text-[#111111]/40 font-mono">
+      <div className="w-full h-[clamp(15rem,25vw,20rem)] overflow-hidden rounded-[clamp(1rem,1.5vw,1.25rem)] border border-[#13171B]/10 bg-[#F5F5F7] animate-pulse flex items-center justify-center">
+        <span className="text-xs uppercase tracking-widest text-[#13171B]/40 font-mono">
           Loading Map...
         </span>
       </div>
@@ -35,12 +35,12 @@ export default function FooterMap({
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      <div className="w-full h-[clamp(15rem,25vw,20rem)] overflow-hidden rounded-[clamp(1rem,1.5vw,1.25rem)] border border-[#111111]/10 bg-[#F5F5F7] shadow-sm relative group/map">
+      <div className="w-full h-[clamp(15rem,25vw,20rem)] overflow-hidden rounded-[clamp(1rem,1.5vw,1.25rem)] border border-[#13171B]/10 bg-[#F5F5F7] shadow-sm relative group/map">
         {/* Floating Show/Hide Toggle Button on Map */}
         <button
           type="button"
           onClick={() => setPopupOpen((prev) => !prev)}
-          className="absolute top-2 left-2 z-10 px-2.5 py-1 rounded-md bg-[#111111]/85 hover:bg-[#111111] text-white text-[0.66rem] font-medium tracking-wider uppercase backdrop-blur-md border border-white/20 shadow-md transition-colors flex items-center gap-1.5 cursor-pointer"
+          className="absolute top-2 left-2 z-10 px-2.5 py-1 rounded-md bg-[#13171B]/85 hover:bg-[#13171B] text-white text-[0.66rem] font-medium tracking-wider uppercase backdrop-blur-md border border-white/20 shadow-md transition-colors flex items-center gap-1.5 cursor-pointer"
         >
           <span className={`w-1.5 h-1.5 rounded-full ${popupOpen ? 'bg-blue-400 animate-pulse' : 'bg-white/40'}`} />
           {popupOpen ? 'Hide' : 'Show'}
@@ -59,7 +59,7 @@ export default function FooterMap({
                 className="relative flex items-center justify-center cursor-pointer group/pin focus:outline-none"
               >
                 <span className="absolute -inset-2.5 rounded-full bg-blue-500/35 animate-ping" />
-                <div className="relative w-5 h-5 rounded-full bg-[#111111] border-2 border-white shadow-lg flex items-center justify-center transition-transform group-hover/pin:scale-125">
+                <div className="relative w-5 h-5 rounded-full bg-[#13171B] border-2 border-white shadow-lg flex items-center justify-center transition-transform group-hover/pin:scale-125">
                   <div className="w-2 h-2 rounded-full bg-blue-500" />
                 </div>
               </button>
@@ -106,15 +106,15 @@ export default function FooterMap({
         </Map>
       </div>
 
-      <div className="mt-3 w-full flex items-center justify-between px-1 text-[0.72rem] tracking-wider uppercase text-[#111111]/60">
-        <span className="font-medium text-[#111111]/80 truncate max-w-[70%]">
+      <div className="mt-3 w-full flex items-center justify-between px-1 text-[0.72rem] tracking-wider uppercase text-[#13171B]/60">
+        <span className="font-medium text-[#13171B]/80 truncate max-w-[70%]">
           {locationName}
         </span>
         <a
           href={mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-semibold text-[#111111] hover:text-blue-600 transition-colors shrink-0 ml-2"
+          className="font-semibold text-[#13171B] hover:text-blue-600 transition-colors shrink-0 ml-2"
         >
           Open in Maps &rarr;
         </a>

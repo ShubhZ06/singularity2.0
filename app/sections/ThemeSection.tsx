@@ -42,13 +42,13 @@ export default function ThemeSection() {
   return (
     <section
       id="theme"
-      className="relative w-full py-[8vh] px-[4vw] md:py-[10vh] md:px-[5vw] lg:py-[12vh] lg:px-[6vw] bg-white overflow-hidden border-t border-[#111111]/8"
+      className="relative w-full py-[8vh] px-[4vw] md:py-[10vh] md:px-[5vw] lg:py-[12vh] lg:px-[6vw] bg-white overflow-hidden border-t border-[#13171B]/8"
     >
       <div className="relative z-10 mx-auto w-full max-w-[92vw] md:max-w-[88vw] lg:max-w-[82rem]">
 
         {/* Heading */}
         <div className="text-center mb-[2.5rem] md:mb-[3.5rem]">
-          <h2 className="font-seasonmix text-[clamp(2.2rem,5.5vw,2.85rem)] md:text-[clamp(2.85rem,4.5vw,3.75rem)] lg:text-[clamp(3.75rem,4vw,4.5rem)] text-[#111111] font-normal leading-[1.1]">
+          <h2 className="font-seasonmix text-[clamp(2.2rem,5.5vw,2.85rem)] md:text-[clamp(2.85rem,4.5vw,3.75rem)] lg:text-[clamp(3.75rem,4vw,4.5rem)] text-[#13171B] font-normal leading-[1.1]">
             Hackathon Themes
           </h2>
         </div>
@@ -57,8 +57,8 @@ export default function ThemeSection() {
         <AccordionGallery
           items={THEME_ITEMS}
           defaultIndex={0}
-          accentColor="#7B35F8"
-          overlayColor="#06000F"
+          accentColor="#0030CF"
+          overlayColor="#13171B"
           textColor="#ffffff"
           gap={8}
           radius={18}

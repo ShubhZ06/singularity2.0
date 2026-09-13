@@ -131,7 +131,7 @@ void main() {
 `;
 
 export default function Aurora({
-  colorStops = ['#3A0CA3', '#7B35F8', '#5227FF'],
+  colorStops = ['#3A0CA3', '#0030CF', '#5227FF'],
   amplitude = 1.0,
   blend = 0.5,
   speed = 1.0,
@@ -172,7 +172,7 @@ export default function Aurora({
 
     const stops = colorStops.slice(0, 3);
     while (stops.length < 3) {
-      stops.push('#7B35F8');
+      stops.push('#0030CF');
     }
     const colorStopsArray = stops.map((hex) => {
       const c = new Color(hex);
@@ -223,7 +223,7 @@ export default function Aurora({
       program.uniforms.uLightMode.value = current.lightMode ? 1 : 0;
 
       const currentStops = (current.colorStops ?? colorStops).slice(0, 3);
-      while (currentStops.length < 3) currentStops.push('#7B35F8');
+      while (currentStops.length < 3) currentStops.push('#0030CF');
       program.uniforms.uColorStops.value = currentStops.map((hex) => {
         const c = new Color(hex);
         return [c.r, c.g, c.b];

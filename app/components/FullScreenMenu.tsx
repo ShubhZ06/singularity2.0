@@ -140,7 +140,7 @@ export default function FullScreenMenu({
         WebkitBackfaceVisibility: 'hidden',
         backfaceVisibility: 'hidden',
       }}
-      className="fixed inset-0 z-[100] h-[100dvh] w-full bg-white text-[#111111] flex flex-col justify-between overflow-y-auto will-change-[clip-path]"
+      className="fixed inset-0 z-[100] h-[100dvh] w-full bg-white text-[#13171B] flex flex-col justify-between overflow-y-auto will-change-[clip-path]"
     >
       {/* ===================================================================== */}
       {/* TOP BAR: Brand Logo + Close Button Aligned with Hero Explore Button   */}
@@ -167,13 +167,13 @@ export default function FullScreenMenu({
             type="button"
             onClick={handleClose}
             aria-label="Close Menu"
-            className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_16px_rgba(0,0,0,0.14)] transition-all duration-200 hover:shadow-[0_6px_22px_rgba(0,0,0,0.2)] cursor-pointer"
+            className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#13171B] shadow-[0_4px_16px_rgba(0,0,0,0.14)] transition-all duration-200 hover:shadow-[0_6px_22px_rgba(0,0,0,0.2)] cursor-pointer"
           >
-            <span className="font-seasonmix text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
+            <span className="font-seasonmix text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#13171B] group-hover:text-black transition-colors select-none">
               Close
             </span>
 
-            <div className="flex h-[clamp(1.75rem,2vw,2.125rem)] w-[clamp(1.75rem,2vw,2.125rem)] items-center justify-center rounded-full bg-[#111111] text-white transition-transform duration-300 group-hover:rotate-90">
+            <div className="flex h-[clamp(1.75rem,2vw,2.125rem)] w-[clamp(1.75rem,2vw,2.125rem)] items-center justify-center rounded-full bg-[#13171B] text-white">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -201,17 +201,17 @@ export default function FullScreenMenu({
               key={item.label}
               type="button"
               onClick={() => handleNavigate(item.targetId)}
-              className="group flex w-full items-baseline justify-between border-b border-[#111111]/8 py-[clamp(0.65rem,1.8vh,1.35rem)] text-left transition-all duration-200 hover:pl-3 cursor-pointer"
+              className="group flex w-full items-baseline justify-between border-b border-[#13171B]/8 py-[clamp(0.65rem,1.8vh,1.35rem)] text-left transition-all duration-200 hover:pl-3 cursor-pointer"
             >
               <div className="flex items-baseline gap-[clamp(0.85rem,2vw,2.5rem)]">
-                <span className="font-mono text-[clamp(0.8rem,1vw,1rem)] text-[#111111]/35 font-medium transition-colors group-hover:text-[#111111]">
+                <span className="font-mono text-[clamp(0.8rem,1vw,1rem)] text-[#13171B]/35 font-medium transition-colors group-hover:text-[#13171B]">
                   {item.number}
                 </span>
-                <span className="font-seasonmix text-[clamp(2.2rem,5vw,4rem)] font-normal tracking-[-0.02em] text-[#111111] transition-transform duration-300 group-hover:translate-x-2">
+                <span className="font-seasonmix text-[clamp(2.2rem,5vw,4rem)] font-normal tracking-[-0.02em] text-[#13171B] transition-transform duration-300 group-hover:translate-x-2">
                   {item.label}
                 </span>
               </div>
-              <span className="font-serif italic text-[clamp(1.2rem,2.2vw,2rem)] text-[#111111]/0 transition-all duration-300 -translate-x-3 group-hover:translate-x-0 group-hover:text-[#111111]">
+              <span className="font-serif italic text-[clamp(1.2rem,2.2vw,2rem)] text-[#13171B]/0 transition-all duration-300 -translate-x-3 group-hover:translate-x-0 group-hover:text-[#13171B]">
                 →
               </span>
             </button>
@@ -223,7 +223,7 @@ export default function FullScreenMenu({
       {/* BOTTOM BAR: Minimal Footer Metadata                                   */}
       {/* ===================================================================== */}
       <footer className="w-full bg-white py-4 shrink-0">
-        <div className="mx-auto flex w-full items-center justify-between px-[clamp(1rem,2vw,2.25rem)] text-xs text-[#111111]/40 font-mono">
+        <div className="mx-auto flex w-full items-center justify-between px-[clamp(1rem,2vw,2.25rem)] text-xs text-[#13171B]/40 font-mono">
           <span>SINGULARITY 2.0 • 2026</span>
           <span>© ALL RIGHTS RESERVED</span>
         </div>

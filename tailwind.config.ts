@@ -12,7 +12,7 @@ const config: Config = {
       colors: {
         ink: '#0f172a',
         paper: '#f8fafc',
-        accent: '#f97316',
+        accent: '#0030CF',
       },
       boxShadow: {
         glow: '0 24px 80px -24px rgba(249, 115, 22, 0.45)',
