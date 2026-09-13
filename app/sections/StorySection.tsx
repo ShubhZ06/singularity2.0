@@ -535,10 +535,12 @@ export default function StorySection({
       // exclusively by SmoothScroll to avoid race conditions.
       const refreshTimer1 = setTimeout(() => {
         ScrollTrigger.refresh();
+        window.scrollTo(0, 0);
       }, 300);
 
       const refreshTimer2 = setTimeout(() => {
         ScrollTrigger.refresh();
+        window.scrollTo(0, 0);
       }, 900);
 
       return () => {

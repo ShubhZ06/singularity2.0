@@ -60,24 +60,29 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     // The page is invisible (opacity:0) during this entire window, so the user
     // never sees any scroll position fights. We then fade in cleanly at scroll=0.
     const unlockTimer = setTimeout(() => {
+      // Force native scroll to 0 first
       window.scrollTo(0, 0);
       lenis.scrollTo(0, { immediate: true });
 
-      // Release the snap lock BEFORE revealing, so components are at correct
-      // positions when opacity is restored
+      // Release the snap lock BEFORE revealing
       (window as unknown as { __scrollLocked?: boolean }).__scrollLocked = false;
 
       document.documentElement.style.overflow = '';
 
-      // Fade in over 150ms — short enough to feel instant, long enough to be smooth
-      document.documentElement.style.transition = 'opacity 0.15s ease';
-      document.documentElement.style.opacity = '1';
+      // One rAF after overflow is restored — browser may recalculate layout/scroll here
+      requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
+        lenis.scrollTo(0, { immediate: true });
 
-      // Clean up the transition property after the fade completes
-      setTimeout(() => {
-        document.documentElement.style.transition = '';
-        document.documentElement.style.opacity = '';
-      }, 200);
+        // Fade in after guaranteed scroll=0
+        document.documentElement.style.transition = 'opacity 0.15s ease';
+        document.documentElement.style.opacity = '1';
+
+        setTimeout(() => {
+          document.documentElement.style.transition = '';
+          document.documentElement.style.opacity = '';
+        }, 200);
+      });
     }, 1150);
 
     (window as unknown as { lenis?: Lenis }).lenis = lenis;
