@@ -1,7 +1,15 @@
 import { Agentation } from 'agentation';
+import { Quicksand } from 'next/font/google';
 import SmoothScroll from './components/SmoothScroll';
 import 'lenis/dist/lenis.css';
 import './globals.css';
+
+const quicksand = Quicksand({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-quicksand',
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'Singularity',
@@ -14,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={quicksand.variable} suppressHydrationWarning>
       <head>
         {/* Disable browser scroll restoration synchronously before hydration */}
         <script
@@ -39,7 +47,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body className={`${quicksand.className} font-sans`}>
         <SmoothScroll>{children}</SmoothScroll>
         {process.env.NODE_ENV === 'development' && <Agentation />}
       </body>

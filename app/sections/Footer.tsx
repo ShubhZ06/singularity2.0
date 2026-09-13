@@ -22,7 +22,13 @@ const exploreLinks = [
   'Contact',
 ];
 
-const connectLinks = ['Discord', 'Instagram', 'Twitter', 'LinkedIn', 'WhatsApp'];
+const connectLinks = [
+  { label: 'Discord', href: '#' },
+  { label: 'Instagram', href: 'https://www.instagram.com/singularityhack.in/' },
+  { label: 'Twitter', href: '#' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/singularity-hack/' },
+  { label: 'WhatsApp', href: '#' },
+];
 
 export default function Footer() {
   return (
@@ -71,11 +77,15 @@ export default function Footer() {
             </p>
             <ul className="space-y-1 md:space-y-1.5 text-[clamp(1.15rem,2.8vw,1.45rem)] md:text-[clamp(1.45rem,2vw,1.85rem)] leading-[1.2] text-right">
               {connectLinks.map((link) => (
-                <li
-                  key={link}
-                  className="font-serif italic tracking-[-0.05em] text-[#111111] hover:text-[#7B35F8] transition-colors cursor-pointer text-right"
-                >
-                  {link}
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="font-serif italic tracking-[-0.05em] text-[#111111] hover:text-[#7B35F8] transition-colors cursor-pointer text-right inline-block"
+                  >
+                    {link.label}
+                  </a>
                 </li>
               ))}
             </ul>
