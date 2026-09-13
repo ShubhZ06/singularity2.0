@@ -78,9 +78,20 @@ const AccordionGallery = ({
   const firstRunRef = useRef(true);
   const mediaSizeRef = useRef(320);
 
-  const vertical = orientation === 'vertical';
   const count = items.length;
   const [active, setActive] = useState(Math.min(Math.max(defaultIndex, 0), count - 1));
+  const [isNarrowScreen, setIsNarrowScreen] = useState(false);
+
+  useEffect(() => {
+    const checkMq = () => {
+      setIsNarrowScreen(window.innerWidth < 840);
+    };
+    checkMq();
+    window.addEventListener('resize', checkMq);
+    return () => window.removeEventListener('resize', checkMq);
+  }, []);
+
+  const vertical = orientation === 'vertical' || isNarrowScreen;
 
   const prefersReduced =
     typeof window !== 'undefined' && window.matchMedia
@@ -205,7 +216,7 @@ const AccordionGallery = ({
     '--ag-text': textColor,
     '--ag-gap': `${gap}px`,
     '--ag-radius': `${radius}px`,
-    height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px`,
+    height: vertical ? 'clamp(28rem, 62vh, 38rem)' : 'clamp(20rem, 28vw, 28rem)',
   } as CSSProperties;
 
   return (

@@ -25,7 +25,7 @@ export default function FooterMap({
 
   if (!mounted) {
     return (
-      <div className="w-full h-[280px] sm:h-[300px] md:h-[320px] overflow-hidden rounded-2xl border border-[#111111]/10 bg-[#F5F5F7] animate-pulse flex items-center justify-center">
+      <div className="w-full h-[clamp(15rem,25vw,20rem)] overflow-hidden rounded-[clamp(1rem,1.5vw,1.25rem)] border border-[#111111]/10 bg-[#F5F5F7] animate-pulse flex items-center justify-center">
         <span className="text-xs uppercase tracking-widest text-[#111111]/40 font-mono">
           Loading Map...
         </span>
@@ -35,7 +35,7 @@ export default function FooterMap({
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      <div className="w-full h-[280px] sm:h-[300px] md:h-[320px] overflow-hidden rounded-2xl border border-[#111111]/10 bg-[#F5F5F7] shadow-sm relative group/map">
+      <div className="w-full h-[clamp(15rem,25vw,20rem)] overflow-hidden rounded-[clamp(1rem,1.5vw,1.25rem)] border border-[#111111]/10 bg-[#F5F5F7] shadow-sm relative group/map">
         {/* Floating Show/Hide Toggle Button on Map */}
         <button
           type="button"

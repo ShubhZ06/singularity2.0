@@ -139,10 +139,8 @@ body::-webkit-scrollbar {
 /* Blob Art in Footer */
 .blob-art {
   position: relative;
-  width: min(32vw, 420px);
-  height: min(28vw, 320px);
-  min-width: 220px;
-  min-height: 220px;
+  width: clamp(13rem, 28vw, 24rem);
+  height: clamp(11rem, 24vw, 19rem);
   filter: saturate(1.2);
 }
 
@@ -273,31 +271,31 @@ body::-webkit-scrollbar {
 
 .ag-panel__label {
   position: absolute;
-  left: 20px;
-  bottom: 20px;
-  right: 20px;
+  left: clamp(0.75rem, 1.5vw, 1.25rem);
+  bottom: clamp(0.75rem, 1.5vw, 1.25rem);
+  right: clamp(0.75rem, 1.5vw, 1.25rem);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: clamp(0.5rem, 1vw, 0.75rem);
   pointer-events: none;
   z-index: 2;
 }
 
 .ag-panel__bar {
   flex: 0 0 auto;
-  width: 3px;
-  height: 26px;
-  border-radius: 3px;
+  width: 0.2rem;
+  height: clamp(1.25rem, 1.8vw, 1.625rem);
+  border-radius: 0.2rem;
   background: var(--ag-accent);
   opacity: 0;
-  box-shadow: 0 0 12px color-mix(in srgb, var(--ag-accent) 60%, transparent);
+  box-shadow: 0 0 0.75rem color-mix(in srgb, var(--ag-accent) 60%, transparent);
 }
 
 .ag-panel__text {
   color: var(--ag-text);
   font-family: inherit;
   font-weight: 600;
-  font-size: clamp(1rem, 1.4vw, 1.4rem);
+  font-size: clamp(0.95rem, 1.4vw, 1.35rem);
   letter-spacing: 0.01em;
   white-space: nowrap;
   overflow: hidden;
@@ -306,15 +304,14 @@ body::-webkit-scrollbar {
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 840px) {
   .accordion-gallery {
     flex-direction: column;
     perspective: none;
-    height: auto !important;
   }
 
   .ag-panel {
-    min-height: 84px;
+    min-height: clamp(3rem, 7.5vh, 4.25rem);
     transform: none !important;
   }
 

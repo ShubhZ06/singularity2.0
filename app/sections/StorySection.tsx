@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { WordsStagger } from '@/components/ui/words-stagger';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Footer from './Footer';
@@ -26,12 +25,15 @@ export default function StorySection({
   const deepWhiteWaveRef = useRef<HTMLDivElement>(null);
   const whiteCoverRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLDivElement>(null);
+  const wordsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const thisIsRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const videoWrapperRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const bgBlackRef = useRef<HTMLDivElement>(null);
   const bgWhiteRef = useRef<HTMLDivElement>(null);
+
+  const words = quote.split(' ');
 
   useEffect(() => {
     const container = containerRef.current;
@@ -99,9 +101,9 @@ export default function StorySection({
         video.duration && isFinite(video.duration) && video.duration > 0
           ? Math.max(0, video.duration - 0.05)
           : 10.0;
-      if (progress <= 0.40) return 0;
-      if (progress >= 0.78) return dur;
-      const vp = (progress - 0.40) / (0.78 - 0.40);
+      if (progress <= 0.48) return 0;
+      if (progress >= 0.80) return dur;
+      const vp = (progress - 0.48) / (0.80 - 0.48);
       return Math.min(dur, Math.max(0, vp * dur));
     };
 
@@ -116,14 +118,14 @@ export default function StorySection({
       const diff = targetTime - cur;
 
       // When outside the active video zone, stop and align
-      if (progress < 0.38) {
+      if (progress < 0.44) {
         if (!video.paused) video.pause();
         if (cur > 0.05 && !video.seeking) {
           video.currentTime = 0;
         }
         return;
       }
-      if (progress > 0.82) {
+      if (progress > 0.84) {
         if (!video.paused) video.pause();
         const maxTime = Math.max(0, video.duration - 0.05);
         if (Math.abs(cur - maxTime) > 0.05 && !video.seeking) {
@@ -173,7 +175,8 @@ export default function StorySection({
       if (pOverride !== undefined) {
         smoothProgress = pOverride;
       } else {
-        smoothProgress += (targetProgress - smoothProgress) * 0.22;
+        // Smooth out inertia: 0.12 dampens rapid scroll flicks so story unfolds at a relaxed speed
+        smoothProgress += (targetProgress - smoothProgress) * 0.12;
       }
       const p = smoothProgress;
       time += 0.008;
@@ -183,11 +186,11 @@ export default function StorySection({
 
       // 1. Background crossfade (White -> Black)
       if (bgBlackRef.current && bgWhiteRef.current) {
-        if (p < 0.34) {
+        if (p < 0.40) {
           bgBlackRef.current.style.opacity = '0';
           bgWhiteRef.current.style.opacity = '1';
-        } else if (p < 0.46) {
-          const t = (p - 0.34) / 0.12;
+        } else if (p < 0.52) {
+          const t = (p - 0.40) / 0.12;
           const ease = t * t * (3 - 2 * t);
           bgBlackRef.current.style.opacity = String(Math.min(1, Math.max(0, ease)));
           bgWhiteRef.current.style.opacity = String(Math.min(1, Math.max(0, 1 - ease)));
@@ -197,14 +200,44 @@ export default function StorySection({
         }
       }
 
-      // Step 1A: Proclamation Quote Text
+      // Step 1A: Proclamation Quote - Word-by-word reveal scrubbed directly to scroll!
+      const totalWords = words.length;
+      const revealEnd = 0.22; // All 44 words are completely revealed by p = 0.22
+      const wordStep = revealEnd / totalWords;
+
+      for (let i = 0; i < totalWords; i++) {
+        const el = wordsRef.current[i];
+        if (!el) continue;
+        const startP = i * wordStep;
+        const endP = startP + wordStep * 1.5;
+
+        if (p <= startP) {
+          el.style.opacity = '0.08';
+          el.style.filter = 'blur(6px)';
+          el.style.transform = 'translate3d(0, 6px, 0)';
+        } else if (p >= endP) {
+          el.style.opacity = '1';
+          el.style.filter = 'blur(0px)';
+          el.style.transform = 'translate3d(0, 0, 0)';
+        } else {
+          const t = (p - startP) / (endP - startP);
+          const op = 0.08 + t * 0.92;
+          const blur = (1 - t) * 6;
+          const y = (1 - t) * 6;
+          el.style.opacity = op.toFixed(3);
+          el.style.filter = `blur(${blur.toFixed(1)}px)`;
+          el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+        }
+      }
+
+      // Proclamation quote container: holds complete paragraph until p = 0.24, then dissolves
       if (quoteRef.current) {
-        if (p < 0.08) {
+        if (p < 0.24) {
           quoteRef.current.style.opacity = '1';
           quoteRef.current.style.filter = 'blur(0px)';
           quoteRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
-        } else if (p < 0.16) {
-          const t = (p - 0.08) / 0.08;
+        } else if (p < 0.29) {
+          const t = (p - 0.24) / 0.05;
           const op = Math.max(0, 1 - t);
           const blur = t * 16;
           quoteRef.current.style.opacity = String(op);
@@ -217,24 +250,25 @@ export default function StorySection({
       }
 
       // Step 1B: "This is..."
+      // STRICTLY appears AFTER the last word of the paragraph has appeared and the quote has dissolved!
       if (thisIsRef.current) {
-        if (p < 0.16 || p > 0.34) {
+        if (p < 0.29 || p > 0.42) {
           thisIsRef.current.style.opacity = '0';
           thisIsRef.current.style.filter = 'blur(20px)';
-        } else if (p >= 0.16 && p < 0.23) {
-          const t = (p - 0.16) / 0.07;
+        } else if (p >= 0.29 && p < 0.34) {
+          const t = (p - 0.29) / 0.05;
           const op = Math.min(1, t);
           const blur = (1 - t) * 16;
           const scale = 1.35 - t * 0.35;
           thisIsRef.current.style.opacity = String(op);
           thisIsRef.current.style.filter = `blur(${blur.toFixed(1)}px)`;
           thisIsRef.current.style.transform = `translate3d(-50%, -50%, 0) scale(${scale.toFixed(2)})`;
-        } else if (p >= 0.23 && p < 0.28) {
+        } else if (p >= 0.34 && p < 0.38) {
           thisIsRef.current.style.opacity = '1';
           thisIsRef.current.style.filter = 'blur(0px)';
           thisIsRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
-        } else if (p >= 0.28 && p <= 0.34) {
-          const t = (p - 0.28) / 0.06;
+        } else if (p >= 0.38 && p <= 0.42) {
+          const t = (p - 0.38) / 0.04;
           const op = Math.max(0, 1 - t);
           const blur = t * 18;
           const scale = 1.0 + t * 0.12;
@@ -245,17 +279,17 @@ export default function StorySection({
       }
 
       // Step 1C: Black Fluid Ink Bloom
-      if (p >= 0.28 && p <= 0.48) {
+      if (p >= 0.38 && p <= 0.54) {
         let canvasAlpha = 1;
-        if (p < 0.32) {
-          canvasAlpha = (p - 0.28) / 0.04;
-        } else if (p > 0.44) {
-          canvasAlpha = Math.max(0, 1 - (p - 0.44) / 0.04);
+        if (p < 0.42) {
+          canvasAlpha = (p - 0.38) / 0.04;
+        } else if (p > 0.50) {
+          canvasAlpha = Math.max(0, 1 - (p - 0.50) / 0.04);
         }
         canvas.style.opacity = String(Math.min(1, Math.max(0, canvasAlpha)));
         ctx.clearRect(0, 0, width, height);
 
-        const progressGrowth = (p - 0.28) / 0.16;
+        const progressGrowth = (p - 0.38) / 0.16;
         const expansion = 0.40 + progressGrowth * 2.2;
         const darknessMultiplier = Math.min(1, 0.45 + progressGrowth * 0.75);
         const minDim = Math.min(width, height);
@@ -290,12 +324,12 @@ export default function StorySection({
       // Step 2: "SINGULARITY" White Logo Rises Up as Per Scroll out of Black Smudge
       // Then STAYS centered on top of the story girl video!
       if (titleRef.current) {
-        if (p < 0.28) {
+        if (p < 0.40) {
           titleRef.current.style.opacity = '0';
           titleRef.current.style.filter = 'blur(22px)';
           titleRef.current.style.transform = `translate3d(-50%, calc(-50% + ${(height * 0.35).toFixed(1)}px), 0) scale(0.88)`;
-        } else if (p < 0.46) {
-          const t = (p - 0.28) / 0.18;
+        } else if (p < 0.54) {
+          const t = (p - 0.40) / 0.14;
           const ease = t * t * (3 - 2 * t);
           const yOffset = (1 - ease) * (height * 0.35);
           const op = Math.min(1, ease * 1.35);
@@ -304,14 +338,14 @@ export default function StorySection({
           titleRef.current.style.opacity = String(op);
           titleRef.current.style.filter = `blur(${blur.toFixed(1)}px)`;
           titleRef.current.style.transform = `translate3d(-50%, calc(-50% + ${yOffset.toFixed(1)}px), 0) scale(${scale.toFixed(3)})`;
-        } else if (p < 0.65) {
+        } else if (p < 0.68) {
           // STAYS perfectly anchored on top of the story girl video!
           titleRef.current.style.opacity = '1';
           titleRef.current.style.filter = 'blur(0px)';
           titleRef.current.style.transform = 'translate3d(-50%, -50%, 0) scale(1)';
         } else if (p < 0.78) {
           // A soft cloudy fog dissolve
-          const t = (p - 0.65) / 0.13;
+          const t = (p - 0.68) / 0.10;
           const op = Math.max(0, 1 - t);
           const blur = t * 24;
           const scale = 1 + t * 0.08;
@@ -326,19 +360,19 @@ export default function StorySection({
 
       // Step 3: Story Girl Video Scrubbed via GSAP ScrollTrigger
       if (videoWrapperRef.current) {
-        if (p < 0.44) {
+        if (p < 0.48) {
           videoWrapperRef.current.style.opacity = '0';
           videoWrapperRef.current.style.filter = 'none';
-        } else if (p < 0.52) {
-          const t = (p - 0.44) / 0.08;
+        } else if (p < 0.56) {
+          const t = (p - 0.48) / 0.08;
           videoWrapperRef.current.style.opacity = String(Math.min(1, t));
           videoWrapperRef.current.style.filter = 'none';
-        } else if (p < 0.65) {
+        } else if (p < 0.68) {
           videoWrapperRef.current.style.opacity = '1';
           videoWrapperRef.current.style.filter = 'none';
         } else {
           // Soft Cloudy Fog Dissolve: Video progressively blurs and blooms into luminous mist
-          const tFog = Math.min(1, (p - 0.65) / 0.25);
+          const tFog = Math.min(1, (p - 0.68) / 0.22);
           const videoBlur = tFog * 24;
           const videoBright = 1 + tFog * 0.45;
           const videoOpacity = Math.max(0, 1 - tFog * 0.95);
@@ -539,7 +573,7 @@ export default function StorySection({
   }, []);
 
   return (
-    <section id="story" ref={containerRef} className="relative w-full h-[520vh] bg-white">
+    <section id="story" ref={containerRef} className="relative w-full h-[850vh] bg-white">
       <div className="sticky top-0 h-dvh w-full overflow-hidden bg-black [transform:translateZ(0)]">
         {/* Layer 1: Hardware-Accelerated Crossfading Backgrounds */}
         <div
@@ -579,20 +613,31 @@ export default function StorySection({
             className="absolute inset-0 w-full h-full pointer-events-none z-[5] blur-[55px] opacity-0 transition-opacity duration-300 [transform:translateZ(0)]"
           />
 
-          {/* Step 1A: Centered Proclamation Quote with WordsStagger text reveal */}
+          {/* Step 1A: Centered Proclamation Quote with Word-by-Word Scroll Reveal */}
           <div
             ref={quoteRef}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-4xl z-[25] pointer-events-none opacity-1 [transform-origin:center] will-change-transform"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] sm:w-[85%] md:w-[90%] lg:w-[92%] max-w-[58rem] md:max-w-[64rem] lg:max-w-[70rem] z-[25] pointer-events-none opacity-1 [transform-origin:center] will-change-transform"
           >
-            <WordsStagger
-              className="font-sans font-light text-xl sm:text-3xl md:text-4xl leading-snug tracking-tight text-[#0A0A0A] justify-center sm:justify-start"
-              inView={true}
-              once={false}
-              stagger={0.035}
-              speed={0.45}
-            >
-              {quote}
-            </WordsStagger>
+            <p className="font-sans font-light text-[clamp(1.6rem,4.8vw,2.15rem)] md:text-[clamp(2.1rem,3.4vw,2.85rem)] lg:text-[clamp(2.65rem,2.8vw,3.35rem)] xl:text-[clamp(2.95rem,2.5vw,3.75rem)] leading-[1.32] md:leading-[1.28] tracking-tight text-[#0A0A0A] text-justify [text-align:justify] [text-align-last:left]">
+              {words.map((word, i) => (
+                <React.Fragment key={`${word}-${i}`}>
+                  <span
+                    ref={(el) => {
+                      wordsRef.current[i] = el;
+                    }}
+                    className="story-word inline-block will-change-[opacity,transform,filter]"
+                    style={{
+                      opacity: 0.08,
+                      filter: 'blur(6px)',
+                      transform: 'translate3d(0, 6px, 0)',
+                    }}
+                  >
+                    {word}
+                  </span>
+                  {i < words.length - 1 && ' '}
+                </React.Fragment>
+              ))}
+            </p>
           </div>
 
           {/* Step 1B: "This is..." */}
@@ -600,7 +645,7 @@ export default function StorySection({
             ref={thisIsRef}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[25] pointer-events-none text-center whitespace-nowrap opacity-0 [transform-origin:center] will-change-transform"
           >
-            <h2 className="font-sans font-light text-4xl sm:text-6xl md:text-8xl leading-none tracking-tight text-[#0A0A0A]">
+            <h2 className="font-sans font-light text-[clamp(2.4rem,8vw,3.5rem)] md:text-[clamp(3.5rem,7vw,5.5rem)] lg:text-[clamp(5.5rem,6.5vw,7.5rem)] leading-none tracking-tight text-[#0A0A0A]">
               This is...
             </h2>
           </div>
@@ -609,13 +654,13 @@ export default function StorySection({
           {/* Rises up as per scroll with black smudge, then stays on top of the scrubbed story girl video */}
           <div
             ref={titleRef}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-5xl z-40 pointer-events-none flex flex-col items-center justify-center opacity-0 [transform-origin:center] will-change-transform"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-[64rem] z-40 pointer-events-none flex flex-col items-center justify-center opacity-0 [transform-origin:center] will-change-transform"
           >
             <div className="relative w-full flex justify-center items-center">
               <img
                 src="/logo/logo-white.svg"
                 alt={wordmark}
-                className="w-full max-h-[28vh] sm:max-h-[35vh] md:max-h-[42vh] object-contain select-none drop-shadow-[0_0_40px_rgba(255,255,255,0.4)]"
+                className="w-full max-h-[24vh] md:max-h-[32vh] lg:max-h-[40vh] object-contain select-none drop-shadow-[0_0_2.5rem_rgba(255,255,255,0.4)]"
               />
             </div>
           </div>

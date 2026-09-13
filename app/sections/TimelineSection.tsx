@@ -219,16 +219,16 @@ export default function TimelineSection() {
     <section
       id="timeline"
       ref={containerRef}
-      className="relative z-10 flex w-full flex-col items-center overflow-x-clip bg-white px-5 pt-[10vh] pb-16 sm:px-[6vw] sm:pt-[14vh] sm:pb-24 border-t border-[#111111]/8"
+      className="relative z-10 flex w-full flex-col items-center overflow-x-clip bg-white px-[4vw] pt-[10vh] pb-[4rem] md:px-[5vw] md:pt-[12vh] md:pb-[5rem] lg:px-[6vw] lg:pt-[14vh] lg:pb-[6rem] border-t border-[#111111]/8"
     >
       {/* Header */}
-      <div className="flex w-full max-w-[88rem] flex-col items-center gap-6 sm:gap-[3vh]">
-        <h2 className="text-center font-seasonmix text-[clamp(2.4rem,10vw,4rem)] font-normal text-black" aria-label="Timeline">
+      <div className="flex w-full max-w-[88rem] flex-col items-center gap-[1.5rem] md:gap-[2rem]">
+        <h2 className="text-center font-seasonmix text-[clamp(2.4rem,6vw,4rem)] font-normal text-black" aria-label="Timeline">
           Timeline
         </h2>
-        <div className="relative flex w-full max-w-[62rem] justify-center px-2 sm:px-0">
-          <p className="text-center font-sans text-[1rem] leading-[1.85] text-black/75 sm:text-[clamp(1.16rem,1.8vw,1.42rem)] sm:leading-[1.95]">
-            From registration to victory — walk the path of Shakti through our 26-hour celebration of code, culture, and creation.
+        <div className="relative flex w-full max-w-[62rem] justify-center px-[1rem] md:px-0">
+          <p className="text-center font-sans text-[clamp(0.95rem,2.2vw,1.1rem)] leading-[1.8] text-black/75 md:text-[clamp(1.15rem,1.6vw,1.35rem)] md:leading-[1.9]">
+            From registration to victory — walk the path of innovation through our celebration of code, culture, and creation.
           </p>
         </div>
       </div>
@@ -236,10 +236,10 @@ export default function TimelineSection() {
       {/* Rail Container */}
       <div
         ref={railRef}
-        className="relative mt-[6vh] w-full max-w-[78rem] lg:-mt-[6vh] lg:h-[210vw] xl:-mt-[8vh] xl:h-[195vw] 2xl:-mt-[10vh] 2xl:h-[180vw]"
+        className="relative mt-[4vh] w-full max-w-[85rem] lg:-mt-[4vh] lg:h-[155vw] xl:-mt-[6vh] xl:h-[145vw] 2xl:-mt-[8vh] 2xl:h-[135vw]"
       >
         {/* Desktop Animated Winding Path */}
-        <div className="pointer-events-none absolute top-[12%] left-[0%] right-[30%] hidden h-[88%] lg:block" aria-hidden="true">
+        <div className="pointer-events-none absolute top-[8%] left-[0%] right-[24%] xl:right-[26%] 2xl:right-[28%] hidden h-[90%] lg:block" aria-hidden="true">
           <svg viewBox="-40 -40 1320 2800" preserveAspectRatio="none" className="h-full w-full overflow-visible" fill="none">
             <defs>
               <linearGradient id="timelinePaint" x1="200" y1="0" x2="1000" y2="2600" gradientUnits="userSpaceOnUse">
@@ -282,7 +282,7 @@ export default function TimelineSection() {
         </div>
 
         {/* Mobile Straight Vertical Path */}
-        <div className="pointer-events-none absolute top-2 bottom-2 left-[1.15rem] w-6 lg:hidden" aria-hidden="true">
+        <div className="pointer-events-none absolute top-2 bottom-2 left-[1.15rem] w-[1.5rem] lg:hidden" aria-hidden="true">
           <svg viewBox="0 0 24 1000" preserveAspectRatio="none" className="h-full w-full overflow-visible" fill="none">
             <path d="M12 0 L12 1000" stroke="#EAEAEA" strokeWidth={3} strokeLinecap="round" strokeDasharray="6 8" fill="none" />
             <path ref={mobilePathRef} d="M12 0 L12 1000" stroke="#7B35F8" strokeWidth={3} strokeLinecap="round" fill="none" />
@@ -300,147 +300,147 @@ export default function TimelineSection() {
         </div>
 
         {/* Milestone Cards 1-8 */}
-        <div className="relative z-20 mt-10 flex flex-col items-center gap-10 lg:mt-0 lg:block lg:h-full lg:gap-0">
+        <div className="relative z-20 mt-[2.5rem] flex w-full flex-col items-center gap-[2.5rem] md:gap-[3rem] lg:mt-0 lg:block lg:h-full lg:gap-0">
           {/* Milestone 1 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[22rem] items-start pl-10 sm:max-w-[30rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[36rem] 2xl:max-w-[42rem] lg:left-0 lg:right-auto lg:top-[7%] lg:left-[4%] xl:left-[8%] 2xl:left-[6%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[5%] lg:left-[4%] xl:left-[8%] 2xl:left-[6%] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-3 w-3 rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
+              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
             <div className="shrink-0 self-start">
-              <h3 className="stage-number font-sans text-[4.4rem] leading-[1.05] tracking-[0.04em] text-[#ADADAD] sm:text-[6.25rem] md:text-[7.5rem] lg:text-[8rem] xl:text-[11rem] 2xl:text-[14rem] transition-colors duration-400 select-none">1</h3>
+              <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">1</h3>
             </div>
-            <div className="flex flex-col px-2 pt-2 sm:px-5 lg:py-4">
-              <h4 className="stage-title pt-2 font-sans text-lg font-medium leading-none text-[#7B35F8] sm:text-2xl sm:leading-10 lg:pt-0 xl:text-4xl 2xl:text-5xl transition-all duration-300">Registration Opens</h4>
-              <div className="stage-line mt-2 h-0.5 w-[min(54vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent sm:w-[min(40vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
-              <div className="mt-2 flex flex-col gap-2">
-                <p className="font-secondary text-lg font-bold tracking-wide text-black/85 sm:text-xl xl:text-2xl">17 August</p>
-                <p className="font-sans text-base font-normal leading-relaxed text-black/75 sm:text-lg xl:text-xl">The gates of HackSpire&apos;26 open. Register, gather your team, and begin preparing for a journey shaped by tradition and innovation.</p>
+            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Registration Opens</h4>
+              <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
+              <div className="mt-2 flex flex-col gap-1.5">
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">17 August</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">The gates of HackSpire&apos;26 open. Register, gather your team, and begin preparing for a journey shaped by tradition and innovation.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 2 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[22rem] items-start pl-10 sm:max-w-[30rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[36rem] 2xl:max-w-[42rem] lg:left-auto lg:right-0 lg:top-[20%] lg:right-[-2%] xl:right-[0%] 2xl:right-[4%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[17%] lg:left-auto lg:right-[4%] xl:right-[6%] 2xl:right-[8%] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-3 w-3 rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
+              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
             <div className="shrink-0 self-start">
-              <h3 className="stage-number font-sans text-[4.4rem] leading-[1.05] tracking-[0.04em] text-[#ADADAD] sm:text-[6.25rem] md:text-[7.5rem] lg:text-[8rem] xl:text-[11rem] 2xl:text-[14rem] transition-colors duration-400 select-none">2</h3>
+              <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">2</h3>
             </div>
-            <div className="flex flex-col px-2 pt-2 sm:px-5 lg:py-4">
-              <h4 className="stage-title pt-2 font-sans text-lg font-medium leading-none text-[#7B35F8] sm:text-2xl sm:leading-10 lg:pt-0 xl:text-4xl 2xl:text-5xl transition-all duration-300">PPT Submission Window</h4>
-              <div className="stage-line mt-2 h-0.5 w-[min(54vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent sm:w-[min(40vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
-              <div className="mt-2 flex flex-col gap-2">
-                <p className="font-secondary text-lg font-bold tracking-wide text-black/85 sm:text-xl xl:text-2xl">03-15 September</p>
-                <p className="font-sans text-base font-normal leading-relaxed text-black/75 sm:text-lg xl:text-xl">PPT submission on the registration portal is mandatory. Teams must submit during this window - keep slides concise and true to your idea.</p>
+            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">PPT Submission Window</h4>
+              <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
+              <div className="mt-2 flex flex-col gap-1.5">
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">03-15 September</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">PPT submission on the registration portal is mandatory. Teams must submit during this window - keep slides concise and true to your idea.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 3 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[22rem] items-start pl-10 sm:max-w-[30rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[36rem] 2xl:max-w-[42rem] lg:left-0 lg:right-auto lg:top-[32%] lg:left-[0%] xl:left-[4%] 2xl:left-[2%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[30%] lg:left-[3%] xl:left-[6%] 2xl:left-[5%] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-3 w-3 rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
+              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
             <div className="shrink-0 self-start">
-              <h3 className="stage-number font-sans text-[4.4rem] leading-[1.05] tracking-[0.04em] text-[#ADADAD] sm:text-[6.25rem] md:text-[7.5rem] lg:text-[8rem] xl:text-[11rem] 2xl:text-[14rem] transition-colors duration-400 select-none">3</h3>
+              <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">3</h3>
             </div>
-            <div className="flex flex-col px-2 pt-2 sm:px-5 lg:py-4">
-              <h4 className="stage-title pt-2 font-sans text-lg font-medium leading-none text-[#7B35F8] sm:text-2xl sm:leading-10 lg:pt-0 xl:text-4xl 2xl:text-5xl transition-all duration-300">Registration Deadline</h4>
-              <div className="stage-line mt-2 h-0.5 w-[min(54vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent sm:w-[min(40vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
-              <div className="mt-2 flex flex-col gap-2">
-                <p className="font-secondary text-lg font-bold tracking-wide text-black/85 sm:text-xl xl:text-2xl">07 September</p>
-                <p className="font-sans text-base font-normal leading-relaxed text-black/75 sm:text-lg xl:text-xl">Final call to secure your place among the builders of HackSpire&apos;26. Last chance to join before the path ahead closes.</p>
+            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Registration Deadline</h4>
+              <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
+              <div className="mt-2 flex flex-col gap-1.5">
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">07 September</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Final call to secure your place among the builders of HackSpire&apos;26. Last chance to join before the path ahead closes.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 4 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[22rem] items-start pl-10 sm:max-w-[30rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[36rem] 2xl:max-w-[42rem] lg:left-0 lg:right-auto lg:top-[38%] lg:left-[2%] xl:left-[6%] 2xl:left-[62%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[26rem] lg:pl-0 xl:max-w-[29rem] 2xl:max-w-[32rem] lg:top-[44%] lg:left-auto lg:right-[-2vw] xl:right-[-3.5vw] 2xl:right-[-5vw] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-3 w-3 rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
+              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
             <div className="shrink-0 self-start">
-              <h3 className="stage-number font-sans text-[4.4rem] leading-[1.05] tracking-[0.04em] text-[#ADADAD] sm:text-[6.25rem] md:text-[7.5rem] lg:text-[8rem] xl:text-[11rem] 2xl:text-[14rem] transition-colors duration-400 select-none">4</h3>
+              <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">4</h3>
             </div>
-            <div className="flex flex-col px-2 pt-2 sm:px-5 lg:py-4">
-              <h4 className="stage-title pt-2 font-sans text-lg font-medium leading-none text-[#7B35F8] sm:text-2xl sm:leading-10 lg:pt-0 xl:text-4xl 2xl:text-5xl transition-all duration-300">First Rolling Approval</h4>
-              <div className="stage-line mt-2 h-0.5 w-[min(54vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent sm:w-[min(40vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
-              <div className="mt-2 flex flex-col gap-2">
-                <p className="font-secondary text-lg font-bold tracking-wide text-black/85 sm:text-xl xl:text-2xl">15 September</p>
-                <p className="font-sans text-base font-normal leading-relaxed text-black/75 sm:text-lg xl:text-xl">The review panel begins evaluating submissions. Approved teams receive next-step guidance and access to what comes next.</p>
+            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">First Rolling Approval</h4>
+              <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
+              <div className="mt-2 flex flex-col gap-1.5">
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">15 September</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">The review panel begins evaluating submissions. Approved teams receive next-step guidance and access to what comes next.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 5 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[22rem] items-start pl-10 sm:max-w-[30rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[36rem] 2xl:max-w-[42rem] lg:left-0 lg:right-auto lg:top-[53%] lg:left-[18%] xl:left-[24%] 2xl:left-[15%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[57%] lg:left-[6%] xl:left-[10%] 2xl:left-[8%] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-3 w-3 rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
+              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
             <div className="shrink-0 self-start">
-              <h3 className="stage-number font-sans text-[4.4rem] leading-[1.05] tracking-[0.04em] text-[#ADADAD] sm:text-[6.25rem] md:text-[7.5rem] lg:text-[8rem] xl:text-[11rem] 2xl:text-[14rem] transition-colors duration-400 select-none">5</h3>
+              <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">5</h3>
             </div>
-            <div className="flex flex-col px-2 pt-2 sm:px-5 lg:py-4">
-              <h4 className="stage-title pt-2 font-sans text-lg font-medium leading-none text-[#7B35F8] sm:text-2xl sm:leading-10 lg:pt-0 xl:text-4xl 2xl:text-5xl transition-all duration-300">Second Rolling Approval</h4>
-              <div className="stage-line mt-2 h-0.5 w-[min(54vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent sm:w-[min(40vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
-              <div className="mt-2 flex flex-col gap-2">
-                <p className="font-secondary text-lg font-bold tracking-wide text-black/85 sm:text-xl xl:text-2xl">20 September</p>
-                <p className="font-sans text-base font-normal leading-relaxed text-black/75 sm:text-lg xl:text-xl">Further approvals roll out. If your submission was pending earlier, watch for status updates and instructions.</p>
+            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Second Rolling Approval</h4>
+              <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
+              <div className="mt-2 flex flex-col gap-1.5">
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">20 September</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Further approvals roll out. If your submission was pending earlier, watch for status updates and instructions.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 6 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[22rem] items-start pl-10 sm:max-w-[30rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[36rem] 2xl:max-w-[42rem] lg:left-auto lg:right-0 lg:top-[68%] lg:-right-[38%] xl:-right-[32%] 2xl:-right-[3%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[26rem] lg:pl-0 xl:max-w-[29rem] 2xl:max-w-[32rem] lg:top-[70%] lg:left-auto lg:right-[-1vw] xl:right-[-2vw] 2xl:right-[-3.5vw] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-3 w-3 rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
+              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
             <div className="shrink-0 self-start">
-              <h3 className="stage-number font-sans text-[4.4rem] leading-[1.05] tracking-[0.04em] text-[#ADADAD] sm:text-[6.25rem] md:text-[7.5rem] lg:text-[8rem] xl:text-[11rem] 2xl:text-[14rem] transition-colors duration-400 select-none">6</h3>
+              <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">6</h3>
             </div>
-            <div className="flex flex-col px-2 pt-2 sm:px-5 lg:py-4">
-              <h4 className="stage-title pt-2 font-sans text-lg font-medium leading-none text-[#7B35F8] sm:text-2xl sm:leading-10 lg:pt-0 xl:text-4xl 2xl:text-5xl transition-all duration-300">Last Rolling Approval</h4>
-              <div className="stage-line mt-2 h-0.5 w-[min(54vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent sm:w-[min(40vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
-              <div className="mt-2 flex flex-col gap-2">
-                <p className="font-secondary text-lg font-bold tracking-wide text-black/85 sm:text-xl xl:text-2xl">24 September</p>
-                <p className="font-sans text-base font-normal leading-relaxed text-black/75 sm:text-lg xl:text-xl">Final approvals before the hackathon begins. Confirm team details and ensure every submission is complete.</p>
+            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Last Rolling Approval</h4>
+              <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
+              <div className="mt-2 flex flex-col gap-1.5">
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">24 September</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Final approvals before the hackathon begins. Confirm team details and ensure every submission is complete.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 7 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[22rem] items-start pl-10 sm:max-w-[30rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[36rem] 2xl:max-w-[42rem] lg:left-0 lg:right-auto lg:top-[75%] lg:-left-[12%] xl:-left-[6%] 2xl:-left-[8%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[82%] lg:left-[4%] xl:left-[7%] 2xl:left-[6%] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-3 w-3 rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
+              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
             <div className="shrink-0 self-start">
-              <h3 className="stage-number font-sans text-[4.4rem] leading-[1.05] tracking-[0.04em] text-[#ADADAD] sm:text-[6.25rem] md:text-[7.5rem] lg:text-[8rem] xl:text-[11rem] 2xl:text-[14rem] transition-colors duration-400 select-none">7</h3>
+              <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">7</h3>
             </div>
-            <div className="flex flex-col px-2 pt-2 sm:px-5 lg:py-4">
-              <h4 className="stage-title pt-2 font-sans text-lg font-medium leading-none text-[#7B35F8] sm:text-2xl sm:leading-10 lg:pt-0 xl:text-4xl 2xl:text-5xl transition-all duration-300">Hack Begins</h4>
-              <div className="stage-line mt-2 h-0.5 w-[min(54vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent sm:w-[min(40vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
-              <div className="mt-2 flex flex-col gap-2">
-                <p className="font-secondary text-lg font-bold tracking-wide text-black/85 sm:text-xl xl:text-2xl">02 October</p>
-                <p className="font-sans text-base font-normal leading-relaxed text-black/75 sm:text-lg xl:text-xl">Twenty-six hours of building begin. Ideas take form, collaboration deepens, and Shakti drives every line of code.</p>
+            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hack Begins</h4>
+              <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
+              <div className="mt-2 flex flex-col gap-1.5">
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">02 October</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Building begins. Ideas take form, collaboration deepens, and innovation drives every line of code.</p>
               </div>
             </div>
           </div>
 
           {/* Milestone 8 */}
-          <div className="stage-card group relative z-20 flex w-full max-w-[22rem] items-start pl-10 sm:max-w-[30rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[36rem] 2xl:max-w-[42rem] lg:left-0 lg:right-auto lg:top-[92%] lg:left-[16%] xl:left-[22%] 2xl:left-[15%] transition-transform duration-300 hover:-translate-y-1">
+          <div className="stage-card group relative z-20 flex w-full max-w-[20rem] items-start pl-[2.8rem] md:max-w-[26rem] md:pl-[3.2rem] lg:absolute lg:max-w-[28rem] lg:pl-0 xl:max-w-[34rem] 2xl:max-w-[38rem] lg:top-[93%] lg:left-auto lg:right-[6%] xl:right-[10%] 2xl:right-[8%] transition-transform duration-300 hover:-translate-y-1">
             <span className="absolute top-5 left-0 z-10 flex h-6 w-6 -translate-x-0.5 items-center justify-center lg:hidden" aria-hidden="true">
-              <span className="stage-marker-dot h-3 w-3 rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
+              <span className="stage-marker-dot h-[0.75rem] w-[0.75rem] rounded-full border-2 bg-white transition-all duration-300" style={{ borderColor: '#7B35F8', boxShadow: '0 0 10px #CDB3FC' }}></span>
             </span>
             <div className="shrink-0 self-start">
-              <h3 className="stage-number font-sans text-[4.4rem] leading-[1.05] tracking-[0.04em] text-[#ADADAD] sm:text-[6.25rem] md:text-[7.5rem] lg:text-[8rem] xl:text-[11rem] 2xl:text-[14rem] transition-colors duration-400 select-none">8</h3>
+              <h3 className="stage-number font-sans select-none transition-colors duration-400 text-[clamp(3.2rem,8vw,4.5rem)] leading-[1] tracking-[0.04em] text-[#ADADAD] md:text-[clamp(4.5rem,6.5vw,6rem)] lg:text-[clamp(5.5rem,6.8vw,9rem)]">8</h3>
             </div>
-            <div className="flex flex-col px-2 pt-2 sm:px-5 lg:py-4">
-              <h4 className="stage-title pt-2 font-sans text-lg font-medium leading-none text-[#7B35F8] sm:text-2xl sm:leading-10 lg:pt-0 xl:text-4xl 2xl:text-5xl transition-all duration-300">Celebration &amp; Close</h4>
-              <div className="stage-line mt-2 h-0.5 w-[min(54vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent sm:w-[min(40vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
-              <div className="mt-2 flex flex-col gap-2">
-                <p className="font-secondary text-lg font-bold tracking-wide text-black/85 sm:text-xl xl:text-2xl">03 October</p>
-                <p className="font-sans text-base font-normal leading-relaxed text-black/75 sm:text-lg xl:text-xl">Final presentations bring the journey to its peak. Winners are celebrated, bonds are forged, and HackSpire&apos;26 finds its close.</p>
+            <div className="flex flex-col px-2 pt-1 md:px-4 lg:py-2">
+              <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Celebration &amp; Close</h4>
+              <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
+              <div className="mt-2 flex flex-col gap-1.5">
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">03 October</p>
+                <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">Final presentations bring the journey to its peak. Winners are celebrated, bonds are forged, and HackSpire&apos;26 finds its close.</p>
               </div>
             </div>
           </div>

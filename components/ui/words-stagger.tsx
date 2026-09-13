@@ -65,9 +65,11 @@ export function WordsStagger({
     },
   };
 
+  const isJustified = className?.includes("text-justify") || className?.includes("[text-align:justify]");
+
   return (
     <motion.div
-      className={cn("flex flex-wrap", className)}
+      className={cn(isJustified ? "block" : "flex flex-wrap", className)}
       variants={containerVariants}
       initial="hidden"
       whileInView={inView ? "visible" : undefined}
@@ -77,16 +79,15 @@ export function WordsStagger({
       onAnimationComplete={onComplete}
     >
       {words.map((word, index) => (
-        <motion.span
-          key={`${word}-${index}`}
-          className="inline-block"
-          variants={wordVariants}
-        >
-          {word}
-          {index < words.length - 1 && (
-            <span className="inline-block">&nbsp;</span>
-          )}
-        </motion.span>
+        <React.Fragment key={`${word}-${index}`}>
+          <motion.span
+            className="inline-block"
+            variants={wordVariants}
+          >
+            {word}
+          </motion.span>
+          {index < words.length - 1 && (isJustified ? " " : <span className="inline-block">&nbsp;</span>)}
+        </React.Fragment>
       ))}
     </motion.div>
   );

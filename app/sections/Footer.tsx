@@ -28,31 +28,31 @@ export default function Footer() {
   return (
     <footer
       id="footer"
-      className="w-full bg-white min-h-screen flex flex-col justify-between pt-6 sm:pt-8 md:pt-10 pb-[72px] px-6 sm:px-12 xl:px-[122px]"
+      className="w-full bg-white min-h-[100dvh] flex flex-col justify-between pt-[1.5rem] md:pt-[2.5rem] pb-[clamp(2rem,4vw,4rem)] px-[4vw] md:px-[5vw] lg:px-[6vw]"
     >
-      <div className="mx-auto w-full max-w-[1292px] flex flex-col justify-between flex-1 h-full min-h-[643px]">
+      <div className="mx-auto w-full max-w-[92vw] lg:max-w-[80rem] flex flex-col justify-between flex-1 h-full">
         {/* Top Centered Giant Black Wordmark */}
-        <div className="relative w-full flex items-center justify-center pt-2 sm:pt-3 pb-4 sm:pb-6">
+        <div className="relative w-full flex items-center justify-center pt-2 pb-[1rem] md:pb-[1.5rem]">
           <div className="relative w-full flex justify-center items-center">
             <img
               src="/logo/logo-black.svg"
               alt="SINGULARITY"
-              className="w-full max-h-[160px] sm:max-h-[190px] md:max-h-[220px] object-contain select-none"
+              className="w-full h-[clamp(3.5rem,10vw,12rem)] object-contain select-none"
             />
           </div>
         </div>
 
-        {/* Crisp Horizontal Divider matching 1292px width in reference */}
+        {/* Crisp Horizontal Divider */}
         <div className="w-full border-t border-[#111111]/10" />
 
-        {/* 3-Column Navigation & Graphic Art Grid */}
-        <div className="grid items-start pt-6 sm:pt-8 md:grid-cols-[1fr_1.3fr_1fr] gap-6">
+        {/* 3-Column Navigation & Graphic Art Grid: Mobile (2 col links, then Map below), Tablet/Desktop (3 cols) */}
+        <div className="grid items-start pt-[1.5rem] md:pt-[2rem] grid-cols-2 md:grid-cols-[1fr_1.3fr_1fr] gap-x-[1.5rem] gap-y-[2rem] md:gap-[2.5vw]">
           {/* Left: Explore Links */}
-          <section>
-            <p className="mb-4 text-[0.68rem] font-medium uppercase tracking-[0.38em] text-[#111111]/55">
+          <section className="order-1 md:order-1">
+            <p className="mb-3 md:mb-4 text-[0.68rem] font-medium uppercase tracking-[0.38em] text-[#111111]/55">
               EXPLORE
             </p>
-            <ul className="space-y-1 sm:space-y-1.5 text-[1.4rem] leading-[1.2] sm:text-[1.65rem] md:text-[1.85rem]">
+            <ul className="space-y-1 md:space-y-1.5 text-[clamp(1.15rem,2.8vw,1.45rem)] md:text-[clamp(1.45rem,2vw,1.85rem)] leading-[1.2]">
               {exploreLinks.map((link) => (
                 <li
                   key={link}
@@ -64,33 +64,32 @@ export default function Footer() {
             </ul>
           </section>
 
-          {/* Center: Interactive Map */}
-          <FooterMap />
-
-          {/* Right: Connect Links */}
-          <section className="justify-self-end text-right">
-            <p className="mb-4 text-[0.68rem] font-medium uppercase tracking-[0.38em] text-[#111111]/55">
+          {/* Right: Connect Links (Aligned to the rightmost edge on mobile and desktop) */}
+          <section className="order-2 md:order-3 text-right justify-self-end">
+            <p className="mb-3 md:mb-4 text-[0.68rem] font-medium uppercase tracking-[0.38em] text-[#111111]/55 text-right">
               CONNECT
             </p>
-            <ul className="space-y-1 sm:space-y-1.5 text-[1.4rem] leading-[1.2] sm:text-[1.65rem] md:text-[1.85rem]">
+            <ul className="space-y-1 md:space-y-1.5 text-[clamp(1.15rem,2.8vw,1.45rem)] md:text-[clamp(1.45rem,2vw,1.85rem)] leading-[1.2] text-right">
               {connectLinks.map((link) => (
                 <li
                   key={link}
-                  className="font-serif italic tracking-[-0.05em] text-[#111111] hover:text-[#7B35F8] transition-colors cursor-pointer"
+                  className="font-serif italic tracking-[-0.05em] text-[#111111] hover:text-[#7B35F8] transition-colors cursor-pointer text-right"
                 >
                   {link}
                 </li>
               ))}
             </ul>
           </section>
+
+          {/* Center on desktop, Bottom full-width on mobile: Interactive Map */}
+          <div className="order-3 md:order-2 col-span-2 md:col-span-1 w-full">
+            <FooterMap />
+          </div>
         </div>
 
-        {/* Bottom Credits & Tagline */}
-        <div className="mt-8 pt-4 flex flex-col sm:flex-row items-center justify-between text-[0.68rem] uppercase tracking-[0.28em] text-[#111111]/55">
-          <span>WHERE INNOVATION MEETS SHAKTI</span>
-          <div>
-            <span>&copy; 2025 Singularity</span>
-          </div>
+        {/* Bottom Credits */}
+        <div className="mt-[2rem] md:mt-[3rem] pt-4 flex items-center justify-center text-[clamp(0.625rem,0.75vw,0.72rem)] uppercase tracking-[0.28em] text-[#111111]/55">
+          <span>&copy; 2026 Singularity</span>
         </div>
       </div>
     </footer>
