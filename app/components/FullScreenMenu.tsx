@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 
 interface FullScreenMenuProps {
   isOpen: boolean;
@@ -22,7 +22,32 @@ export default function FullScreenMenu({
   // Active origin uses synchronously passed prop or fallback tracked origin
   const activeOrigin = propOrigin && propOrigin.trim() !== '' ? propOrigin : circleOrigin;
 
+  const handleClose = useCallback(() => {
+    if (closeButtonRef.current) {
+      const rect = closeButtonRef.current.getBoundingClientRect();
+      const x = Math.round(rect.left + rect.width / 2);
+      const y = Math.round(rect.top + rect.height / 2);
+      setCircleOrigin(`${x}px ${y}px`);
+    }
+    onClose();
+  }, [onClose]);
+
   // Measure exact position of Explore / Close button on tap/click
+  const updateCloseOrigin = () => {
+    if (closeButtonRef.current) {
+      const rect = closeButtonRef.current.getBoundingClientRect();
+      const x = Math.round(rect.left + rect.width / 2);
+      const y = Math.round(rect.top + rect.height / 2);
+      setCircleOrigin(`${x}px ${y}px`);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      updateCloseOrigin();
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const updateOriginFromElement = (el: HTMLElement) => {
       const rect = el.getBoundingClientRect();
@@ -66,17 +91,7 @@ export default function FullScreenMenu({
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [isOpen]);
-
-  const handleClose = () => {
-    if (closeButtonRef.current) {
-      const rect = closeButtonRef.current.getBoundingClientRect();
-      const x = Math.round(rect.left + rect.width / 2);
-      const y = Math.round(rect.top + rect.height / 2);
-      setCircleOrigin(`${x}px ${y}px`);
-    }
-    onClose();
-  };
+  }, [isOpen, handleClose]);
 
   const handleNavigate = (targetId: string) => {
     handleClose();

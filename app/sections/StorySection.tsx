@@ -570,7 +570,7 @@ export default function StorySection({
       window.removeEventListener('resize', handleResize);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
     };
-  }, []);
+  }, [words.length]);
 
   return (
     <section id="story" ref={containerRef} className="relative w-full h-[850vh] bg-white">

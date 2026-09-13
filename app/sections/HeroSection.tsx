@@ -36,11 +36,13 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
     <section className="relative w-full h-[100dvh] min-h-[540px] pt-[1vw] px-[1vw] pb-[1vw] bg-white select-none overflow-hidden">
       {/* Main Full-Screen Canvas with Smooth Rounded Corners on TL & BR */}
       <div
-        style={{
-          ['--frame-border' as any]: 'clamp(10px, 0.854vw, 14px)',
-          ['--notch-top-h' as any]: 'calc(var(--frame-border) * 82 / 14)',
-          ['--notch-bot-h' as any]: 'calc(var(--frame-border) * 110 / 14)',
-        }}
+        style={
+          {
+            '--frame-border': 'clamp(10px, 0.854vw, 14px)',
+            '--notch-top-h': 'calc(var(--frame-border) * 82 / 14)',
+            '--notch-bot-h': 'calc(var(--frame-border) * 110 / 14)',
+          } as React.CSSProperties
+        }
         className="relative w-full h-full rounded-tl-[clamp(1.2rem,2.8vw,2.75rem)] rounded-br-[clamp(1.2rem,2.8vw,2.75rem)] rounded-tr-none rounded-bl-none overflow-hidden bg-white"
       >
         {/* Central Background Video - Desktop */}

@@ -54,7 +54,6 @@ const AccordionGallery = ({
   accentColor = '#ffffff',
   overlayColor = '#060010',
   textColor = '#ffffff',
-  height = 460,
   gap = 10,
   radius = 16,
   expandRatio = 0.52,

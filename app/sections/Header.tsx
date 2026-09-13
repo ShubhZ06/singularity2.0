@@ -8,7 +8,6 @@ interface HeaderProps {
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
-  const [isDark, setIsDark] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isFooter, setIsFooter] = useState(false);
   const [internalMenuOpen, setInternalMenuOpen] = useState(false);
@@ -32,13 +31,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
         const rect = storyEl.getBoundingClientRect();
         const totalScrollable = storyEl.offsetHeight - window.innerHeight;
         const progress = totalScrollable > 0 ? -rect.top / totalScrollable : 0;
-
-        // Story section background crossfades to black from progress ~0.40 until footer emergence (~0.76)
-        if (progress >= 0.40 && progress < 0.76 && rect.bottom > 60) {
-          setIsDark(true);
-        } else {
-          setIsDark(false);
-        }
 
         // Hide floating header once the Footer emerges in the story finale (p >= 0.76) or at page bottom
         if (progress >= 0.76 || isAtPageBottom) {
