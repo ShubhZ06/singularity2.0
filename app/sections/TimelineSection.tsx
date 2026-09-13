@@ -35,174 +35,169 @@ export default function TimelineSection() {
         dotMarker: card.querySelector<HTMLElement>('.stage-marker-dot'),
       }));
 
-      [
-        { path: desktopPathRef.current, dot: desktopDotRef.current },
-        { path: mobilePathRef.current, dot: mobileDotRef.current },
-      ].forEach(({ path, dot }) => {
-        if (!path) return;
-        const totalLength = path.getTotalLength();
+      const desktopPath = desktopPathRef.current;
+      const desktopDot = desktopDotRef.current;
+      const mobilePath = mobilePathRef.current;
+      const mobileDot = mobileDotRef.current;
 
-        gsap.set(path, {
-          strokeDasharray: totalLength,
-          strokeDashoffset: totalLength,
+      const desktopTotalLength = desktopPath ? desktopPath.getTotalLength() : 0;
+      const mobileTotalLength = mobilePath ? mobilePath.getTotalLength() : 0;
+
+      if (desktopPath) {
+        gsap.set(desktopPath, {
+          strokeDasharray: desktopTotalLength,
+          strokeDashoffset: desktopTotalLength,
         });
+      }
+      if (mobilePath) {
+        gsap.set(mobilePath, {
+          strokeDasharray: mobileTotalLength,
+          strokeDashoffset: mobileTotalLength,
+        });
+      }
 
-        let cachedCorr = 1;
-        const updateAspectCorrection = () => {
-          const svgEl = path.ownerSVGElement;
-          if (!svgEl) return;
-          const rect = svgEl.getBoundingClientRect();
-          const vb = svgEl.viewBox?.baseVal;
-          const vbW = vb?.width || 1320;
-          const vbH = vb?.height || 2800;
-          if (rect.width > 0 && rect.height > 0) {
-            cachedCorr = (rect.height / vbH) / (rect.width / vbW);
-          }
-        };
-        updateAspectCorrection();
-
-        if (dot) {
-          const startPt = path.getPointAtLength(0);
-          dot.setAttribute('transform', `translate(${startPt.x}, ${startPt.y}) scale(${cachedCorr}, 1)`);
-          dot.style.opacity = '0';
+      let cachedCorr = 1;
+      const updateAspectCorrection = () => {
+        if (!desktopPath) return;
+        const svgEl = desktopPath.ownerSVGElement;
+        if (!svgEl) return;
+        const rect = svgEl.getBoundingClientRect();
+        const vb = svgEl.viewBox?.baseVal;
+        const vbW = vb?.width || 1320;
+        const vbH = vb?.height || 2800;
+        if (rect.width > 0 && rect.height > 0) {
+          cachedCorr = (rect.height / vbH) / (rect.width / vbW);
         }
+      };
+      updateAspectCorrection();
 
-        // Properly synchronized ScrollTrigger
-        ScrollTrigger.create({
-          trigger: railRef.current ?? container,
-          start: 'top 20%',
-          end: 'bottom 75%',
-          scrub: 0.35,
-          onRefresh: updateAspectCorrection,
-          onUpdate: (self) => {
-            const p = self.progress;
-            const drawnLength = p * totalLength;
-            gsap.set(path, { strokeDashoffset: totalLength - drawnLength });
+      if (desktopDot && desktopPath) {
+        const startPt = desktopPath.getPointAtLength(0);
+        desktopDot.setAttribute('transform', `translate(${startPt.x}, ${startPt.y}) scale(${cachedCorr}, 1)`);
+        desktopDot.style.opacity = '0';
+      }
+      if (mobileDot && mobilePath) {
+        const startPt = mobilePath.getPointAtLength(0);
+        mobileDot.setAttribute('transform', `translate(${startPt.x}, ${startPt.y})`);
+        mobileDot.style.opacity = '0';
+      }
 
-            if (dot) {
-              const point = path.getPointAtLength(drawnLength);
-              dot.setAttribute('transform', `translate(${point.x}, ${point.y}) scale(${cachedCorr}, 1)`);
-              dot.style.opacity = p > 0.002 ? '1' : '0';
+      // Synchronized ScrollTrigger for trail drawing and milestone accentuation
+      ScrollTrigger.create({
+        trigger: railRef.current ?? container,
+        start: 'top 20%',
+        end: 'bottom 75%',
+        scrub: 0.35,
+        onRefresh: updateAspectCorrection,
+        onUpdate: (self) => {
+          const p = self.progress;
+
+          // Animate desktop trail
+          if (desktopPath) {
+            const drawnLength = p * desktopTotalLength;
+            gsap.set(desktopPath, { strokeDashoffset: desktopTotalLength - drawnLength });
+
+            if (desktopDot) {
+              const point = desktopPath.getPointAtLength(drawnLength);
+              desktopDot.setAttribute('transform', `translate(${point.x}, ${point.y}) scale(${cachedCorr}, 1)`);
+              desktopDot.style.opacity = p > 0.002 ? '1' : '0';
             }
+          }
 
-            // Dynamic stage illumination without DOM query overhead
-            cachedCards.forEach(({ card, threshold, numEl, titleEl, lineEl, dotMarker }) => {
-              const isPassed = p >= threshold;
+          // Animate mobile trail
+          if (mobilePath) {
+            const drawnLength = p * mobileTotalLength;
+            gsap.set(mobilePath, { strokeDashoffset: mobileTotalLength - drawnLength });
 
-              if (isPassed && card.dataset.active !== 'true') {
-                card.dataset.active = 'true';
-                if (numEl) {
-                  gsap.to(numEl, {
-                    color: '#0A0A0A',
-                    scale: 1.05,
-                    duration: 0.45,
-                    ease: 'back.out(2)',
-                    overwrite: 'auto',
-                  });
-                }
-                if (titleEl) {
-                  gsap.to(titleEl, {
-                    color: '#6D28D9',
-                    textShadow: '0 0 18px rgba(123, 53, 248, 0.45)',
-                    duration: 0.35,
-                    overwrite: 'auto',
-                  });
-                }
-                if (lineEl) {
-                  gsap.to(lineEl, {
-                    scaleX: 1,
-                    opacity: 1,
-                    duration: 0.5,
-                    ease: 'power2.out',
-                    overwrite: 'auto',
-                  });
-                }
-                if (dotMarker) {
-                  gsap.to(dotMarker, {
-                    backgroundColor: '#7B35F8',
-                    borderColor: '#7B35F8',
-                    boxShadow: '0 0 16px #7B35F8',
-                    scale: 1.3,
-                    duration: 0.35,
-                    overwrite: 'auto',
-                  });
-                }
-              } else if (!isPassed && card.dataset.active === 'true') {
-                card.dataset.active = 'false';
-                if (numEl) {
-                  gsap.to(numEl, {
-                    color: '#ADADAD',
-                    scale: 1,
-                    duration: 0.4,
-                    ease: 'power2.out',
-                    overwrite: 'auto',
-                  });
-                }
-                if (titleEl) {
-                  gsap.to(titleEl, {
-                    color: '#7B35F8',
-                    textShadow: 'none',
-                    duration: 0.3,
-                    overwrite: 'auto',
-                  });
-                }
-                if (lineEl) {
-                  gsap.to(lineEl, {
-                    scaleX: 0.75,
-                    opacity: 0.7,
-                    duration: 0.4,
-                    overwrite: 'auto',
-                  });
-                }
-                if (dotMarker) {
-                  gsap.to(dotMarker, {
-                    backgroundColor: '#FFFFFF',
-                    borderColor: '#7B35F8',
-                    boxShadow: '0 0 10px #CDB3FC',
-                    scale: 1,
-                    duration: 0.3,
-                    overwrite: 'auto',
-                  });
-                }
+            if (mobileDot) {
+              const point = mobilePath.getPointAtLength(drawnLength);
+              mobileDot.setAttribute('transform', `translate(${point.x}, ${point.y})`);
+              mobileDot.style.opacity = p > 0.002 ? '1' : '0';
+            }
+          }
+
+          // Dynamic milestone illumination without paragraph fading
+          cachedCards.forEach(({ card, threshold, numEl, titleEl, lineEl, dotMarker }) => {
+            const isPassed = p >= threshold;
+
+            if (isPassed && card.dataset.active !== 'true') {
+              card.dataset.active = 'true';
+              if (numEl) {
+                gsap.to(numEl, {
+                  color: '#0A0A0A',
+                  scale: 1.05,
+                  duration: 0.45,
+                  ease: 'back.out(2)',
+                  overwrite: 'auto',
+                });
               }
-            });
-          },
-        });
-      });
-
-      // Staggered scroll entrance reveal for each milestone stage
-      cards.forEach((card) => {
-        const num = card.querySelector<HTMLElement>('.stage-number');
-        const content = card.querySelectorAll<HTMLElement>('.stage-title, .stage-line, p');
-
-        gsap.set(card, { opacity: 0, y: 32 });
-        if (num) gsap.set(num, { opacity: 0, scale: 0.85 });
-
-        ScrollTrigger.create({
-          trigger: card,
-          start: 'top 88%',
-          onEnter: () => {
-            gsap.to(card, {
-              opacity: 1,
-              y: 0,
-              duration: 0.75,
-              ease: 'power3.out',
-            });
-            if (num) {
-              gsap.to(num, {
-                opacity: 1,
-                scale: 1,
-                duration: 0.6,
-                ease: 'back.out(1.8)',
-              });
+              if (titleEl) {
+                gsap.to(titleEl, {
+                  color: '#6D28D9',
+                  textShadow: '0 0 18px rgba(123, 53, 248, 0.45)',
+                  duration: 0.35,
+                  overwrite: 'auto',
+                });
+              }
+              if (lineEl) {
+                gsap.to(lineEl, {
+                  scaleX: 1,
+                  opacity: 1,
+                  duration: 0.5,
+                  ease: 'power2.out',
+                  overwrite: 'auto',
+                });
+              }
+              if (dotMarker) {
+                gsap.to(dotMarker, {
+                  backgroundColor: '#7B35F8',
+                  borderColor: '#7B35F8',
+                  boxShadow: '0 0 16px #7B35F8',
+                  scale: 1.3,
+                  duration: 0.35,
+                  overwrite: 'auto',
+                });
+              }
+            } else if (!isPassed && card.dataset.active === 'true') {
+              card.dataset.active = 'false';
+              if (numEl) {
+                gsap.to(numEl, {
+                  color: '#ADADAD',
+                  scale: 1,
+                  duration: 0.4,
+                  ease: 'power2.out',
+                  overwrite: 'auto',
+                });
+              }
+              if (titleEl) {
+                gsap.to(titleEl, {
+                  color: '#7B35F8',
+                  textShadow: 'none',
+                  duration: 0.3,
+                  overwrite: 'auto',
+                });
+              }
+              if (lineEl) {
+                gsap.to(lineEl, {
+                  scaleX: 0.75,
+                  opacity: 0.7,
+                  duration: 0.4,
+                  overwrite: 'auto',
+                });
+              }
+              if (dotMarker) {
+                gsap.to(dotMarker, {
+                  backgroundColor: '#FFFFFF',
+                  borderColor: '#7B35F8',
+                  boxShadow: '0 0 10px #CDB3FC',
+                  scale: 1,
+                  duration: 0.3,
+                  overwrite: 'auto',
+                });
+              }
             }
-            gsap.fromTo(
-              content,
-              { opacity: 0, y: 12 },
-              { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: 'power2.out', delay: 0.1 }
-            );
-          },
-        });
+          });
+        },
       });
     }, container);
 
@@ -416,7 +411,7 @@ export default function TimelineSection() {
               <h4 className="stage-title pt-1 font-sans font-medium leading-tight text-[#7B35F8] text-[clamp(1.1rem,2.8vw,1.35rem)] md:text-[clamp(1.35rem,2vw,1.75rem)] lg:text-[clamp(1.6rem,1.8vw,2.25rem)] transition-all duration-300">Hackathon Commences</h4>
               <div className="stage-line mt-2 h-[0.125rem] w-[clamp(10rem,45vw,16rem)] origin-left bg-gradient-to-r from-[#7B35F8] via-[#CDB3FC] to-transparent md:w-[clamp(14rem,35vw,20rem)] opacity-70 transition-all duration-500" aria-hidden="true"></div>
               <div className="mt-2 flex flex-col gap-1.5">
-                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">18 December</p>
+                <p className="font-secondary text-[clamp(0.95rem,2vw,1.1rem)] md:text-[clamp(1.1rem,1.5vw,1.25rem)] font-bold tracking-wide text-black/85">19 December</p>
                 <p className="font-sans text-[clamp(0.85rem,1.8vw,0.95rem)] md:text-[clamp(0.95rem,1.3vw,1.05rem)] font-normal leading-relaxed text-black/75">The final journey begins! Selected teams come together to build, collaborate, experiment, and turn their ideas into working solutions during the final hackathon experience.</p>
               </div>
             </div>
