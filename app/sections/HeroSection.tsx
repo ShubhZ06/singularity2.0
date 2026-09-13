@@ -28,7 +28,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative w-full h-screen min-h-[640px] max-h-[1080px] pt-[1vw] px-[1vw] pb-[1vw] bg-white select-none">
+    <section className="relative w-full h-dvh min-h-[640px] max-h-[1080px] pt-[1vw] px-[1vw] pb-[1vw] bg-white select-none">
       {/* Main Full-Screen Canvas with Smooth Rounded Corners */}
       <div className="relative w-full h-full rounded-[24px] sm:rounded-[36px] md:rounded-[44px] overflow-hidden bg-white">
         {/* Central Background Video - Desktop */}
@@ -276,47 +276,47 @@ export default function HeroSection() {
         {/* ========================================================================= */}
         <div className="absolute bottom-0 left-0 z-30 flex items-end">
           {/* Solid White Cutout Content Area for Stats */}
-          <div className="relative bg-white h-[88px] sm:h-[99px] md:h-[110px] pl-6 sm:pl-8 md:pl-9 pr-3 sm:pr-4 flex items-center">
+          <div className="relative bg-white h-[80px] sm:h-[88px] md:h-[99px] lg:h-[110px] pl-4 sm:pl-6 md:pl-8 lg:pl-9 pr-2 sm:pr-3 md:pr-4 flex items-center">
             {/* Outlined Pill Container around countdown timer */}
-            <div className="inline-flex items-center gap-6 sm:gap-8 md:gap-10 rounded-full border border-black bg-white px-6 sm:px-8 md:px-9 py-2.5 sm:py-3 shadow-sm">
+            <div className="inline-flex items-center gap-3 sm:gap-6 md:gap-8 lg:gap-10 rounded-full border border-black bg-white px-4 sm:px-6 md:px-8 lg:px-9 py-2 sm:py-2.5 md:py-3 shadow-sm">
               {/* Days Column */}
-              <div className="flex flex-col items-center gap-0.5 sm:gap-1 min-w-[48px] sm:min-w-[56px]">
-                <span className="font-serif italic text-2xl sm:text-3xl md:text-[2rem] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
+              <div className="flex flex-col items-center gap-0.5 sm:gap-1 min-w-[36px] sm:min-w-[48px] md:min-w-[56px]">
+                <span className="font-serif italic text-xl sm:text-2xl md:text-3xl lg:text-[2rem] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
                   {String(timeLeft.days).padStart(2, '0')}
                 </span>
-                <span className="text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-wider text-[#111111]/60 font-bold">
+                <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[11px] uppercase tracking-wider text-[#111111]/60 font-bold">
                   Days
                 </span>
               </div>
 
-              <span className="font-serif italic text-lg sm:text-xl font-normal text-[#111111]/30 -mt-3.5">:</span>
+              <span className="font-serif italic text-base sm:text-lg md:text-xl font-normal text-[#111111]/30 -mt-3">:</span>
 
               {/* Hours Column */}
-              <div className="flex flex-col items-center gap-0.5 sm:gap-1 min-w-[48px] sm:min-w-[56px]">
-                <span className="font-serif italic text-2xl sm:text-3xl md:text-[2rem] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
+              <div className="flex flex-col items-center gap-0.5 sm:gap-1 min-w-[36px] sm:min-w-[48px] md:min-w-[56px]">
+                <span className="font-serif italic text-xl sm:text-2xl md:text-3xl lg:text-[2rem] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
                   {String(timeLeft.hours).padStart(2, '0')}
                 </span>
-                <span className="text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-wider text-[#111111]/60 font-bold">
+                <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[11px] uppercase tracking-wider text-[#111111]/60 font-bold">
                   Hours
                 </span>
               </div>
 
-              <span className="font-serif italic text-lg sm:text-xl font-normal text-[#111111]/30 -mt-3.5">:</span>
+              <span className="font-serif italic text-base sm:text-lg md:text-xl font-normal text-[#111111]/30 -mt-3">:</span>
 
               {/* Minutes Column */}
-              <div className="flex flex-col items-center gap-0.5 sm:gap-1 min-w-[48px] sm:min-w-[56px]">
-                <span className="font-serif italic text-2xl sm:text-3xl md:text-[2rem] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
+              <div className="flex flex-col items-center gap-0.5 sm:gap-1 min-w-[36px] sm:min-w-[48px] md:min-w-[56px]">
+                <span className="font-serif italic text-xl sm:text-2xl md:text-3xl lg:text-[2rem] font-medium tracking-tight text-[#111111] tabular-nums leading-none">
                   {String(timeLeft.minutes).padStart(2, '0')}
                 </span>
-                <span className="text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-wider text-[#111111]/60 font-bold">
-                  Minutes
+                <span className="text-[8px] sm:text-[9px] md:text-[10px] lg:text-[11px] uppercase tracking-wider text-[#111111]/60 font-bold">
+                  Min
                 </span>
               </div>
             </div>
           </div>
 
           {/* Trapezoidal Diagonal S-Curve Slope (Right of Bottom-Left Notch) */}
-          <div className="relative w-18 sm:w-24 md:w-32 h-[88px] sm:h-[99px] md:h-[110px] shrink-0 -ml-[0.5px] pointer-events-none">
+          <div className="relative w-14 sm:w-18 md:w-24 lg:w-32 h-[80px] sm:h-[88px] md:h-[99px] lg:h-[110px] shrink-0 -ml-[0.5px] pointer-events-none">
             <svg
               viewBox="0 0 110 110"
               xmlns="http://www.w3.org/2000/svg"
@@ -330,7 +330,7 @@ export default function HeroSection() {
         </div>
 
         {/* Inner Concave Fillet above Bottom-Left Notch where stats bar meets left border */}
-        <div className="pointer-events-none absolute bottom-[88px] sm:bottom-[99px] md:bottom-[110px] left-[10px] sm:left-[12px] md:left-[14px] w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 z-20">
+        <div className="pointer-events-none absolute bottom-[80px] sm:bottom-[88px] md:bottom-[99px] lg:bottom-[110px] left-[10px] sm:left-[12px] md:left-[14px] w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 z-20">
           <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <path d="M0 36 V0 C0 19.882 16.118 36 36 36 Z" fill="#ffffff" />
           </svg>
@@ -339,7 +339,7 @@ export default function HeroSection() {
         {/* ========================================================================= */}
         {/* BOTTOM-RIGHT: Floating Translucent Glass Card                              */}
         {/* ========================================================================= */}
-        <div className="absolute bottom-6 right-6 sm:bottom-8 sm:right-8 md:bottom-9 md:right-9 z-20 w-72 sm:w-84 md:w-[380px] rounded-2xl sm:rounded-3xl bg-[#121316]/70 backdrop-blur-xl border border-white/15 p-5 sm:p-6 shadow-[0_16px_36px_rgba(0,0,0,0.5)] space-y-3 sm:space-y-3.5 transition-all duration-300 hover:border-white/30 hover:bg-[#121316]/80">
+        <div className="absolute bottom-[96px] right-4 sm:bottom-8 sm:right-6 md:bottom-9 md:right-9 z-20 w-[min(calc(100%-5rem),18rem)] sm:w-72 md:w-84 lg:w-[380px] rounded-2xl sm:rounded-3xl bg-[#121316]/70 backdrop-blur-xl border border-white/15 p-4 sm:p-5 md:p-6 shadow-[0_16px_36px_rgba(0,0,0,0.5)] space-y-2.5 sm:space-y-3 md:space-y-3.5 transition-all duration-300 hover:border-white/30 hover:bg-[#121316]/80">
           {/* Card Description */}
           <p className="text-xs sm:text-[13px] text-white/80 leading-relaxed font-sans">
             Register today to join a community of builders, experiment freely, and turn wild ideas into real impact.
