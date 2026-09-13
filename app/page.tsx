@@ -32,15 +32,39 @@ const StorySection = dynamic(() => import('./sections/StorySection'), {
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [menuOrigin, setMenuOrigin] = useState<string>('');
+
+  const handleOpenMenu = (e?: React.MouseEvent<HTMLElement>) => {
+    if (e && e.currentTarget) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = Math.round(rect.left + rect.width / 2);
+      const y = Math.round(rect.top + rect.height / 2);
+      setMenuOrigin(`${x}px ${y}px`);
+    } else {
+      const exploreBtns = Array.from(
+        document.querySelectorAll<HTMLElement>('button[aria-label="Explore Menu"]')
+      );
+      for (const btn of exploreBtns) {
+        const r = btn.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0 && r.top >= -20 && r.bottom <= window.innerHeight + 20) {
+          const x = Math.round(r.left + r.width / 2);
+          const y = Math.round(r.top + r.height / 2);
+          setMenuOrigin(`${x}px ${y}px`);
+          break;
+        }
+      }
+    }
+    setIsMenuOpen(true);
+  };
 
   return (
     <main className="min-h-screen bg-white text-[#111111] overflow-x-clip">
       {/* Floating Sticky Header with logo and full-screen menu trigger */}
-      <Header onMenuClick={() => setIsMenuOpen(true)} />
+      <Header onMenuClick={handleOpenMenu} />
 
       {/* 1. Critical Above-the-fold Hero Section */}
       <div id="hero">
-        <HeroSection onOpenMenu={() => setIsMenuOpen(true)} />
+        <HeroSection onOpenMenu={handleOpenMenu} />
       </div>
 
       {/* 2. Immediate Next Section */}
@@ -81,6 +105,7 @@ export default function Home() {
       {/* Full-Screen Menu Modal (White BG, Black Typography) */}
       <FullScreenMenu
         isOpen={isMenuOpen}
+        origin={menuOrigin}
         onClose={() => setIsMenuOpen(false)}
       />
     </main>

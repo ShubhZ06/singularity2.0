@@ -1,13 +1,53 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface FullScreenMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  origin?: string;
 }
 
-export default function FullScreenMenu({ isOpen, onClose }: FullScreenMenuProps) {
+export default function FullScreenMenu({
+  isOpen,
+  onClose,
+  origin: propOrigin,
+}: FullScreenMenuProps) {
+  // Default origin coordinates matching the Explore / Close button position at top-right
+  const [circleOrigin, setCircleOrigin] = useState<string>(
+    'calc(100% - clamp(4rem, 6.5vw, 6.5rem)) clamp(2rem, 3.2vw, 3rem)'
+  );
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Active origin uses synchronously passed prop or fallback tracked origin
+  const activeOrigin = propOrigin && propOrigin.trim() !== '' ? propOrigin : circleOrigin;
+
+  // Measure exact position of Explore / Close button on tap/click
+  useEffect(() => {
+    const updateOriginFromElement = (el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      const x = Math.round(rect.left + rect.width / 2);
+      const y = Math.round(rect.top + rect.height / 2);
+      setCircleOrigin(`${x}px ${y}px`);
+    };
+
+    const handlePointerDown = (e: PointerEvent | MouseEvent) => {
+      const target = (e.target as HTMLElement).closest(
+        'button[aria-label="Explore Menu"], button[aria-label="Close Menu"]'
+      ) as HTMLElement | null;
+      if (target) {
+        updateOriginFromElement(target);
+      }
+    };
+
+    window.addEventListener('pointerdown', handlePointerDown, { capture: true });
+    window.addEventListener('click', handlePointerDown, { capture: true });
+    return () => {
+      window.removeEventListener('pointerdown', handlePointerDown, { capture: true });
+      window.removeEventListener('click', handlePointerDown, { capture: true });
+    };
+  }, []);
+
   // Lock body scroll when menu is open & listen for ESC key
   useEffect(() => {
     if (isOpen) {
@@ -16,7 +56,7 @@ export default function FullScreenMenu({ isOpen, onClose }: FullScreenMenuProps)
 
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
-          onClose();
+          handleClose();
         }
       };
 
@@ -26,21 +66,35 @@ export default function FullScreenMenu({ isOpen, onClose }: FullScreenMenuProps)
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
-  }, [isOpen, onClose]);
+  }, [isOpen]);
+
+  const handleClose = () => {
+    if (closeButtonRef.current) {
+      const rect = closeButtonRef.current.getBoundingClientRect();
+      const x = Math.round(rect.left + rect.width / 2);
+      const y = Math.round(rect.top + rect.height / 2);
+      setCircleOrigin(`${x}px ${y}px`);
+    }
+    onClose();
+  };
 
   const handleNavigate = (targetId: string) => {
-    onClose();
-    // Allow fade-out animation to begin, then smooth scroll to target
+    handleClose();
+    // Allow the silky circular collapse animation to complete before smooth scrolling
     setTimeout(() => {
-      const element =
-        document.getElementById(targetId) ||
-        document.getElementById(targetId.replace('-section', '')) ||
-        document.getElementById(`${targetId}-section`);
+      if (targetId === 'hero') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const element =
+          document.getElementById(targetId) ||
+          document.getElementById(targetId.replace('-section', '')) ||
+          document.getElementById(`${targetId}-section`);
 
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
       }
-    }, 220);
+    }, 820);
   };
 
   const navLinks = [
@@ -58,21 +112,33 @@ export default function FullScreenMenu({ isOpen, onClose }: FullScreenMenuProps)
       role="dialog"
       aria-modal="true"
       aria-label="Navigation Menu"
-      className={`fixed inset-0 z-[100] h-[100dvh] w-full bg-white text-[#111111] transition-all duration-300 ease-out flex flex-col justify-between overflow-y-auto ${
-        isOpen
-          ? 'opacity-100 pointer-events-auto visible scale-100'
-          : 'opacity-0 pointer-events-none invisible scale-[0.99]'
-      }`}
+      style={{
+        clipPath: isOpen
+          ? `circle(150vmax at ${activeOrigin})`
+          : `circle(0px at ${activeOrigin})`,
+        WebkitClipPath: isOpen
+          ? `circle(150vmax at ${activeOrigin})`
+          : `circle(0px at ${activeOrigin})`,
+        transition: isOpen
+          ? 'clip-path 1.2s cubic-bezier(0.65, 0, 0.1, 1), -webkit-clip-path 1.2s cubic-bezier(0.65, 0, 0.1, 1)'
+          : 'clip-path 0.85s cubic-bezier(0.7, 0, 0.2, 1), -webkit-clip-path 0.85s cubic-bezier(0.7, 0, 0.2, 1), visibility 0s 0.85s',
+        visibility: isOpen ? 'visible' : 'hidden',
+        pointerEvents: isOpen ? 'auto' : 'none',
+        transform: 'translateZ(0)',
+        WebkitBackfaceVisibility: 'hidden',
+        backfaceVisibility: 'hidden',
+      }}
+      className="fixed inset-0 z-[100] h-[100dvh] w-full bg-white text-[#111111] flex flex-col justify-between overflow-y-auto will-change-[clip-path]"
     >
       {/* ===================================================================== */}
       {/* TOP BAR: Brand Logo + Close Button Aligned with Hero Explore Button   */}
       {/* ===================================================================== */}
       <div className="relative w-full h-[clamp(3.8rem,5vw,5.125rem)] pt-[1vw] px-[1vw] shrink-0 select-none">
         {/* Top-Left Logo (Identical coordinates & size to Hero Section Logo) */}
-        <div className="absolute top-[1vw] left-[1vw] z-30 h-[clamp(3.8rem,5vw,5.125rem)] pl-[clamp(1rem,2vw,2.25rem)] flex items-center">
+        <div className="absolute top-[clamp(0.65rem,1.5vw,1.25rem)] left-[1vw] z-30 h-[clamp(3.8rem,5vw,5.125rem)] pl-[clamp(0.75rem,1.8vw,2.25rem)] flex items-center">
           <div
             onClick={() => handleNavigate('hero')}
-            className="relative flex items-center select-none cursor-pointer h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(10.5rem,14vw,13.5rem)]"
+            className="relative flex items-center select-none cursor-pointer h-[clamp(2.5rem,6.8vw,3.2rem)] sm:h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(14rem,55vw,18rem)] sm:w-[clamp(10.5rem,14vw,13.5rem)]"
           >
             <img
               src="/logo/logo-black.svg"
@@ -83,12 +149,13 @@ export default function FullScreenMenu({ isOpen, onClose }: FullScreenMenuProps)
         </div>
 
         {/* Top-Right Close Button (EXACT MATCH to Hero Section Explore Button) */}
-        <div className="absolute top-[1vw] right-[1vw] z-30 h-[clamp(3.8rem,5vw,5.125rem)] pr-[clamp(1rem,2vw,2.25rem)] flex items-center">
+        <div className="absolute top-[clamp(0.65rem,1.5vw,1.25rem)] right-[1vw] z-30 h-[clamp(3.8rem,5vw,5.125rem)] pr-[clamp(1rem,2vw,2.25rem)] flex items-center">
           <button
+            ref={closeButtonRef}
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close Menu"
-            className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-between gap-[clamp(0.5rem,0.8vw,0.875rem)] rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_16px_rgba(0,0,0,0.14)] transition-all duration-200 hover:shadow-[0_6px_22px_rgba(0,0,0,0.2)] hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+            className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_16px_rgba(0,0,0,0.14)] transition-all duration-200 hover:shadow-[0_6px_22px_rgba(0,0,0,0.2)] cursor-pointer"
           >
             <span className="font-serif italic text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
               Close

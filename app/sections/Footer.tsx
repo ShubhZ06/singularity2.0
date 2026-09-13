@@ -37,7 +37,7 @@ export default function Footer() {
             <img
               src="/logo/logo-black.svg"
               alt="SINGULARITY"
-              className="w-full h-[clamp(3.5rem,10vw,12rem)] object-contain select-none"
+              className="w-full h-[clamp(4.5rem,12vw,12rem)] object-contain select-none"
             />
           </div>
         </div>

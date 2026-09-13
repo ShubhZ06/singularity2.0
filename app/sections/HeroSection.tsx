@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import FullScreenMenu from '../components/FullScreenMenu';
 
 interface HeroSectionProps {
-  onOpenMenu?: () => void;
+  onOpenMenu?: (e?: React.MouseEvent<HTMLElement>) => void;
 }
 
 export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
@@ -95,8 +95,8 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         {/* ========================================================================= */}
         {/* TOP-LEFT: Brand Logo                                                      */}
         {/* ========================================================================= */}
-        <div className="absolute top-0 left-0 z-30 h-[clamp(3.8rem,5vw,5.125rem)] pl-[clamp(1rem,2vw,2.25rem)] flex items-center">
-          <div className="relative h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(10.5rem,14vw,13.5rem)] flex items-center select-none cursor-pointer">
+        <div className="absolute top-[clamp(0.35rem,0.8vw,0.65rem)] left-0 z-30 h-[clamp(3.8rem,5vw,5.125rem)] pl-[clamp(0.75rem,1.8vw,2.25rem)] flex items-center">
+          <div className="relative h-[clamp(2.5rem,6.8vw,3.2rem)] sm:h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(14rem,55vw,18rem)] sm:w-[clamp(10.5rem,14vw,13.5rem)] flex items-center select-none cursor-pointer">
             <img
               src="/logo/logo-white.svg"
               alt="SINGULARITY"
@@ -110,7 +110,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
         {/* ========================================================================= */}
         <div className="absolute top-0 right-0 z-30 flex items-start">
           {/* Trapezoidal Diagonal S-Curve Slope (Left of Top-Right Notch) */}
-          <div className="relative w-[clamp(3.2rem,5vw,6rem)] h-[clamp(3.8rem,5vw,5.125rem)] shrink-0 -mr-[0.5px] pointer-events-none">
+          <div className="relative w-[clamp(1.8rem,3.5vw,6rem)] h-[clamp(3.8rem,5vw,5.125rem)] shrink-0 -mr-[0.5px] pointer-events-none">
             <svg
               viewBox="0 0 96 82"
               xmlns="http://www.w3.org/2000/svg"
@@ -123,7 +123,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
           </div>
 
           {/* Solid White Cutout Content Area */}
-          <div className="relative bg-white h-[clamp(3.8rem,5vw,5.125rem)] pl-1.5 sm:pl-2.5 pr-[clamp(1rem,2vw,2.25rem)] flex items-center">
+          <div className="relative bg-white h-[clamp(3.8rem,5vw,5.125rem)] pl-1.5 sm:pl-2.5 pr-[clamp(0.75rem,1.8vw,2.25rem)] flex items-center">
             {/* Buttons Group */}
             <div className="flex items-center gap-[clamp(0.5rem,1vw,1rem)]">
               {/* Social Icons (Desktop & Tablet only to prevent mobile header collision) */}
@@ -141,11 +141,11 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="w-[clamp(1rem,1.2vw,1.25rem)] h-[clamp(1rem,1.2vw,1.25rem)] transition-transform group-hover:scale-110"
+                    className="w-[clamp(0.85rem,1.1vw,1.1rem)] h-[clamp(0.85rem,1.1vw,1.1rem)]"
                   >
-                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                   </svg>
                 </button>
 
@@ -158,13 +158,13 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-[clamp(1rem,1.2vw,1.25rem)] h-[clamp(1rem,1.2vw,1.25rem)] transition-transform group-hover:scale-110"
+                    className="w-[clamp(0.8rem,1vw,1rem)] h-[clamp(0.8rem,1vw,1rem)]"
                   >
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                 </button>
 
-                {/* Social Icon 3: Community */}
+                {/* Social Icon 3: Facebook */}
                 <button
                   type="button"
                   aria-label="Social Link 3"
@@ -173,9 +173,9 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-[clamp(1rem,1.2vw,1.25rem)] h-[clamp(1rem,1.2vw,1.25rem)] transition-transform group-hover:scale-110"
+                    className="w-[clamp(0.85rem,1.1vw,1.1rem)] h-[clamp(0.85rem,1.1vw,1.1rem)]"
                   >
-                    <path d="M9.19795 21.5H13.198V13.4901H16.8021L17.198 9.50977H13.198V7.5C13.198 6.94772 13.6457 6.5 14.198 6.5H17.198V2.5H14.198C11.4365 2.5 9.19795 4.73858 9.19795 7.5V9.50977H7.19795L6.80206 13.4901H9.19795V21.5Z" />
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                   </svg>
                 </button>
               </div>
@@ -183,9 +183,9 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
               {/* Explore Action Button with Menu Toggle */}
               <button
                 type="button"
-                onClick={() => (onOpenMenu ? onOpenMenu() : setIsMenuOpen((prev) => !prev))}
+                onClick={(e) => (onOpenMenu ? onOpenMenu(e) : setIsMenuOpen((prev) => !prev))}
                 aria-label="Explore Menu"
-                className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-between gap-[clamp(0.5rem,0.8vw,0.875rem)] rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] hover:-translate-y-0.5 cursor-pointer"
+                className="group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_14px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] cursor-pointer"
               >
                 <span className="font-serif italic text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
                   Explore

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import FullScreenMenu from '../components/FullScreenMenu';
 
 interface HeaderProps {
-  onMenuClick?: () => void;
+  onMenuClick?: (e?: React.MouseEvent<HTMLElement>) => void;
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
@@ -70,36 +70,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
         }`}
       >
         <div className="relative w-full h-[clamp(3.8rem,5vw,5.125rem)] pt-[1vw] px-[1vw] pointer-events-none select-none">
-          {/* Floating Brand Logo with smooth black/white transition */}
-          <div className="absolute top-[1vw] left-[1vw] z-30 h-[clamp(3.8rem,5vw,5.125rem)] pl-[clamp(1rem,2vw,2.25rem)] flex items-center">
-            <div
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="relative flex items-center select-none pointer-events-auto cursor-pointer h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(10.5rem,14vw,13.5rem)]"
-            >
-              <img
-                src="/logo/logo-black.svg"
-                alt="SINGULARITY"
-                className={`absolute left-0 top-1/2 -translate-y-1/2 h-full w-auto object-contain transition-opacity duration-300 ${
-                  isDark ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                }`}
-              />
-              <img
-                src="/logo/logo-white.svg"
-                alt="SINGULARITY"
-                className={`absolute left-0 top-1/2 -translate-y-1/2 h-full w-auto object-contain transition-opacity duration-300 drop-shadow-[0_0.15rem_0.65rem_rgba(0,0,0,0.8)] ${
-                  isDark ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                }`}
-              />
-            </div>
-          </div>
-
           {/* Floating Explore Action Button (Exact match to Hero Explore Button) */}
-          <div className="absolute top-[1vw] right-[1vw] z-30 h-[clamp(3.8rem,5vw,5.125rem)] pr-[clamp(1rem,2vw,2.25rem)] flex items-center">
+          <div className="absolute top-[clamp(0.65rem,1.5vw,1.25rem)] right-[1vw] z-30 h-[clamp(3.8rem,5vw,5.125rem)] pr-[clamp(1rem,2vw,2.25rem)] flex items-center">
             <button
               type="button"
               onClick={handleMenuClick}
               aria-label="Explore Menu"
-              className="pointer-events-auto group flex h-[clamp(2.25rem,2.8vw,2.8rem)] items-center justify-between gap-[clamp(0.5rem,0.8vw,0.875rem)] rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_16px_rgba(0,0,0,0.14)] transition-all duration-200 hover:shadow-[0_6px_22px_rgba(0,0,0,0.2)] hover:-translate-y-0.5 active:scale-95 cursor-pointer"
+              className="pointer-events-auto group flex h-[clamp(2.25rem,2.8vw,2.8rem)] w-[clamp(6.75rem,8.8vw,8.75rem)] items-center justify-between rounded-full border-2 border-white bg-white pl-[clamp(0.85rem,1.3vw,1.375rem)] pr-[clamp(0.35rem,0.5vw,0.5rem)] text-[#111111] shadow-[0_4px_16px_rgba(0,0,0,0.14)] transition-all duration-200 hover:shadow-[0_6px_22px_rgba(0,0,0,0.2)] cursor-pointer"
             >
               <span className="font-serif italic text-[clamp(0.85rem,1vw,1rem)] tracking-[-0.03em] text-[#111111] group-hover:text-black transition-colors select-none">
                 Explore
