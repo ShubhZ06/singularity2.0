@@ -280,7 +280,8 @@ const ScrollExpand: React.FC<ScrollExpandProps> = ({
         className="scroll-expand__media"
         src={src}
         alt={alt}
-        loading="lazy"
+        loading="eager"
+        fetchPriority="high"
         decoding="async"
         draggable={false}
       />

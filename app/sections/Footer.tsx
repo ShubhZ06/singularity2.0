@@ -15,17 +15,13 @@ const FooterMap = dynamic(() => import('@/components/FooterMap'), {
 });
 
 const exploreLinks = [
-  'Registration',
-  'Guide',
+  'Register Now',
   'visit last year',
   'Security',
-  'Contact',
 ];
 
 const connectLinks = [
-  { label: 'Discord', href: '#' },
   { label: 'Instagram', href: 'https://www.instagram.com/singularityhack.in/' },
-  { label: 'Twitter', href: '#' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/company/singularity-hack/' },
   { label: 'WhatsApp', href: '#' },
 ];

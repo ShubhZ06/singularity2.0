@@ -14,6 +14,8 @@ import { gsap } from 'gsap';
 export interface AccordionGalleryItem {
   image: string;
   label?: string;
+  description?: string;
+  tag?: string;
   link?: string;
   alt?: string;
 }
@@ -73,6 +75,7 @@ const AccordionGallery = ({
   const mediaRefs = useRef<Array<HTMLElement | null>>([]);
   const barRefs = useRef<Array<HTMLElement | null>>([]);
   const textRefs = useRef<Array<HTMLElement | null>>([]);
+  const descRefs = useRef<Array<HTMLElement | null>>([]);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const firstRunRef = useRef(true);
   const mediaSizeRef = useRef(320);
@@ -147,6 +150,15 @@ const AccordionGallery = ({
             tl.to([bar, text], { opacity: 1, x: 0, duration: dur, ease, stagger: prefersReduced ? 0 : stagger }, 0);
           } else {
             tl.to([bar, text], { opacity: 0, x: -14, duration: dur * 0.6, ease }, 0);
+          }
+        }
+
+        const desc = descRefs.current[i];
+        if (desc) {
+          if (isActive) {
+            tl.to(desc, { opacity: 1, y: 0, duration: dur * 0.85, ease, delay: prefersReduced ? 0 : stagger * 1.5 }, 0);
+          } else {
+            tl.to(desc, { opacity: 0, y: 8, duration: dur * 0.5, ease }, 0);
           }
         }
       });
@@ -244,22 +256,42 @@ const AccordionGallery = ({
               <div className="ag-panel__overlay" aria-hidden="true" />
             </div>
 
+            {/* Track eyebrow tag — always visible */}
+            {item.tag && (
+              <div className="ag-panel__tag" aria-hidden="true">
+                {item.tag}
+              </div>
+            )}
+
             {showLabels && (
-              <div className="ag-panel__label" aria-hidden="true">
-                <span
-                  className="ag-panel__bar"
-                  ref={(el: HTMLElement | null) => {
-                    barRefs.current[i] = el;
-                  }}
-                />
-                <span
-                  className="ag-panel__text"
-                  ref={(el: HTMLElement | null) => {
-                    textRefs.current[i] = el;
-                  }}
-                >
-                  {item.label}
-                </span>
+              <div className="ag-panel__label ag-panel__label--col" aria-hidden="true">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.5rem,1vw,0.75rem)' }}>
+                  <span
+                    className="ag-panel__bar"
+                    ref={(el: HTMLElement | null) => {
+                      barRefs.current[i] = el;
+                    }}
+                  />
+                  <span
+                    className="ag-panel__text"
+                    ref={(el: HTMLElement | null) => {
+                      textRefs.current[i] = el;
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                </div>
+                {item.description && (
+                  <p
+                    className="ag-panel__desc"
+                    ref={(el: HTMLElement | null) => {
+                      descRefs.current[i] = el;
+                    }}
+                    style={{ opacity: 0, transform: 'translateY(8px)' }}
+                  >
+                    {item.description}
+                  </p>
+                )}
               </div>
             )}
           </>

@@ -6,9 +6,9 @@ export default function AboutSection() {
   return (
     <section id="about" className="relative w-full py-[10vh] px-[4vw] md:py-[12vh] md:px-[5vw] lg:py-[14vh] lg:px-[6vw] overflow-hidden bg-white">
       <div className="relative z-10 mx-auto w-full max-w-[92vw] md:max-w-[82vw] lg:max-w-[64rem] flex flex-col items-center text-center">
-        {/* Title: Singularity */}
+        {/* Title: Singularity 2.0 */}
         <h2 className="font-seasonmix text-[clamp(2.4rem,6.5vw,3.2rem)] md:text-[clamp(3.2rem,5.5vw,4.5rem)] lg:text-[clamp(4.5rem,5.2vw,5.5rem)] font-normal leading-[1.08] tracking-[-0.01em] text-[#111111] mb-[1.5rem] md:mb-[2rem]">
-          Singularity
+          Singularity 2.0
         </h2>
 
         {/* Paragraph Container */}

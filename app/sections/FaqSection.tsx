@@ -1,22 +1,57 @@
 'use client';
 
 import React from 'react';
-import AccordionGallery from '@/app/components/AccordionGallery';
+import dynamic from 'next/dynamic';
+import type { FaqItem } from '@/components/ui/accordion-05';
 
-const galleryItems = [
-  { image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80', label: 'Build', alt: 'Build' },
-  { image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80', label: 'Create', alt: 'Create' },
-  { image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80', label: 'Launch', alt: 'Launch' },
-  { image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80', label: 'Impact', alt: 'Impact' },
-  { image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80', label: 'Scale', alt: 'Scale' },
+const Accordion05 = dynamic(
+  () => import('@/components/ui/accordion-05').then((m) => m.Accordion05),
+  { ssr: false }
+);
+
+const FAQ_ITEMS: FaqItem[] = [
+  {
+    id: '01',
+    title: 'Who can participate?',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+  },
+  {
+    id: '02',
+    title: 'How do I register?',
+    content:
+      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  },
+  {
+    id: '03',
+    title: 'What is the team size?',
+    content:
+      'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper.',
+  },
+  {
+    id: '04',
+    title: 'Are there any prizes?',
+    content:
+      'Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.',
+  },
+  {
+    id: '05',
+    title: 'What resources will be provided?',
+    content:
+      'Aenean fermentum risus id tortor. Integer ullamcorper leo ut est. Fusce pretium, dolor placerat tincidunt condimentum, mi augue porttitor arcu, non malesuada justo felis at est. Proin vulputate, augue consectetur.',
+  },
 ];
 
 export default function FaqSection() {
   return (
-    <section id="faq" className="relative w-full py-[6vh] px-[4vw] md:py-[8vh] md:px-[5vw] lg:py-[10vh] lg:px-[6vw] bg-white overflow-hidden border-t border-[#111111]/8">
+    <section
+      id="faq"
+      className="relative w-full py-[8vh] px-[4vw] md:py-[10vh] md:px-[5vw] lg:py-[12vh] lg:px-[6vw] bg-white overflow-hidden border-t border-[#111111]/8"
+    >
       <div className="relative z-10 mx-auto w-full max-w-[92vw] md:max-w-[85vw] lg:max-w-[76rem]">
+
         {/* Section Header */}
-        <div className="text-center max-w-[42rem] mx-auto mb-[2.5rem] md:mb-[3.5rem]">
+        <div className="text-center max-w-[42rem] mx-auto mb-[3rem] md:mb-[4.5rem]">
           <div className="text-[clamp(0.625rem,0.8vw,0.72rem)] font-semibold uppercase tracking-[0.32em] text-[#111111]/55 mb-3">
             Questions &amp; Insights
           </div>
@@ -25,24 +60,12 @@ export default function FaqSection() {
           </h2>
         </div>
 
-        {/* Visual Photo Accordion Gallery Showcase */}
-        <div className="w-full">
-          <AccordionGallery
-            items={galleryItems}
-            defaultIndex={2}
-            expandRatio={0.52}
-            trigger="hover"
-            accentColor="#111111"
-            overlayColor="#0d0d0d"
-            textColor="#ffffff"
-            duration={0.7}
-            gap={12}
-            radius={18}
-            parallax={0.5}
-            grayscale
-            showLabels
-          />
-        </div>
+        {/* Accordion */}
+        <Accordion05
+          items={FAQ_ITEMS}
+          defaultOpen="01"
+          className="max-w-[62rem] mx-auto"
+        />
       </div>
     </section>
   );

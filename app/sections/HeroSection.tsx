@@ -52,6 +52,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
           muted
           playsInline
           preload="auto"
+          fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out hidden md:block"
         >
           <source src="/videos/hero-bg-video.webm" type="video/webm" />
@@ -65,6 +66,7 @@ export default function HeroSection({ onOpenMenu }: HeroSectionProps) {
           muted
           playsInline
           preload="auto"
+          fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out block md:hidden"
         >
           <source src="/videos/hero-bg-mobile.webm" type="video/webm" />
